@@ -1,0 +1,11 @@
+{
+  "name": "archiduchesses",
+  "version": "1.0.0",
+  "description": "Project RNCP Claire & Onat",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC"
+}
