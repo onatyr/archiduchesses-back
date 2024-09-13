@@ -4,7 +4,10 @@
   "description": "Project RNCP Claire & Onat",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "api": "node ./dist/api/index.js",
+    "build": "tsc --build",
+    "clean": "tsc --build --clean"
   },
   "author": "",
   "license": "ISC",
