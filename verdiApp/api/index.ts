@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import * as http from "http";
+import {router} from "./router";
 
 const app = express.Router();
 
@@ -21,11 +22,11 @@ server.listen(PORT, () => {
     console.log("HTTP Server listening at port : " + PORT);
 });
 
-// Ensure graceful exit
-exitHook((done) => {
-    server.close(error => {
-        if (error)
-            throw error;
-        done();
-    });
-});
+// // Ensure graceful exit
+// exitHook((done) => {
+//     server.close(error => {
+//         if (error)
+//             throw error;
+//         done();
+//     });
+// });
