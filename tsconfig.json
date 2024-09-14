@@ -11,5 +11,6 @@
     "strict": true,
     "skipLibCheck": true
   },
-
+  "exclude": ["./frontend",
+    "./verdiApp/database/migrations", "./verdiApp/database/migrate.ts", "drizzle.config.ts"]
 }
