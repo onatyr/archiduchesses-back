@@ -1,5 +1,5 @@
 {
-  "id": "7ccb9243-1c3c-44f0-914b-710e46f53388",
+  "id": "45ffa52f-13f2-420f-9755-94b0ffc6dc60",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -10,12 +10,19 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "name": {
           "name": "name",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "type": {
+          "name": "type",
           "type": "varchar(256)",
           "primaryKey": false,
           "notNull": false
@@ -39,6 +46,28 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
+    },
+    "public.users": {
+      "name": "users",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
     }
   },
   "enums": {
@@ -46,18 +75,18 @@
       "name": "sunlight",
       "schema": "public",
       "values": [
-        "low",
-        "medium",
-        "high"
+        "LOW",
+        "MEDIUM",
+        "HIGH"
       ]
     },
     "public.watering": {
       "name": "watering",
       "schema": "public",
       "values": [
-        "low",
-        "medium",
-        "high"
+        "LOW",
+        "MEDIUM",
+        "HIGH"
       ]
     }
   },
