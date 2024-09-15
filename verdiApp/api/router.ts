@@ -1,6 +1,6 @@
 import express from "express";
-import {testController} from "./testController";
-import {plantController} from "./plantController";
+import {testController} from "./test.controller";
+import {plantController} from "./plant.controller";
 
 export const router: express.Router = express.Router();
 
