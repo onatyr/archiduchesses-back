@@ -11,7 +11,7 @@ plantController.get("/all", async (req, res) => {
     console.log(allPlants);
 
     } catch (e) {
-        console.log(e)
+        console.log("hey")
     }
     res.status(200).json()
 });
