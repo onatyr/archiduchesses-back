@@ -15,3 +15,7 @@ plantController.get("/all", async (req, res) => {
     }
     res.status(200).json()
 });
+
+plantController.post("/new", async (req, res) => {
+
+})

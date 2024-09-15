@@ -15,6 +15,20 @@
       "when": 1726355351624,
       "tag": "0001_tan_wrecking_crew",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1726403743193,
+      "tag": "0002_chunky_madame_web",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1726403809840,
+      "tag": "0003_striped_starfox",
+      "breakpoints": true
     }
   ]
 }
