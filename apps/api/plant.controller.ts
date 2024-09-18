@@ -6,9 +6,9 @@ import {Plant} from "./lib/plant.model";
 export const plantController: express.Router = express();
 
 plantController.get("/all", async (req, res) => {
-    const allPlants = await db.select().from(plants).execute()
+    const allPlants = await db.select().from(plants).execute();
     console.log(allPlants);
-    res.status(200).json()
+    res.status(200).json(allPlants);
 });
 
 plantController.post("/new", async (req: express.Request<unknown, unknown, Plant>, res) => {
