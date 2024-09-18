@@ -1,6 +1,6 @@
 import express from "express";
-import {db} from "../database/database";
-import {plants} from "../database/schema";
+import {db} from "./database/database";
+import {plants} from "./database/schema";
 import {Plant} from "./lib/plant.model";
 
 export const plantController: express.Router = express();
