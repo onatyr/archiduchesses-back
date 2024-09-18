@@ -1,10 +1,12 @@
-
 export type Plant = {
+    id: string,
+    userId: string,
     name: string,
-    type: string,
-    sunlight: PlantSunlight,
-    watering: PlantWatering,
-    room: string,
+    family: PlantFamily,
+    sunlight: PlantSunlight
+    watering: PlantWatering
+    adoptionDate: string,
+    placeId: string | undefined,
 }
 
 export enum PlantSunlight {
@@ -17,4 +19,17 @@ export enum PlantWatering {
     LOW = "LOW",
     MEDIUM = "MEDIUM",
     HIGH = "HIGH"
+}
+
+export enum PlantFamily {
+    FloweringPlants = 'Flowering Plants',
+    FoliagePlants = 'Foliage Plants',
+    SucculentsAndCacti = 'Succulents & Cacti',
+    EdiblePlants = 'Edible Plants',
+    TreesAndShrubs = 'Trees & Shrubs',
+    ClimbersAndVines = 'Climbers & Vines',
+    AquaticPlants = 'Aquatic Plants',
+    CarnivorousPlants = 'Carnivorous Plants',
+    Palms = 'Palms',
+    BulbousPlants = 'Bulbous Plants'
 }
