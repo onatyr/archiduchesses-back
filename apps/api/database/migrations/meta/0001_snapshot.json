@@ -1,6 +1,6 @@
 {
-  "id": "0219771f-4066-47cd-94d7-35b465b80118",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "d3736d2c-48ab-4e3d-a202-f4ae2ffc0212",
+  "prevId": "0219771f-4066-47cd-94d7-35b465b80118",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -38,29 +38,6 @@
           "name": "watering",
           "type": "watering",
           "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.users": {
-      "name": "users",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar(256)",
           "primaryKey": false,
           "notNull": false
         }

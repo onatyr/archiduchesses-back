@@ -11,7 +11,7 @@ export const plants = pgTable('plants', {
     watering: wateringEnum('watering')
 });
 
-export const testUser = pgTable('users', {
-    id: serial('id').primaryKey(),
+export const users = pgTable('users', {
+    id: uuid('id').primaryKey().defaultRandom(),
     name: varchar('name', {length: 256})
 });
