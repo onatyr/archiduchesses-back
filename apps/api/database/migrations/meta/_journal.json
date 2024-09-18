@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1726666855491,
-      "tag": "0000_misty_timeslip",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1726667082303,
-      "tag": "0001_little_obadiah_stane",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1726667098951,
-      "tag": "0002_sweet_vertigo",
+      "when": 1726670208468,
+      "tag": "0000_first_paladin",
       "breakpoints": true
     }
   ]
