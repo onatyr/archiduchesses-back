@@ -4,10 +4,12 @@
   "description": "Projet RNCP",
   "main": "drizzle.config.js",
   "dependencies": {
+    "jsonwebtoken": "^9.0.2",
     "turbo": "^2.1.2",
     "turbo-darwin-arm64": "^2.1.2"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.7",
     "turbo": "latest"
   },
   "scripts": {
