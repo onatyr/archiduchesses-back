@@ -3,7 +3,7 @@
         <p><strong>Room:</strong> {{ plant.room }}</p>
         <p><strong>Type:</strong> {{ plant.type }}</p>
         <p><strong>Sunlight:</strong> {{ plant.sunlight }}</p>
-        <p><strong>Hydration:</strong> {{ plant.hydration }}</p>
+        <p><strong>Watering:</strong> {{ plant.watering }}</p>
     </div>
     <div class="flex p-2 flex-row justify-end">
         <span class="material-symbols-rounded">
