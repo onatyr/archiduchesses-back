@@ -17,7 +17,7 @@ const db = drizzle(migrationClient)
 
 const main = async () => {
     console.log("Migrating database...");
-    await migrate(db, { migrationsFolder: "./migrations" });
+    await migrate(db, { migrationsFolder: "./database/migrations" });
     await migrationClient.end();
     console.log("Database migrated successfully!");
 };
