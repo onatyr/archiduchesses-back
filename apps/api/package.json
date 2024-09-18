@@ -6,7 +6,7 @@
   "scripts": {
     "test": "test",
     "api": "tsc-watch --onSuccess 'npm run server'",
-    "server": "node ../../dist/index.js",
+    "server": "node ../../dist/api/index.js",
     "build": "tsc --build",
     "clean": "tsc --build --clean",
     "generate": "npx drizzle-kit generate",
