@@ -23,22 +23,40 @@ export default {
             "Bulbous Plants"
         ];
 
-        const onSubmit = () => {
-            const newItem = {
-                name: name.value,
-                type: type.value,
-                room: room.value,
-                adoptionDate: adoptionDate.value
-            };
-            console.log('Adding item:', newItem);
+        const onSubmit = async () => {
+    const newItem = {
+        name: name.value,
+    };
+    console.log('Adding item:', newItem);
 
-            name.value = '';
-            type.value = '';
-            room.value = '';
-            adoptionDate.value = today;
+    try {
+        const response = await fetch('http://localhost:3000/plant/new', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newItem)
+        });
 
-            emit('formSubmitted');
-        };
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        console.log('Server response:', data);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+
+    name.value = '';
+    type.value = '';
+    room.value = '';
+    adoptionDate.value = today;
+
+    emit('formSubmitted');
+};
+
 
         const cancelAction = () => {
             console.log('Cancel clicked');

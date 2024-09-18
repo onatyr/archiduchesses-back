@@ -3,7 +3,8 @@ export type Plant = {
     name: string,
     type: string,
     sunlight: PlantSunlight,
-    watering: PlantWatering
+    watering: PlantWatering,
+    room: string,
 }
 
 export enum PlantSunlight {

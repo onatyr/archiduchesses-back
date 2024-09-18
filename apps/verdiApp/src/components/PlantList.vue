@@ -18,20 +18,7 @@
 import { ref, onMounted } from 'vue';
 import PlantDetails from './PlantDetails.vue';
 
-// const plants = ref([
-//     { name: 'Aloe Vera', room: 'Living-room', type: 'Succulents & Cacti', sunlight: '☀️', hydration: '💧' },
-//     { name: 'Peace Lily', room: 'Bathroom', type: 'Flowering Plants', sunlight: '☀️☀️', hydration: '💧💧💧' },
-//     { name: 'Spider Plant', room: 'Bedroom 1', type: 'Foliage Plants', sunlight: '☀️☀️', hydration: '💧💧' },
-//     { name: 'Basil', room: 'Kitchen', type: 'Edible Plants', sunlight: '☀️☀️☀️', hydration: '💧💧💧' },
-//     { name: 'Areca Palm', room: 'Bedroom 2', type: 'Palms', sunlight: '☀️☀️', hydration: '💧💧💧' },
-//     { name: 'Jade Plant', room: 'Living-room', type: 'Succulents & Cacti', sunlight: '☀️☀️', hydration: '💧' },
-//     { name: 'Fiddle Leaf Fig', room: 'Living-room', type: 'Trees & Shrubs', sunlight: '☀️☀️', hydration: '💧💧' },
-//     { name: 'Mint', room: 'Kitchen', type: 'Edible Plants', sunlight: '☀️☀️☀️', hydration: '💧💧💧' },
-//     { name: 'English Ivy', room: 'Bathroom', type: 'Climbers & Vines', sunlight: '☀️☀️', hydration: '💧💧' },
-//     { name: 'Lotus', room: 'Bathroom', type: 'Aquatic Plants', sunlight: '☀️☀️☀️', hydration: '💧💧💧' }
-// ]);
-
-const plants = ref([]);  // Store plant data
+const plants = ref([]);
 
 onMounted(async () => {
     try {

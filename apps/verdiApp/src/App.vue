@@ -3,7 +3,6 @@
     <Welcome />
   </header>
 
-  <!-- Automatically calculate padding based on header's height -->
   <main style="padding-top: calc(var(--header-height, 4rem));">
     <PlusButton v-if="!showForm" @click="showForm = !showForm" />
     <AddPlantForm v-if="showForm" @formSubmitted="showForm = false" />
@@ -29,7 +28,6 @@ export default {
   setup() {
     const showForm = ref<boolean>(false);
 
-    // Set a CSS variable based on the actual header height when the component is mounted
     onMounted(() => {
       const header = document.querySelector('header');
       if (header) {
