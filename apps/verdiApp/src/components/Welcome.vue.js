@@ -1,9 +1,18 @@
-import { ref } from 'vue';
-const names = ['Claire', 'Onat'];
+import { ref, onMounted } from 'vue';
 export default (await import('vue')).defineComponent({
     setup() {
-        const randomName = ref(names[Math.floor(Math.random() * names.length)]);
-        return { randomName };
+        const userName = ref('');
+        onMounted(async () => {
+            try {
+                const response = await fetch('http://localhost:3000/user/name');
+                const data = await response.json();
+                userName.value = data;
+            }
+            catch (error) {
+                console.error(error);
+            }
+        });
+        return { userName };
     },
 });
 ;
@@ -24,7 +33,7 @@ function __VLS_template() {
     __VLS_elementAsFunction(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({ ...{ class: ("flex flex-col sm:flex-row justify-center items-center gap-4 p-6 bg-apple-100 w-full") }, });
     __VLS_elementAsFunction(__VLS_intrinsicElements.img)({ src: ("/plant.png"), ...{ class: ("w-16 h-16 sm:w-20 sm:h-20") }, alt: ("Plant icon"), });
     __VLS_elementAsFunction(__VLS_intrinsicElements.h1, __VLS_intrinsicElements.h1)({ ...{ class: ("text-center text-black font-extrabold text-3xl sm:text-4xl md:text-5xl uppercase") }, });
-    (__VLS_ctx.randomName);
+    (__VLS_ctx.userName);
     __VLS_styleScopedClasses['flex'];
     __VLS_styleScopedClasses['flex-col'];
     __VLS_styleScopedClasses['sm:flex-row'];

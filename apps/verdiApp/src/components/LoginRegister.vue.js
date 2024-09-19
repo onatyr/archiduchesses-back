@@ -1,21 +1,22 @@
 import { defineComponent, ref, reactive } from 'vue';
-import { useRouter } from 'vue-router'; // Import Vue Router's useRouter
+import { useRouter } from 'vue-router';
 export default defineComponent({
     setup() {
-        const router = useRouter(); // Initialize Vue Router
+        const router = useRouter();
         const isRegister = ref(false);
         const form = reactive({
             email: '',
             password: '',
             confirmPassword: '',
-            name: '' // For registration
+            name: ''
         });
         // Track errors
         const errors = reactive({
             email: '',
             password: '',
             confirmPassword: '',
-            form: ''
+            form: '',
+            name: ''
         });
         // Clear error messages
         const clearErrors = () => {
@@ -26,9 +27,12 @@ export default defineComponent({
         };
         // Login/Register handler
         const submitForm = async () => {
-            clearErrors(); // Clear previous errors before validation
+            clearErrors();
             if (isRegister.value) {
                 // Registration validation
+                if (!form.name) {
+                    errors.name = 'Name is required.';
+                }
                 if (!form.email) {
                     errors.email = 'Email is required.';
                 }
@@ -94,7 +98,6 @@ export default defineComponent({
                     }
                     const data = await response.json();
                     console.log('Login successful, token: ' + data.token);
-                    // After successful login, redirect to MainPage
                     router.push({ name: 'main' });
                 }
                 catch (error) {
@@ -128,6 +131,15 @@ function __VLS_template() {
     __VLS_elementAsFunction(__VLS_intrinsicElements.h2, __VLS_intrinsicElements.h2)({ ...{ class: ("text-2xl font-bold mb-6 text-apple-500") }, });
     (__VLS_ctx.isRegister ? 'Register' : 'Login');
     __VLS_elementAsFunction(__VLS_intrinsicElements.form, __VLS_intrinsicElements.form)({ ...{ onSubmit: (__VLS_ctx.submitForm) }, });
+    if (__VLS_ctx.isRegister) {
+        __VLS_elementAsFunction(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({ ...{ class: ("mb-4") }, });
+        __VLS_elementAsFunction(__VLS_intrinsicElements.label, __VLS_intrinsicElements.label)({ for: ("name"), ...{ class: ("block text-gray-700 text-sm font-bold mb-2") }, });
+        __VLS_elementAsFunction(__VLS_intrinsicElements.input)({ type: ("text"), id: ("name"), value: ((__VLS_ctx.form.name)), required: (true), placeholder: ("Enter your name"), ...{ class: ("shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }, });
+        if (__VLS_ctx.errors.email) {
+            __VLS_elementAsFunction(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({ ...{ class: ("text-red-500 text-xs italic") }, });
+            (__VLS_ctx.errors.email);
+        }
+    }
     __VLS_elementAsFunction(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({ ...{ class: ("mb-4") }, });
     __VLS_elementAsFunction(__VLS_intrinsicElements.label, __VLS_intrinsicElements.label)({ for: ("email"), ...{ class: ("block text-gray-700 text-sm font-bold mb-2") }, });
     __VLS_elementAsFunction(__VLS_intrinsicElements.input)({ type: ("email"), id: ("email"), required: (true), placeholder: ("Enter your email"), ...{ class: ("shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }, });
@@ -181,6 +193,26 @@ function __VLS_template() {
     __VLS_styleScopedClasses['font-bold'];
     __VLS_styleScopedClasses['mb-6'];
     __VLS_styleScopedClasses['text-apple-500'];
+    __VLS_styleScopedClasses['mb-4'];
+    __VLS_styleScopedClasses['block'];
+    __VLS_styleScopedClasses['text-gray-700'];
+    __VLS_styleScopedClasses['text-sm'];
+    __VLS_styleScopedClasses['font-bold'];
+    __VLS_styleScopedClasses['mb-2'];
+    __VLS_styleScopedClasses['shadow'];
+    __VLS_styleScopedClasses['appearance-none'];
+    __VLS_styleScopedClasses['border'];
+    __VLS_styleScopedClasses['rounded'];
+    __VLS_styleScopedClasses['w-full'];
+    __VLS_styleScopedClasses['py-2'];
+    __VLS_styleScopedClasses['px-3'];
+    __VLS_styleScopedClasses['text-gray-700'];
+    __VLS_styleScopedClasses['leading-tight'];
+    __VLS_styleScopedClasses['focus:outline-none'];
+    __VLS_styleScopedClasses['focus:shadow-outline'];
+    __VLS_styleScopedClasses['text-red-500'];
+    __VLS_styleScopedClasses['text-xs'];
+    __VLS_styleScopedClasses['italic'];
     __VLS_styleScopedClasses['mb-4'];
     __VLS_styleScopedClasses['block'];
     __VLS_styleScopedClasses['text-gray-700'];
