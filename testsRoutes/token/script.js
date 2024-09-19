@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // Send the request to the API with the token in the headers
-            const response = await fetch('http://localhost:3000/protected-route', {
+            const response = await fetch('http://localhost:3000/plant/all', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`, // Include token in the Authorization header
