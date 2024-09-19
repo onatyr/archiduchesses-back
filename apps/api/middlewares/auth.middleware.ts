@@ -14,6 +14,8 @@ export function authenticate(
     res: express.Response,
     next: NextFunction
 ) {
+    if (isExempted(req.path)) return next()
+
     const token = req.headers.authorization?.split(' ')[1]
     if (!token || !process.env.ACCESS_TOKEN_SECRET) return res.status(401).json()
 
@@ -25,3 +27,13 @@ export function authenticate(
     })
 }
 
+export function isExempted(url: string): boolean {
+    for (const exemptedEndpoint of EXEMPTED_ENDPOINTS)
+        if (url.endsWith(exemptedEndpoint)) return true;
+    return false;
+}
+
+const EXEMPTED_ENDPOINTS = [
+    "auth/login",
+    "auth/register",
+];
