@@ -2,7 +2,7 @@ import express from "express";
 import {db} from "../../database/database";
 import {sign} from "jsonwebtoken";
 import {users} from "../../database/schema";
-import {and, eq} from "drizzle-orm";
+import {eq} from "drizzle-orm";
 import {JwtUserModel} from "./auth.model";
 import dotenv from "dotenv";
 import path from "path";
@@ -18,24 +18,22 @@ dotenv.config({
 export const authController: express.Router = express();
 
 authController.post("/login", async (req: express.Request<unknown, unknown, {
-    username: string,
+    email: string,
     password: string,
 }>, res) => {
-    const user = await db.select().from(users)
-        .where(
-            and(
-                eq(users.name, req.body.username),
-                eq(users.password, req.body.password)
-            )
-        )
+    const result = await db.select().from(users)
+        .where(eq(users.email, req.body.email))
         .limit(1)
         .execute()
 
-    if (!user[0]) return res.status(500)
+    const user = result[0]
+
+    if (!user || !await bcrypt.compare(req.body.password, user.password))
+        return res.status(401).json({message: "Invalid email or password"})
 
     const jwtUser: JwtUserModel = {
-        id_user: user[0].id,
-        username: user[0].name
+        id_user: user.id,
+        username: user.name
     }
 
     const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET
