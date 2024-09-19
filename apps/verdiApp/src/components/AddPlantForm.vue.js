@@ -3,11 +3,11 @@ export default (await import('vue')).defineComponent({
     setup(props, { emit }) {
         const name = ref('');
         const room = ref('');
-        const type = ref('');
+        const family = ref('');
         const today = new Date().toISOString().split('T')[0];
         const adoptionDate = ref(today);
         const rooms = ['Living-room', 'Bathroom', 'Bedroom 1', 'Bedroom 2', 'Kitchen'];
-        const types = [
+        const families = [
             "Flowering Plants",
             "Foliage Plants",
             "Succulents & Cacti",
@@ -42,7 +42,7 @@ export default (await import('vue')).defineComponent({
                 console.error('Error:', error);
             }
             name.value = '';
-            type.value = '';
+            family.value = '';
             room.value = '';
             adoptionDate.value = today;
             emit('formSubmitted');
@@ -50,13 +50,13 @@ export default (await import('vue')).defineComponent({
         const cancelAction = () => {
             console.log('Cancel clicked');
             name.value = '';
-            type.value = '';
+            family.value = '';
             room.value = '';
             ``;
             adoptionDate.value = today;
             emit('formSubmitted');
         };
-        return { name, room, rooms, type, types, adoptionDate, onSubmit, cancelAction };
+        return { name, room, rooms, family, families, adoptionDate, onSubmit, cancelAction };
     }
 });
 ;
@@ -80,10 +80,10 @@ function __VLS_template() {
     __VLS_elementAsFunction(__VLS_intrinsicElements.input, __VLS_intrinsicElements.input)({ type: ("text"), id: ("name"), value: ((__VLS_ctx.name)), required: (true), ...{ class: ("w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-apple-500") }, });
     __VLS_elementAsFunction(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({ ...{ class: ("mb-4") }, });
     __VLS_elementAsFunction(__VLS_intrinsicElements.label, __VLS_intrinsicElements.label)({ for: ("type"), ...{ class: ("block text-gray-700 font-bold mb-2") }, });
-    __VLS_elementAsFunction(__VLS_intrinsicElements.select, __VLS_intrinsicElements.select)({ id: ("type"), value: ((__VLS_ctx.type)), required: (true), ...{ class: ("w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-apple-500") }, });
-    for (const [type] of __VLS_getVForSourceType((__VLS_ctx.types))) {
-        __VLS_elementAsFunction(__VLS_intrinsicElements.option, __VLS_intrinsicElements.option)({ key: ((type)), });
-        (type);
+    __VLS_elementAsFunction(__VLS_intrinsicElements.select, __VLS_intrinsicElements.select)({ id: ("type"), value: ((__VLS_ctx.family)), required: (true), ...{ class: ("w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-apple-500") }, });
+    for (const [family] of __VLS_getVForSourceType((__VLS_ctx.families))) {
+        __VLS_elementAsFunction(__VLS_intrinsicElements.option, __VLS_intrinsicElements.option)({ key: ((family)), });
+        (family);
     }
     __VLS_elementAsFunction(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({ ...{ class: ("mb-4") }, });
     __VLS_elementAsFunction(__VLS_intrinsicElements.label, __VLS_intrinsicElements.label)({ for: ("room"), ...{ class: ("block text-gray-700 font-bold mb-2") }, });
