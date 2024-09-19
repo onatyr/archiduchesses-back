@@ -1,7 +1,7 @@
 import express from "express";
 import {db} from "../../database/database";
 import {plants} from "../../database/schema";
-import { Plant } from '@shared/models/plant.model';
+import {Plant} from '@shared/models/plant.model';
 
 export const plantController: express.Router = express();
 
@@ -11,7 +11,6 @@ plantController.get("/all", async (req, res) => {
 });
 
 plantController.post("/new", async (req: express.Request<unknown, unknown, Plant>, res) => {
-    console.log('req body:', req.body);
     const plant = await db.insert(plants).values({
         userId: req.body.userId,
         name: req.body.name,
@@ -20,6 +19,8 @@ plantController.post("/new", async (req: express.Request<unknown, unknown, Plant
         watering: req.body.watering,
         adoptionDate: req.body.adoptionDate
     });
-    console.log(plant)
+
+    if (!plant) return res.status(500).json()
+
     res.status(201).json()
 })
