@@ -10,16 +10,16 @@ plantController.get("/all", async (req, res) => {
     res.status(200).json(allPlants);
 });
 
-// plantController.post("/new", async (req: express.Request<unknown, unknown, Plant>, res) => {
-//     console.log('req body:', req.body);
-//     const plant = await db.insert(plants).values({
-//         userId: req.body.userId,
-//         name: req.body.name,
-//         family: req.body.family,
-//         sunlight: req.body.sunlight,
-//         watering: req.body.watering,
-//         adoptionDate: req.body.adoptionDate
-//     });
-//     console.log(plant)
-//     res.status(201).json()
-// }) // todo resolve type mismatch
+plantController.post("/new", async (req: express.Request<unknown, unknown, Plant>, res) => {
+    console.log('req body:', req.body);
+    const plant = await db.insert(plants).values({
+        userId: req.body.userId,
+        name: req.body.name,
+        family: req.body.family,
+        sunlight: req.body.sunlight,
+        watering: req.body.watering,
+        adoptionDate: req.body.adoptionDate
+    });
+    console.log(plant)
+    res.status(201).json()
+})

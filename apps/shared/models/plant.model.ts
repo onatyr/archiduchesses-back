@@ -5,7 +5,7 @@ export type Plant = {
     family: PlantFamily,
     sunlight: PlantSunlight
     watering: PlantWatering
-    adoptionDate: string,
+    adoptionDate: Date,
     placeId: string | undefined,
 }
 
