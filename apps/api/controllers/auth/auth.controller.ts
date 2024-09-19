@@ -7,6 +7,9 @@ import {JwtUserModel} from "./auth.model";
 import dotenv from "dotenv";
 import path from "path";
 import * as process from "node:process";
+import {User} from "@shared/models/user.model";
+import bcrypt from "bcrypt"
+
 
 dotenv.config({
     path: path.resolve(process.cwd(), '.env')
@@ -40,6 +43,19 @@ authController.post("/login", async (req: express.Request<unknown, unknown, {
 
     const token = sign(jwtUser, accessTokenSecret)
     res.status(200).json({token})
+})
+
+authController.post("/register", async (req: express.Request<unknown, unknown, User>, res) => {
+    const hashedPassword = await bcrypt.hash(req.body.password, 10)
+
+    const result = await db.insert(users).values({
+        name: req.body.name,
+        email: req.body.email,
+        password: hashedPassword
+    }).execute();
+
+    if (!result || result.rowCount === 0) return res.status(500).json()
+    res.status(201).json()
 })
 
 // todo add decryption when bcrypt is installed. add middleware to retrieve user id
