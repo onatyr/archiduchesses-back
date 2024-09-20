@@ -8,7 +8,7 @@ export const plantController: express.Router = express();
 
 plantController.get("/all", async (req, res) => {
     const allPlants = await db.select().from(plants)
-        .where(eq(plants.userId, req.userId))
+        // .where(eq(plants.userId, req.userId))
         .execute();
     res.status(200).json(allPlants);
 });

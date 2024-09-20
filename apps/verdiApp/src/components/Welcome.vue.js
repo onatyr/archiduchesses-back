@@ -2,6 +2,7 @@ import { ref, onMounted } from 'vue';
 export default (await import('vue')).defineComponent({
     setup() {
         const userName = ref('');
+        const token = localStorage.getItem('token');
         onMounted(async () => {
             try {
                 const response = await fetch('http://localhost:3000/user/name');
