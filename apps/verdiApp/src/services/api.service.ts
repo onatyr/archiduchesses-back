@@ -28,8 +28,9 @@ export class ApiService {
         }
     }
 
-    async get(route: string, queryParams: URLSearchParams) {
-        return this.request(route + '/' + queryParams.toString())
+    async get(route: string, queryParams: URLSearchParams | null = null) {
+        const getRoute = queryParams ? route + '?' + queryParams : route
+        return this.request(getRoute)
     }
 
     async post(route: string, body: string) {

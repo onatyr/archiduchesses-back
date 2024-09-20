@@ -21,9 +21,10 @@ export class ApiService {
             throw error;
         }
     }
-    async get(route, queryParams) {
-        return this.request(route + '/' + queryParams.toString());
-    }
+    async get(route, queryParams = null) {
+        const getRoute = queryParams ? route + '?' + queryParams : route;
+        return this.request(getRoute);
+    } // todo doesn't work yet !!!!
     async post(route, body) {
         const options = {
             method: 'POST',
