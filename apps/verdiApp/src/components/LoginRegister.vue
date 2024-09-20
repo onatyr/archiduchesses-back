@@ -156,17 +156,8 @@ export default defineComponent({
             })
           });
 
-          if (!response.ok) {
-            const data = await response.json();
-            errors.form = data.message || 'Login failed.';
-            return;
-          }
-
-          const data = await response.json();
-          console.log('Login successful, token: ' + data.token);
-
           // Store the token in local storage or a state management solution
-          localStorage.setItem('token', data.token);
+          localStorage.setItem('token', response.token);
 
           router.push({name: 'main'});
         } catch (error) {
