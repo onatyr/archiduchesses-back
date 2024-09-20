@@ -5,12 +5,12 @@ export default {
     setup(props, { emit }) {
         const name = ref<string>('');
         const room = ref<string>('');
-        const type = ref<string>('');
+        const family = ref<string>('');
         const today = new Date().toISOString().split('T')[0]; 
         const adoptionDate = ref<string>(today);
 
         const rooms: string[] = ['Living-room', 'Bathroom', 'Bedroom 1', 'Bedroom 2', 'Kitchen'];
-        const types: string[] = [
+        const families: string[] = [
             "Flowering Plants",
             "Foliage Plants",
             "Succulents & Cacti",
@@ -50,7 +50,7 @@ export default {
     }
 
     name.value = '';
-    type.value = '';
+    family.value = '';
     room.value = '';
     adoptionDate.value = today;
 
@@ -62,14 +62,14 @@ export default {
             console.log('Cancel clicked');
 
             name.value = '';
-            type.value = '';
+            family.value = '';
             room.value = '';``
             adoptionDate.value = today;
 
             emit('formSubmitted');
         };
 
-        return { name, room, rooms, type, types, adoptionDate, onSubmit, cancelAction };
+        return { name, room, rooms, family, families, adoptionDate, onSubmit, cancelAction };
     }
 };
 </script>
@@ -83,10 +83,10 @@ export default {
         </div>
 
         <div class="mb-4">
-            <label for="type" class="block text-gray-700 font-bold mb-2">Type:</label>
-            <select id="type" v-model="type" required
+            <label for="type" class="block text-gray-700 font-bold mb-2">Family:</label>
+            <select id="type" v-model="family" required
                 class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-apple-500">
-                <option v-for="type in types" :key="type">{{ type }}</option>
+                <option v-for="family in families" :key="family">{{ family }}</option>
             </select>
         </div>
 
