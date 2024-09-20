@@ -25,7 +25,7 @@ export default (await import('vue')).defineComponent({
                 name: name.value,
             };
             console.log('Adding item:', newItem);
-            const data = await new ApiService("plant").post('new', JSON.stringify(newItem));
+            const data = await new ApiService("plant")._post('new', JSON.stringify(newItem));
             name.value = '';
             family.value = '';
             room.value = '';

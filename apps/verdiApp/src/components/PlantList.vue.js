@@ -1,10 +1,10 @@
 import { onMounted, ref } from 'vue';
 import PlantDetails from './PlantDetails.vue';
-import { ApiService } from "@/services/api.service";
+import { PlantsService } from "@/services/plants.service";
 const { defineProps, defineSlots, defineEmits, defineExpose, defineModel, defineOptions, withDefaults, } = await import('vue');
 const plants = ref([]);
 onMounted(async () => {
-    plants.value = await new ApiService("plant").get("all");
+    plants.value = await new PlantsService().getAll();
 });
 const selectedPlant = ref(null);
 const __VLS_fnComponent = (await import('vue')).defineComponent({});

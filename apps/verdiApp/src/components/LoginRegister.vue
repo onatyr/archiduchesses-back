@@ -145,7 +145,7 @@ export default defineComponent({
         }
 
         try {
-          const response = await new ApiService('auth').request('login', {
+          const response = await new ApiService('auth')._request('login', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
