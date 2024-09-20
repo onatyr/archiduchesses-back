@@ -9,29 +9,29 @@
         <div v-if="isRegister" class="mb-4">
           <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Name:</label>
           <input type="text" id="name" v-model="form.name" required placeholder="Enter your name"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
           <p v-if="errors.email" class="text-red-500 text-xs italic">{{ errors.email }}</p>
         </div>
 
         <div class="mb-4">
           <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
           <input type="email" id="email" v-model="form.email" required placeholder="Enter your email"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
           <p v-if="errors.email" class="text-red-500 text-xs italic">{{ errors.email }}</p>
         </div>
 
         <div class="mb-4">
           <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password:</label>
           <input type="password" id="password" v-model="form.password" required placeholder="Enter your password"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
           <p v-if="errors.password" class="text-red-500 text-xs italic">{{ errors.password }}</p>
         </div>
 
         <div v-if="isRegister" class="mb-4">
           <label for="confirmPassword" class="block text-gray-700 text-sm font-bold mb-2">Confirm Password:</label>
           <input type="password" id="confirmPassword" v-model="form.confirmPassword" required
-            placeholder="Confirm your password"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                 placeholder="Confirm your password"
+                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
           <p v-if="errors.confirmPassword" class="text-red-500 text-xs italic">{{ errors.confirmPassword }}</p>
         </div>
 
@@ -39,12 +39,12 @@
 
         <div class="flex items-center justify-between">
           <button type="submit"
-            class="bg-apple-500 hover:bg-apple-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                  class="bg-apple-500 hover:bg-apple-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
             {{ isRegister ? 'Register' : 'Login' }}
           </button>
 
           <button type="button" @click="toggleForm"
-            class="inline-block align-baseline font-bold text-sm text-apple-500 hover:text-apple-600">
+                  class="inline-block align-baseline font-bold text-sm text-apple-500 hover:text-apple-600">
             {{ isRegister ? 'Already have an account? Login' : "Don't have an account? Register" }}
           </button>
         </div>
@@ -54,8 +54,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue';
-import { useRouter } from 'vue-router';
+import {defineComponent, reactive, ref} from 'vue';
+import {useRouter} from 'vue-router';
+import {ApiService} from "@/services/api.service";
 
 export default defineComponent({
   setup() {
@@ -144,7 +145,7 @@ export default defineComponent({
         }
 
         try {
-          const response = await fetch('http://localhost:3000/auth/login', {
+          const response = await new ApiService('auth').request('login', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -152,7 +153,7 @@ export default defineComponent({
             body: JSON.stringify({
               email: form.email,
               password: form.password,
-            }),
+            })
           });
 
           if (!response.ok) {
@@ -167,7 +168,7 @@ export default defineComponent({
           // Store the token in local storage or a state management solution
           localStorage.setItem('token', data.token);
 
-          router.push({ name: 'main' });
+          router.push({name: 'main'});
         } catch (error) {
           errors.form = 'An error occurred during login.';
         }
@@ -179,7 +180,7 @@ export default defineComponent({
       isRegister.value = !isRegister.value;
     };
 
-    return { isRegister, form, submitForm, toggleForm, errors };
+    return {isRegister, form, submitForm, toggleForm, errors};
   },
 });
 </script>

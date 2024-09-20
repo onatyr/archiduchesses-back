@@ -17,29 +17,12 @@
 <script setup>
 import {onMounted, ref} from 'vue';
 import PlantDetails from './PlantDetails.vue';
+import {ApiService} from "@/services/api.service";
 
 const plants = ref([]);
 
 onMounted(async () => {
-  try {
-    const response = await fetch('http://localhost:3000/plant/all', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        'Content-Type': 'application/json',
-      },
-    });  // Adjust this path if necessary
-    console.log(response);
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data);
-      plants.value = data;  // Store the data in the plants array
-    } else {
-      console.error("Failed to fetch plants");
-    }
-  } catch (error) {
-    console.error("Error fetching plants:", error);
-  }
+  plants.value = await new ApiService("plant").request("all")
 });
 
 const selectedPlant = ref(null);
