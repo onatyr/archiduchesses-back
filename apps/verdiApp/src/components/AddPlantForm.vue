@@ -26,7 +26,7 @@ export default {
 
     const onSubmit = async () => {
       const newItem = {
-        name: name.value,
+        name: name.value
       };
       console.log('Adding item:', newItem);
 
