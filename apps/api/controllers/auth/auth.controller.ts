@@ -40,7 +40,7 @@ authController.post("/login", async (req: express.Request<unknown, unknown, {
     if (!accessTokenSecret) return res.status(500)
 
     const token = sign(jwtUser, accessTokenSecret)
-    console.log(token)
+
     res.status(200).json({token})
 })
 

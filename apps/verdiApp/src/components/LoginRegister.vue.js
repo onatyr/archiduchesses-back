@@ -98,6 +98,8 @@ export default defineComponent({
                     }
                     const data = await response.json();
                     console.log('Login successful, token: ' + data.token);
+                    // Store the token in local storage or a state management solution
+                    localStorage.setItem('token', data.token);
                     router.push({ name: 'main' });
                 }
                 catch (error) {
