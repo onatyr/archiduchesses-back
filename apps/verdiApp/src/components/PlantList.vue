@@ -22,7 +22,9 @@ import {ApiService} from "@/services/api.service";
 const plants = ref([]);
 
 onMounted(async () => {
-  plants.value = await new ApiService("plant").request("all")
+  plants.value = await new ApiService("plant").get("searchByName", new URLSearchParams({
+    name: "Thibault"
+  }))
 });
 
 const selectedPlant = ref(null);

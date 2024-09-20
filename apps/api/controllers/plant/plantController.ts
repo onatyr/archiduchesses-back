@@ -16,6 +16,7 @@ plantController.get("/all", async (req, res) => {
 plantController.get("/searchByName", async (req: express.Request<unknown, unknown, unknown, {
     name: string
 }>, res) => {
+    console.log(req.query.name)
     const result = await db.select().from(plants)
         .where(ilike(plants.name, `%${req.query.name}%`))
         .execute()
