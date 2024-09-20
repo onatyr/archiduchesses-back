@@ -17,12 +17,12 @@
 <script setup>
 import {onMounted, ref} from 'vue';
 import PlantDetails from './PlantDetails.vue';
-import {ApiService} from "@/services/api.service";
+import {PlantsService} from "@/services/plants.service";
 
 const plants = ref([]);
 
 onMounted(async () => {
-  plants.value = await new ApiService("plant").get("all")
+  plants.value = await new PlantsService().getAll()
 });
 
 const selectedPlant = ref(null);

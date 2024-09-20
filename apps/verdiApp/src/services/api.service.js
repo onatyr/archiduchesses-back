@@ -1,9 +1,10 @@
 export class ApiService {
     baseUrl = "http://localhost:3000/";
+    // todo methods here should only be used by other services
     constructor(baseRoute) {
         this.baseUrl += baseRoute || '';
     }
-    async request(route, options = {}) {
+    async _request(route, options = {}) {
         const url = `${this.baseUrl}/${route}`;
         const token = localStorage.getItem('token');
         const headers = new Headers(options.headers);
@@ -21,11 +22,11 @@ export class ApiService {
             throw error;
         }
     }
-    async get(route, queryParams = null) {
+    async _get(route, queryParams = null) {
         const getRoute = queryParams ? route + '?' + queryParams : route;
-        return this.request(getRoute);
-    } // todo doesn't work yet !!!!
-    async post(route, body) {
+        return this._request(getRoute);
+    }
+    async _post(route, body) {
         const options = {
             method: 'POST',
             headers: {
@@ -33,6 +34,6 @@ export class ApiService {
             },
             body: body
         };
-        return this.request(route, options);
+        return this._request(route, options);
     }
 }
