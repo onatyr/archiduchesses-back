@@ -56,6 +56,3 @@ authController.post("/register", async (req: express.Request<unknown, unknown, U
     if (!result || result.rowCount === 0) return res.status(500).json()
     res.status(201).json()
 })
-
-// todo add decryption when bcrypt is installed. add middleware to retrieve user id
-

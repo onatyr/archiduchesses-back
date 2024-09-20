@@ -15,7 +15,6 @@ export function authenticate(
     next: NextFunction
 ) {
     if (isExempted(req.path)) return next()
-    
     const token = req.headers.authorization?.split(' ')[1]
     if (!token || !process.env.ACCESS_TOKEN_SECRET) return res.status(401).json()
 
