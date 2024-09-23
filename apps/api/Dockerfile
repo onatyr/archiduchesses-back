@@ -3,7 +3,7 @@ FROM node:16
 WORKDIR /usr/src/app
 
 # Copy root package.json and lockfile
-COPY package.json ./
+COPY ../../package.json ./
 COPY ../../package-lock.json ./
 
 # Copy the api package.json
