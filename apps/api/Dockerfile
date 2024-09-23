@@ -12,7 +12,7 @@ COPY package.json ./apps/api/package.json
 RUN npm install
 
 # Copy app source
-COPY apps/api .
+COPY . ./apps/api
 
 EXPOSE 8080
 
