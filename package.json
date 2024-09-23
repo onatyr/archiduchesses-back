@@ -18,7 +18,8 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "api": "turbo run api"
+    "api": "turbo run api",
+    "deploy": "turbo run api && turbo run dev"
   },
   "author": "",
   "license": "ISC",
