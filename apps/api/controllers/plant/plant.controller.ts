@@ -13,15 +13,6 @@ plantController.get("/all", async (req, res) => {
     res.status(200).json(allPlants);
 });
 
-plantController.get("/searchByName", async (req: express.Request<unknown, unknown, unknown, {
-    name: string
-}>, res) => {
-    const result = await getAllPlantsByUserId(req.userId)
-        .where(ilike(plants.name, `%${req.query.name}%`))
-        .execute()
-    res.status(200).json(result)
-})
-
 plantController.post("/new", async (req: express.Request<unknown, unknown, Plant>, res) => {
     const plant = await db.insert(plants).values({
         userId: req.userId,
