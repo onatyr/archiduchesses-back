@@ -1,12 +1,14 @@
 {
-    "extends": "../../tsconfig.base.json",
-    "compilerOptions": {
-        "rootDir": "./",
-        "outDir": "../../dist/shared",
-        "composite": true,
-        "declaration": true
-    },
-    "include": [
-        "./**/*.ts", "./**/*.tsx"
-    ]
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "./",
+    "outDir": "../../dist/shared",
+    "composite": true,
+    "declaration": true
+  },
+  "include": [
+    "./**/*.ts",
+    "./**/*.d.ts",
+    "./**/*.tsx",
+  ]
 }
