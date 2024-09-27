@@ -2,7 +2,7 @@ import express from "express";
 import {db} from "../../database/database";
 import {plants} from "../../database/schema";
 import {Plant} from '@shared/models/plant.model';
-import {eq, ilike} from "drizzle-orm";
+import {ilike} from "drizzle-orm";
 import {getAllPlantsByUserId} from "./plant.query";
 
 export const plantController: express.Router = express();
