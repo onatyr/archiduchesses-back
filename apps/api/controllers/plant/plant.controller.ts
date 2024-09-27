@@ -3,12 +3,12 @@ import {db} from "../../database/database";
 import {plants} from "../../database/schema";
 import {Plant} from '@shared/models/plant.model';
 import {eq, ilike} from "drizzle-orm";
+import {getAllPlantsByUserId} from "./plant.query";
 
 export const plantController: express.Router = express();
 
 plantController.get("/all", async (req, res) => {
-    const allPlants = await db.select().from(plants)
-        .where(eq(plants.userId, req.userId))
+    const allPlants = await getAllPlantsByUserId(req.userId)
         .execute();
     res.status(200).json(allPlants);
 });
@@ -16,8 +16,7 @@ plantController.get("/all", async (req, res) => {
 plantController.get("/searchByName", async (req: express.Request<unknown, unknown, unknown, {
     name: string
 }>, res) => {
-    console.log(req.query.name)
-    const result = await db.select().from(plants)
+    const result = await getAllPlantsByUserId(req.userId)
         .where(ilike(plants.name, `%${req.query.name}%`))
         .execute()
     res.status(200).json(result)
