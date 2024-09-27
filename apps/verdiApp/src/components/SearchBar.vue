@@ -20,7 +20,6 @@ const props = defineProps<{
 const searchQuery = ref<string>("");
 
 const handleSearch = async () => {
-  console.log(searchQuery.value)
   props.query(searchQuery.value);
 };
 
