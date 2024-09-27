@@ -1,47 +1,28 @@
 <template>
-  <div class="searchable-list">
+  <div class="searchable-list w-full mb-8 mt-8">
     <input
         type="text"
         v-model="searchQuery"
         @input="handleSearch"
         placeholder="Search..."
-        class="search-input"
+        class="search-input w-full py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
     />
-
-    <!-- Slot to render filtered results -->
-    <slot :items="filteredItems"></slot>
   </div>
 </template>
 
-<script>
-export default {
-  name: "SearchableList",
-  props: {
-    query: {
-      type: Function,
-      required: true
-    }
-  },
-  data() {
-    return {
-      searchQuery: "",
-      filteredItems: []
-    };
-  },
-  methods: {
-    async handleSearch() {
-      const result = await this.query(this.searchQuery);
-      this.filteredItems = result; // Update the filtered items
-    }
-  }
-};
-</script>
+<script lang="ts" setup>
+import { ref, watch, defineProps } from 'vue';
 
-<style scoped>
-/* Basic styles */
-.search-input {
-  margin-bottom: 10px;
-  padding: 8px;
-  width: 100%;
-}
-</style>
+const props = defineProps<{
+  query: (searchQuery: string) => T[];
+}>();
+
+const searchQuery = ref<string>("");
+
+const handleSearch = async () => {
+  console.log(searchQuery.value)
+  props.query(searchQuery.value);
+};
+
+watch(searchQuery, handleSearch);
+</script>
