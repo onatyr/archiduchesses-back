@@ -2,7 +2,6 @@
   "name": "archiduchesses",
   "version": "1.0.0",
   "description": "Projet RNCP",
-  "type": "module",
   "main": "drizzle.config.js",
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -21,8 +20,9 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "api": "turbo run api",
+    "migrate": "npx tsx ./apps/api/database/migrate.ts",
     "deploy": "turbo run api && turbo run dev",
-    "seed": "node ./scripts/dbSeed.js"
+    "seed": "node scripts/dbSeed.mjs"
   },
   "author": "",
   "license": "ISC",
