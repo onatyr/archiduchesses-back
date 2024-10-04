@@ -8,6 +8,13 @@
       "when": 1728080312371,
       "tag": "0000_first_paladin",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1728085998231,
+      "tag": "0001_happy_violations",
+      "breakpoints": true
     }
   ]
 }
