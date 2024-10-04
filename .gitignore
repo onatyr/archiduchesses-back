@@ -1,7 +1,6 @@
 node_modules
 .env
 .turbo
-/apps/api/database/migrations/meta
 /dist
 *.tsbuildinfo
 
