@@ -5,7 +5,7 @@ import path from "path";
 import promptSync from 'prompt-sync';
 
 dotenv.config({
-    path: path.resolve("../.env")
+    path: path.resolve("./.env") // this path is relative to the where the node command is run (from root when using npm run)
 })
 
 const remoteHost = process.env.RSPB_HOST
@@ -22,7 +22,7 @@ if (!targetDatabaseName) {
     process.exit(1);
 }
 
-const askForPassphrase = () => { // TODO trouver une solution, le mdp est toujours affiché même avec node readline
+const askForPassphrase = () => { // TODO find a solution to hide the password input, didn't work with Node readline either
     const prompt = promptSync({sigint: true, echo: false})
     return prompt('Enter your SSH private key passphrase: ')
 }
