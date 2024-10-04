@@ -34,7 +34,7 @@ const client = new Client()
 client.on('ready', () => {
     console.log('SSH connection established.')
 
-    const command = `${dbSeedScriptPath} ${pgsqlPassword} ${targetDatabaseName}`
+    const command = `${dbSeedScriptPath} ${username} ${pgsqlPassword} ${targetDatabaseName}`
 
     client.exec(command, (err, stream) => {
         if (err) throw err
