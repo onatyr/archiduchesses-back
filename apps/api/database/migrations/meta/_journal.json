@@ -8,13 +8,6 @@
       "when": 1728080312371,
       "tag": "0000_first_paladin",
       "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1728085176532,
-      "tag": "0001_dapper_lilandra",
-      "breakpoints": true
     }
   ]
 }
