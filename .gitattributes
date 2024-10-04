@@ -1,2 +1,1 @@
-apps/api/database/meta/_journal.json merge=ours
-.gitattributes merge=ours
+apps/api/database/migrations/meta/_journal.json merge=ours
