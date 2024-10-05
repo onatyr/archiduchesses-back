@@ -10,7 +10,7 @@
     "build": "tsc --build",
     "clean": "tsc --build --clean",
     "generate": "npx drizzle-kit generate",
-    "migrate": "npx tsx ./database/migrate.ts"
+    "migrate": "drizzle-kit migrate"
   },
   "author": "",
   "license": "ISC",
