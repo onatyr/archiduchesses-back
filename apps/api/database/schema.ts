@@ -27,7 +27,7 @@ export const plants = pgTable('plants', {
     family: familyEnum('family').notNull(),
     sunlight: sunlightEnum('sunlight'),
     watering: wateringEnum('watering'),
-    adoptionDate: timestamp('adoption_date').defaultNow(),
+    adoptionDate: timestamp('adoption_date', { mode: "string" }).defaultNow(),
     placeId: uuid('place_id').references(() => places.id),
-    photoUrl: varchar('photo_url')
+    imageUrl: varchar('image_url')
 });

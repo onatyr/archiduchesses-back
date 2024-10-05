@@ -9,6 +9,7 @@ export default {
     const family = ref<string>('');
     const today = new Date().toISOString().split('T')[0];
     const adoptionDate = ref<string>(today);
+    const fileInput = ref<File | null>(null);
 
     const rooms: string[] = ['Living-room', 'Bathroom', 'Bedroom 1', 'Bedroom 2', 'Kitchen'];
     const families: string[] = [
@@ -25,17 +26,19 @@ export default {
     ];
 
     const onSubmit = async () => {
-      const newItem = {
-        name: name.value
-      };
-      console.log('Adding item:', newItem);
+      const formData = new FormData()
+      formData.append('name', name.value)
+      formData.append('family', family.value)
+      formData.append('room', room.value)
+      formData.append('adoptionDate', adoptionDate.value)
+      formData.append('file', fileInput.value)
 
-      const data = await new ApiService("plant")._post('new', JSON.stringify(newItem))
-
-      name.value = '';
-      family.value = '';
-      room.value = '';
-      adoptionDate.value = today;
+      const data = await new ApiService("plant")._post(
+          'new',
+          formData
+      )
+      console.log(data)
+      // resetForm()
 
       emit('formSubmitted');
     };
@@ -43,17 +46,24 @@ export default {
 
     const cancelAction = () => {
       console.log('Cancel clicked');
-
-      name.value = '';
-      family.value = '';
-      room.value = '';
-      ``
-      adoptionDate.value = today;
+      resetForm()
 
       emit('formSubmitted');
     };
 
-    return {name, room, rooms, family, families, adoptionDate, onSubmit, cancelAction};
+    const updateFile = (file: File) => {
+      fileInput.value = file
+    }
+
+    const resetForm = () => {
+      name.value = '';
+      family.value = '';
+      room.value = '';
+      adoptionDate.value = today;
+    }
+
+    return {name, room, rooms, family, families, adoptionDate, onSubmit, cancelAction, updateFile};
+
   }
 };
 </script>
@@ -86,6 +96,12 @@ export default {
       <label for="date" class="block text-gray-700 font-bold mb-2">Adoption date:</label>
       <input type="date" id="date" v-model="adoptionDate" required
              class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-apple-500">
+    </div>
+
+    <div class="mb-4">
+      <label for="file" class="block text-gray-700 font-bold mb-2">Upload Image:</label>
+      <input type="file" id="file" @change="(e) => updateFile(e.target.files[0])"
+             class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-apple-500"/>
     </div>
 
     <div class="w-full flex flex-row justify-center gap-3">
