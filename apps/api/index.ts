@@ -1,4 +1,4 @@
-import express from "express";
+import express, {NextFunction} from "express";
 import cors from "cors";
 import * as http from "http";
 import {router} from "./router";
@@ -9,8 +9,12 @@ const app = express.Router();
 const PORT = 3000;
 
 // Middleware
-app.use(express.json({limit: "50mb"}));
-app.use(cors());
+app.use(cors())
+app.use(express.json({ limit: '10mb' }))
+app.use((req: express.Request, res: express.Response, next: NextFunction) => {
+    console.log(req.body)
+    next()
+})
 app.use(authenticate)
 
 // Controllers
@@ -23,12 +27,3 @@ const server = http.createServer(
 server.listen(PORT, () => {
     console.log("HTTP Server listening at port : " + PORT);
 });
-
-// // Ensure graceful exit
-// exitHook((done) => {
-//     server.close(error => {
-//         if (error)
-//             throw error;
-//         done();
-//     });
-// });
