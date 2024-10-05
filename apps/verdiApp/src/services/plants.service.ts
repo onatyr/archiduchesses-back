@@ -5,7 +5,8 @@ export class PlantsService extends ApiService {
         super("plant");
     }
 
-    getAll() {
-        return this._get("all")
+    async getAll() {
+        const response = await this._get("/all")
+        return response?.data ?? []
     }
 }
