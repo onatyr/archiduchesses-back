@@ -1,19 +1,18 @@
 import {ApiService} from "@/services/api.service";
-import {Plant} from "../../../../dist/shared/models/plant.model";
 
-export class PlantsService extends ApiService {
+export class UserService extends ApiService {
     constructor() {
-        super("plant");
+        super("user");
     }
 
-    async getAll(): Promise<Plant[]> {
-        return this._get("/all")
+    getName(): Promise<string> {
+        return this._get("/name")
             .then(response => {
                 return response.data
             })
             .catch(e => {
                 console.log(e)
-                return []
+                return ""
             })
     }
 }
