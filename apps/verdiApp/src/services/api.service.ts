@@ -1,48 +1,23 @@
-export class ApiService {
-    private baseUrl = "http://localhost:3000/";
+// todo methods here should only be used by other services
+import {axiosInstance} from "@/main";
 
-    // todo methods here should only be used by other services
+export class ApiService {
+    private readonly baseUrl = ""
 
     constructor(baseRoute: string) {
-        this.baseUrl += baseRoute || '';
-    }
-
-    async _request(route: string, options: RequestInit = {}) {
-        const url = `${this.baseUrl}/${route}`
-        const token = localStorage.getItem('token')
-
-        const headers = new Headers(options.headers)
-        headers.append('Authorization', `Bearer ${token}`)
-
-        options.headers = headers
-
-        try {
-            const response = await fetch(url, options)
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`)
-            }
-
-            return await response.json()
-        } catch (error) {
-            console.error('API Request Failed:', error)
-            throw error
-        }
+        this.baseUrl += baseRoute || "";
     }
 
     async _get(route: string, queryParams: URLSearchParams | null = null) {
-        const getRoute = queryParams ? route + '?' + queryParams : route
-        return this._request(getRoute)
+        const getRoute = queryParams ? route + "?" + queryParams : route;
+        return axiosInstance.get(this.baseUrl + getRoute);
     }
 
-    async _post(route: string, body: string) {
-        const options: RequestInit = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: body
+    async _post(route: string, data: any) {
+        const headers: any = {};
+        if (!(data instanceof FormData)) {
+            headers["Content-Type"] = "application/json";
         }
-        return this._request(route, options)
+        return axiosInstance.post(this.baseUrl + route, data, {headers});
     }
 }

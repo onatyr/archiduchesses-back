@@ -21,6 +21,7 @@ authController.post("/login", async (req: express.Request<unknown, unknown, {
     email: string,
     password: string,
 }>, res) => {
+    console.log(req.body.email)
     const result = await db.select().from(users)
         .where(eq(users.email, req.body.email))
         .limit(1)

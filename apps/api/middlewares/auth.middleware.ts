@@ -14,16 +14,21 @@ export function authenticate(
     res: express.Response,
     next: NextFunction
 ) {
-    if (isExempted(req.path)) return next()
-    const token = req.headers.authorization?.split(' ')[1]
-    if (!token || !process.env.ACCESS_TOKEN_SECRET) return res.status(401).json()
+    try {
+        if (isExempted(req.path)) return next()
+        const token = req.headers.authorization?.split(' ')[1]
+        if (!token || !process.env.ACCESS_TOKEN_SECRET) return res.status(401).json()
 
-    verify(token, process.env.ACCESS_TOKEN_SECRET, (err, userPayload: JwtPayload | string | undefined) => {
-        const user = userPayload as JwtUserModel
-        req.userId = user.id_user
-        req.username = user.username
-        next()
-    })
+        verify(token, process.env.ACCESS_TOKEN_SECRET, (err, userPayload: JwtPayload | string | undefined) => {
+            const user = userPayload as JwtUserModel
+            req.userId = user.id_user
+            req.username = user.username
+            next()
+        })
+    }
+    catch (e) {
+        console.log(e)
+    }
 }
 
 export function isExempted(url: string): boolean {

@@ -1,13 +1,13 @@
 <template>
   <button
-    class="group cursor-pointer outline-none fixed bottom-4 right-4" 
+    class="group cursor-pointer outline-none fixed bottom-4 right-4"
     title="Add New"
   >
-    <svg 
-      class="stroke-white fill-apple-500 group-active:stroke-white" 
-      viewBox="0 0 24 24" 
+    <svg
+      class="stroke-white fill-apple-500 group-active:stroke-white"
+      viewBox="0 0 24 24"
       height="50px"
-      width="50px" 
+      width="50px"
       xmlns="http://www.w3.org/2000/svg"
     >
       <!-- Circle with apple-500 fill -->
