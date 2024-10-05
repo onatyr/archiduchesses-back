@@ -5,8 +5,9 @@ export type Plant = {
     family: PlantFamily,
     sunlight: PlantSunlight
     watering: PlantWatering
-    adoptionDate: Date,
+    adoptionDate: string,
     placeId: string | undefined,
+    imageUrl: string
 }
 
 export enum PlantSunlight {
