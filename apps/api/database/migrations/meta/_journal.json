@@ -22,6 +22,13 @@
       "when": 1728087230978,
       "tag": "0002_lowly_impossible_man",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1728087326955,
+      "tag": "0003_unusual_metal_master",
+      "breakpoints": true
     }
   ]
 }
