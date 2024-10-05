@@ -1,6 +1,6 @@
 <script lang="ts">
 import { ref } from "vue";
-import { ApiService } from "@/services/api.service";
+import {PlantsService} from "@/services/plants.service";
 
 export default {
   setup(props, { emit }) {
@@ -39,9 +39,9 @@ export default {
       formData.append("adoptionDate", adoptionDate.value);
       formData.append("file", fileInput.value);
 
-      const data = await new ApiService("plant")._post("new", formData);
-      console.log(data);
-      // resetForm()
+      const isInserted = await new PlantsService().insertPlant(formData);
+
+      resetForm()
 
       emit("formSubmitted");
     };
