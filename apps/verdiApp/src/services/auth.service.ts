@@ -14,19 +14,17 @@ export class AuthService extends ApiService {
                 password: password,
             })
         ).then(response => {
-                if (response.status !== 200) {
-                    console.log("Connexion unauthorized")
-                    return false
-                }
-                const token = response.data.token
-                localStorage.setItem('token', token)
-                axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`
+                this.setToken(response.data.token)
                 return true
             }
         ).catch(e => {
-            console.log("heeey")
             console.log(e)
             return false
         })
+    }
+
+    private setToken(token: string) {
+        localStorage.setItem('token', token)
+        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`
     }
 }
