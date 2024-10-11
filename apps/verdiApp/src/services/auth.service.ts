@@ -1,14 +1,14 @@
-import { ApiService } from "../../../shared/services/api.service";
-import { axiosInstance } from "@/main";
+import { ApiService } from '../../../shared/services/api.service';
+import { axiosInstance } from '@/main';
 
 export class AuthService extends ApiService {
   constructor() {
-    super(axiosInstance, "auth");
+    super(axiosInstance, 'auth');
   }
 
   login(email: string, password: string): Promise<boolean> {
     return this._post(
-      "/login",
+      '/login',
       JSON.stringify({
         email: email,
         password: password,
@@ -19,13 +19,13 @@ export class AuthService extends ApiService {
         return true;
       })
       .catch((e) => {
-        console.log(e);
+        console.error(e);
         return false;
       });
   }
 
   private setToken(token: string) {
-    localStorage.setItem("token", token);
-    axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    localStorage.setItem('token', token);
+    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   }
 }

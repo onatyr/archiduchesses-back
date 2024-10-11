@@ -2,7 +2,7 @@
   <div class="flex justify-center items-center min-h-screen bg-gray-100">
     <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-md">
       <h2 class="text-2xl font-bold mb-6 text-apple-500">
-        {{ isRegister ? "Register" : "Login" }}
+        {{ isRegister ? 'Register' : 'Login' }}
       </h2>
 
       <form @submit.prevent="submitForm">
@@ -87,7 +87,7 @@
             type="submit"
             class="bg-apple-500 hover:bg-apple-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
-            {{ isRegister ? "Register" : "Login" }}
+            {{ isRegister ? 'Register' : 'Login' }}
           </button>
 
           <button
@@ -97,7 +97,7 @@
           >
             {{
               isRegister
-                ? "Already have an account? Login"
+                ? 'Already have an account? Login'
                 : "Don't have an account? Register"
             }}
           </button>
@@ -108,38 +108,36 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from "vue";
-import { useRouter } from "vue-router";
-import { ApiService } from "../../../shared/services/api.service";
-import { axiosInstance } from "@/main";
-import { AuthService } from "@/services/auth.service";
+import { defineComponent, reactive, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { AuthService } from '@/services/auth.service';
 
 export default defineComponent({
   setup() {
     const router = useRouter();
     const isRegister = ref(false);
     const form = reactive({
-      email: "",
-      password: "",
-      confirmPassword: "",
-      name: "",
+      email: '',
+      password: '',
+      confirmPassword: '',
+      name: '',
     });
 
     // Track errors
     const errors = reactive({
-      email: "",
-      password: "",
-      confirmPassword: "",
-      form: "",
-      name: "",
+      email: '',
+      password: '',
+      confirmPassword: '',
+      form: '',
+      name: '',
     });
 
     // Clear error messages
     const clearErrors = () => {
-      errors.email = "";
-      errors.password = "";
-      errors.confirmPassword = "";
-      errors.form = "";
+      errors.email = '';
+      errors.password = '';
+      errors.confirmPassword = '';
+      errors.form = '';
     };
 
     // Login/Register handler
@@ -149,16 +147,16 @@ export default defineComponent({
       if (isRegister.value) {
         // Registration validation
         if (!form.name) {
-          errors.name = "Name is required.";
+          errors.name = 'Name is required.';
         }
         if (!form.email) {
-          errors.email = "Email is required.";
+          errors.email = 'Email is required.';
         }
         if (!form.password) {
-          errors.password = "Password is required.";
+          errors.password = 'Password is required.';
         }
         if (form.password !== form.confirmPassword) {
-          errors.confirmPassword = "Passwords do not match.";
+          errors.confirmPassword = 'Passwords do not match.';
         }
         if (errors.email || errors.password || errors.confirmPassword) {
           return;
@@ -166,10 +164,10 @@ export default defineComponent({
 
         // Register logic
         try {
-          const response = await fetch("http://localhost:3000/auth/register", {
-            method: "POST",
+          const response = await fetch('http://localhost:3000/auth/register', {
+            method: 'POST',
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
             body: JSON.stringify({
               email: form.email,
@@ -180,21 +178,22 @@ export default defineComponent({
 
           if (!response.ok) {
             const data = await response.json();
-            errors.form = data.message || "Registration failed.";
+            errors.form = data.message || 'Registration failed.';
             return;
           }
 
-          alert("Registration successful");
+          alert('Registration successful');
         } catch (error) {
-          errors.form = "An error occurred during registration.";
+          console.error(error);
+          errors.form = 'An error occurred during registration.';
         }
       } else {
         // Login logic
         if (!form.email) {
-          errors.email = "Email is required.";
+          errors.email = 'Email is required.';
         }
         if (!form.password) {
-          errors.password = "Password is required.";
+          errors.password = 'Password is required.';
         }
         if (errors.email || errors.password) {
           return;
@@ -206,9 +205,9 @@ export default defineComponent({
         );
 
         if (isLogged) {
-          await router.push({ name: "main" });
+          await router.push({ name: 'main' });
         } else {
-          errors.form = "Invalid username or password";
+          errors.form = 'Invalid username or password';
         }
       }
     };
