@@ -1,11 +1,11 @@
-import dotenv from "dotenv";
-import path from "path";
-import process from "node:process";
-import { axiosInstance } from "../../index";
-import { ApiService } from "../../../shared/services/api.service";
+import dotenv from 'dotenv';
+import path from 'path';
+import process from 'node:process';
+import { axiosInstance } from '../../index';
+import { ApiService } from '../../../shared/services/api.service';
 
 dotenv.config({
-  path: path.resolve(__dirname, "../../../../.env"),
+  path: path.resolve(__dirname, '../../../../.env'),
 });
 
 // todo find better typing for return type
@@ -16,22 +16,21 @@ export class TrefleService extends ApiService {
   };
 
   constructor() {
-    super(axiosInstance, "api/v1");
+    super(axiosInstance, 'api/v1');
   }
 
   async searchPlant(query: string): Promise<string> {
     // Default error page when trying (not related to request)
-    return this._get("/plants/search", {
+    return this._get('/plants/search', {
       ...this.params,
       q: query,
     })
       .then((response) => {
-        console.log(response.data);
         return response.data;
       })
       .catch((e) => {
-        console.log(e);
-        return "";
+        console.error(e);
+        return '';
       });
   }
 
@@ -41,27 +40,25 @@ export class TrefleService extends ApiService {
       page: page,
     })
       .then((response) => {
-        console.log(response.data);
         return response.data;
       })
       .catch((e) => {
-        console.log(e);
-        return "";
+        console.error(e);
+        return '';
       });
   }
 
   async getAllSpecies(page: number): Promise<string> {
-    return this._get("/species", {
+    return this._get('/species', {
       ...this.params,
       page: page,
     })
       .then((response) => {
-        console.log(response.data);
         return response.data;
       })
       .catch((e) => {
-        console.log(e);
-        return "";
+        console.error(e);
+        return '';
       });
   }
 }

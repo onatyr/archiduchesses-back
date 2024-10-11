@@ -24,11 +24,11 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
-import PlantDetails from "./PlantDetails.vue";
-import { PlantsService } from "@/services/plants.service";
-import SearchBar from "@/components/SearchBar.vue";
-import { Plant } from "@shared/models/plant.model";
+import { onMounted, ref } from 'vue';
+import PlantDetails from './PlantDetails.vue';
+import { PlantsService } from '@/services/plants.service';
+import SearchBar from '@/components/SearchBar.vue';
+import { Plant } from '@shared/models/plant.model';
 
 const plants: Plant[] = ref([]);
 const filteredPlants: Plant[] = ref([]);
@@ -42,7 +42,7 @@ onMounted(async () => {
 const filterPlants = (query: string) => {
   if (query.length !== 0)
     filteredPlants.value = plants.value.filter((plant) =>
-      plant.name.toLowerCase().includes(query.toLowerCase()),
+      plant.name.toLowerCase().includes(query.toLowerCase())
     );
   else filteredPlants.value = plants.value;
 };
