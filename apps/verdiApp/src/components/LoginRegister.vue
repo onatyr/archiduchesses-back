@@ -8,15 +8,15 @@
       <form @submit.prevent="submitForm">
         <div v-if="isRegister" class="mb-4">
           <label for="name" class="block text-gray-700 text-sm font-bold mb-2"
-          >Name:</label
+            >Name:</label
           >
           <input
-              type="text"
-              id="name"
-              v-model="form.name"
-              required
-              placeholder="Enter your name"
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="text"
+            id="name"
+            v-model="form.name"
+            required
+            placeholder="Enter your name"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
           <p v-if="errors.email" class="text-red-500 text-xs italic">
             {{ errors.email }}
@@ -25,15 +25,15 @@
 
         <div class="mb-4">
           <label for="email" class="block text-gray-700 text-sm font-bold mb-2"
-          >Email:</label
+            >Email:</label
           >
           <input
-              type="email"
-              id="email"
-              v-model="form.email"
-              required
-              placeholder="Enter your email"
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="email"
+            id="email"
+            v-model="form.email"
+            required
+            placeholder="Enter your email"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
           <p v-if="errors.email" class="text-red-500 text-xs italic">
             {{ errors.email }}
@@ -42,17 +42,17 @@
 
         <div class="mb-4">
           <label
-              for="password"
-              class="block text-gray-700 text-sm font-bold mb-2"
-          >Password:</label
+            for="password"
+            class="block text-gray-700 text-sm font-bold mb-2"
+            >Password:</label
           >
           <input
-              type="password"
-              id="password"
-              v-model="form.password"
-              required
-              placeholder="Enter your password"
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="password"
+            id="password"
+            v-model="form.password"
+            required
+            placeholder="Enter your password"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
           <p v-if="errors.password" class="text-red-500 text-xs italic">
             {{ errors.password }}
@@ -61,17 +61,17 @@
 
         <div v-if="isRegister" class="mb-4">
           <label
-              for="confirmPassword"
-              class="block text-gray-700 text-sm font-bold mb-2"
-          >Confirm Password:</label
+            for="confirmPassword"
+            class="block text-gray-700 text-sm font-bold mb-2"
+            >Confirm Password:</label
           >
           <input
-              type="password"
-              id="confirmPassword"
-              v-model="form.confirmPassword"
-              required
-              placeholder="Confirm your password"
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="password"
+            id="confirmPassword"
+            v-model="form.confirmPassword"
+            required
+            placeholder="Confirm your password"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
           <p v-if="errors.confirmPassword" class="text-red-500 text-xs italic">
             {{ errors.confirmPassword }}
@@ -84,21 +84,21 @@
 
         <div class="flex items-center justify-between">
           <button
-              type="submit"
-              class="bg-apple-500 hover:bg-apple-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            type="submit"
+            class="bg-apple-500 hover:bg-apple-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
             {{ isRegister ? "Register" : "Login" }}
           </button>
 
           <button
-              type="button"
-              @click="toggleForm"
-              class="inline-block align-baseline font-bold text-sm text-apple-500 hover:text-apple-600"
+            type="button"
+            @click="toggleForm"
+            class="inline-block align-baseline font-bold text-sm text-apple-500 hover:text-apple-600"
           >
             {{
               isRegister
-                  ? "Already have an account? Login"
-                  : "Don't have an account? Register"
+                ? "Already have an account? Login"
+                : "Don't have an account? Register"
             }}
           </button>
         </div>
@@ -108,11 +108,11 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, reactive, ref} from "vue";
-import {useRouter} from "vue-router";
-import {ApiService} from "@shared/services/api.service.js";
-import {axiosInstance} from "@/main";
-import {AuthService} from "@/services/auth.service";
+import { defineComponent, reactive, ref } from "vue";
+import { useRouter } from "vue-router";
+import { ApiService } from "../../../shared/services/api.service";
+import { axiosInstance } from "@/main";
+import { AuthService } from "@/services/auth.service";
 
 export default defineComponent({
   setup() {
@@ -174,7 +174,7 @@ export default defineComponent({
             body: JSON.stringify({
               email: form.email,
               password: form.password,
-              name: form.name
+              name: form.name,
             }),
           });
 
@@ -200,14 +200,16 @@ export default defineComponent({
           return;
         }
 
-        const isLogged = await new AuthService().login(form.email, form.password)
+        const isLogged = await new AuthService().login(
+          form.email,
+          form.password
+        );
 
         if (isLogged) {
-          await router.push({name: "main"});
+          await router.push({ name: "main" });
         } else {
-          errors.form = "Invalid username or password"
+          errors.form = "Invalid username or password";
         }
-
       }
     };
 
@@ -215,7 +217,7 @@ export default defineComponent({
       isRegister.value = !isRegister.value;
     };
 
-    return {isRegister, form, submitForm, toggleForm, errors};
+    return { isRegister, form, submitForm, toggleForm, errors };
   },
 });
 </script>
