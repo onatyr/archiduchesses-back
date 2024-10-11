@@ -3,8 +3,14 @@ import cors from "cors";
 import * as http from "http";
 import {router} from "./router";
 import {authenticate} from "./middlewares/auth.middleware";
+import axios from "axios";
 
 const app = express.Router();
+
+const baseUrl = "https://trefle.io/";
+export const axiosInstance =  axios.create({
+    baseURL: baseUrl,
+})
 
 const PORT = 3000;
 

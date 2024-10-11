@@ -1,10 +1,10 @@
-import {ApiService} from "@/services/api.service";
+import {ApiService} from "../../../shared/service/api.service";
 import {Plant} from "../../../../dist/shared/models/plant.model";
-import {response} from "express";
+import {axiosInstance} from "@/main";
 
 export class PlantsService extends ApiService {
     constructor() {
-        super("plant");
+        super(axiosInstance, "plant");
     }
 
     async getAll(): Promise<Plant[]> {

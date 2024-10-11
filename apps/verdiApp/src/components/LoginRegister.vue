@@ -110,7 +110,7 @@
 <script lang="ts">
 import {defineComponent, reactive, ref} from "vue";
 import {useRouter} from "vue-router";
-import {ApiService} from "@/services/api.service.ts";
+import {ApiService} from "@shared/services/api.service.js";
 import {axiosInstance} from "@/main";
 import {AuthService} from "@/services/auth.service";
 
