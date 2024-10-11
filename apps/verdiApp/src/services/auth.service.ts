@@ -1,9 +1,9 @@
-import {ApiService} from "@/services/api.service";
+import {ApiService} from "../../../shared/service/api.service";
 import {axiosInstance} from "@/main";
 
 export class AuthService extends ApiService {
     constructor() {
-        super("auth");
+        super(axiosInstance, "auth");
     }
 
     login(email: string, password: string): Promise<boolean> {

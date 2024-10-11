@@ -1,6 +1,6 @@
 <script lang="ts">
 import { onMounted, ref } from "vue";
-import { ApiService } from "@/services/api.service";
+import { ApiService } from "@shared/services/api.service";
 import {UserService} from "@/services/user.service";
 
 export default {

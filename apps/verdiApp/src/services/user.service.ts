@@ -1,8 +1,9 @@
-import {ApiService} from "@/services/api.service";
+import {ApiService} from "../../../shared/service/api.service";
+import {axiosInstance} from "@/main";
 
 export class UserService extends ApiService {
     constructor() {
-        super("user");
+        super(axiosInstance, "user");
     }
 
     getName(): Promise<string> {
