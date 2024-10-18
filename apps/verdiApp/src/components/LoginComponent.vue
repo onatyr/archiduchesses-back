@@ -106,7 +106,7 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { AuthService } from '@/services/auth.service';
+import { AuthService } from '@/services';
 
 export default defineComponent({
   setup() {
