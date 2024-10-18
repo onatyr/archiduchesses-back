@@ -14,7 +14,7 @@
 import { ref, watch, defineProps } from 'vue';
 
 const props = defineProps<{
-  query: (searchQuery: string) => T[];
+  query: (searchQuery: string) => void;
 }>();
 
 const searchQuery = ref<string>('');

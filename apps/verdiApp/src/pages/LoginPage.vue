@@ -18,8 +18,7 @@
 </template>
 
 <script>
-import LoginComponent from '../components/LoginComponent.vue';
-import Button from '@/components/Button.vue';
+import { LoginComponent, Button } from '@/components';
 
 export default {
   components: {

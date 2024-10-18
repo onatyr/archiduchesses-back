@@ -1,4 +1,4 @@
-import { ApiService } from '../../../shared/services/api.service';
+import { ApiService } from '@shared/services';
 import { axiosInstance } from '@/main';
 
 export class AuthService extends ApiService {

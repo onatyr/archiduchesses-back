@@ -1,6 +1,6 @@
 <script lang="ts">
 import { ref } from 'vue';
-import { PlantsService } from '@/services/plants.service';
+import { PlantsService } from '@/services';
 
 export default {
   setup(props, { emit }) {
@@ -37,7 +37,7 @@ export default {
       formData.append('family', family.value);
       formData.append('room', room.value);
       formData.append('adoptionDate', adoptionDate.value);
-      formData.append('file', fileInput.value);
+      // formData.append('file', fileInput.value);
 
       const isInserted = await new PlantsService().insertPlant(formData);
 
@@ -131,7 +131,7 @@ export default {
       />
     </div>
 
-    <div class="mb-4">
+    <!-- <div class="mb-4">
       <label for="file" class="block text-gray-700 font-bold mb-2"
         >Upload Image:</label
       >
@@ -141,7 +141,7 @@ export default {
         @change="(e) => updateFile(e.target.files[0])"
         class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-apple-500"
       />
-    </div>
+    </div> -->
 
     <div class="w-full flex flex-row justify-center gap-3">
       <button
