@@ -4,7 +4,7 @@ import * as http from 'http';
 import { router } from './router';
 import { authenticate } from './middlewares/auth.middleware';
 import axios from 'axios';
-import { log } from '@shared/utils/logs.util';
+import { log } from '../shared/utils/logs.util';
 
 const app = express.Router();
 
