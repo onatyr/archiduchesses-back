@@ -119,6 +119,8 @@ export default defineComponent({
       name: '',
     });
 
+    const authService = new AuthService()
+
     // Track errors
     const errors = reactive({
       email: '',
@@ -160,21 +162,14 @@ export default defineComponent({
 
         // Register logic
         try {
-          const response = await fetch('http://localhost:3000/auth/register', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              email: form.email,
-              password: form.password,
-              name: form.name,
-            }),
-          });
+          const registerResponse = await authService.register(
+              form.email,
+              form.password,
+              form.name
+          )
 
-          if (!response.ok) {
-            const data = await response.json();
-            errors.form = data.message || 'Registration failed.';
+          if (!registerResponse) {
+            errors.form = "Registration failed.";
             return;
           }
 
@@ -195,7 +190,7 @@ export default defineComponent({
           return;
         }
 
-        const isLogged = await new AuthService().login(
+        const isLogged = await authService.login(
           form.email,
           form.password
         );
