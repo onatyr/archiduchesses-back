@@ -18,12 +18,11 @@
 </template>
 
 <script>
-import { LoginComponent, Button } from '@/components';
+import { LoginComponent } from '@/components';
 
 export default {
   components: {
     LoginComponent,
-    Button,
   },
   data() {
     return {
