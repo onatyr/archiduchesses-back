@@ -4,19 +4,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        apple: {
-          50: '#f1f8ed',
-          100: '#dff0d7',
-          200: '#c1e3b3',
-          300: '#9bd086',
-          400: '#79bb60',
-          500: '#5faa46',
-          600: '#437f31',
-          700: '#356229',
-          800: '#2e4f25',
-          900: '#294423',
-          950: '#13240f',
-        },
+        matcha: '#909671',
+        pistache: '#B3B792',
+        carob: '#725C3A',
+        almond: '#E5E0D8',
+        chai: '#D2AB80',
+        vanilla: '#E5D2B8',
       },
     },
   },
