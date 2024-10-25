@@ -1,12 +1,8 @@
 <template>
   <div class="flex flex-col justify-center w-full">
-    <h2 class="text-2xl font-bold mb-6 text-carob align-center">
-      Welcome to Turbo Plant
-    </h2>
-
     <form @submit.prevent="submitForm">
       <div v-if="isRegister" class="mb-4 w-full">
-        <label for="name" class="block text-carob text-sm font-bold mb-2">
+        <label for="name" class="block text-secondary text-sm font-bold mb-2">
           Name:
         </label>
         <input
@@ -15,7 +11,7 @@
           v-model="form.name"
           required
           placeholder="Enter your name"
-          class="shadow appearance-none border border-pistache rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          class="shadow appearance-none border border-secondary rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
         <p v-if="errors.name" class="text-red-500 text-xs italic">
           {{ errors.name }}
@@ -23,7 +19,10 @@
       </div>
 
       <div class="mb-4 w-full">
-        <label for="email" class="block text-carob text-sm font-bold mb-2">
+        <label
+          for="email"
+          class="block text-onBackground dark:text-dark-onBackground text-sm font-bold mb-2"
+        >
           Email:
         </label>
         <input
@@ -32,7 +31,7 @@
           v-model="form.email"
           required
           placeholder="Enter your email"
-          class="shadow appearance-none border border-pistache rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          class="shadow appearance-none border border-secondary rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
         <p v-if="errors.email" class="text-red-500 text-xs italic">
           {{ errors.email }}
@@ -40,7 +39,10 @@
       </div>
 
       <div class="mb-4 w-full">
-        <label for="password" class="block text-carob text-sm font-bold mb-2">
+        <label
+          for="password"
+          class="block text-onBackground dark:text-dark-onBackground text-sm font-bold mb-2"
+        >
           Password:
         </label>
         <input
@@ -49,7 +51,7 @@
           v-model="form.password"
           required
           placeholder="Enter your password"
-          class="shadow appearance-none border border-pistache rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          class="shadow appearance-none border border-secondary rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
         <p v-if="errors.password" class="text-red-500 text-xs italic">
           {{ errors.password }}
@@ -59,7 +61,7 @@
       <div v-if="isRegister" class="mb-4 w-full">
         <label
           for="confirmPassword"
-          class="block text-carob text-sm font-bold mb-2"
+          class="block text-onBackground dark:text-dark-onBackground text-sm font-bold mb-2"
         >
           Confirm Password:
         </label>
@@ -69,21 +71,21 @@
           v-model="form.confirmPassword"
           required
           placeholder="Confirm your password"
-          class="shadow appearance-none border border-pistache rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          class="shadow appearance-none border border-secondary rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
         <p v-if="errors.confirmPassword" class="text-red-500 text-xs italic">
           {{ errors.confirmPassword }}
         </p>
       </div>
 
-      <div v-if="errors.form" class="text-red-500 text-xs italic mb-4">
+      <div v-if="errors.form" class="text-error text-xs italic mb-4">
         {{ errors.form }}
       </div>
 
       <div class="flex items-center justify-between">
         <button
           type="submit"
-          class="bg-chai hover:bg-matcha text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          class="bg-secondary dark:bg-dark-secondary hover:bg-secondaryVariant dark:hover:bg-dark-secondaryVariant text-onSecondary dark:text-dark-onSecondary font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
           {{ isRegister ? 'Register' : 'Login' }}
         </button>
@@ -92,7 +94,7 @@
       <button
         type="button"
         @click="toggleForm"
-        class="inline-block align-baseline font-bold text-sm text-carob hover:text-chai"
+        class="inline-block align-baseline font-bold text-sm text-secondary dark:text-dark-secondary hover:text-secondaryVariant dark:hover:text-dark-secondaryVariant"
       >
         {{
           isRegister
