@@ -8,3 +8,4 @@ export { default as Welcome } from './Welcome.vue';
 
 // FORMS
 export { default as TextInput } from './forms/TextInput.vue';
+export { default as FormButton } from './forms/FormButton.vue';

@@ -1,6 +1,9 @@
 <template>
   <div class="mb-4 w-full">
-    <label :for="id" class="block text-carob text-sm font-bold mb-2">
+    <label
+      :for="id"
+      class="block text-onBackground dark:text-dark-onBackground text-sm font-bold mb-2"
+    >
       {{ label }}:
     </label>
     <input
@@ -9,9 +12,9 @@
       :value="modelValue"
       :required="required"
       :placeholder="placeholder"
-      class="shadow appearance-none border border-pistache rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      class="shadow appearance-none bg-inherit rounded w-full py-2 px-3 text-onBackground dark:text-dark-onBackground leading-tight focus:outline-secondary dark:focus:bg-dark-secondary focus:shadow-outline"
     />
-    <p v-if="errorMessage" class="text-red-500 text-xs italic">
+    <p v-if="errorMessage" class="text-error text-xs italic">
       {{ errorMessage }}
     </p>
   </div>
