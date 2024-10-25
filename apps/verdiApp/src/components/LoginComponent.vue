@@ -1,94 +1,58 @@
 <template>
-  <div class="flex flex-col justify-center w-full">
+  <div class="flex flex-col justify-center w-full gap-10">
     <form @submit.prevent="submitForm">
-      <div v-if="isRegister" class="mb-4 w-full">
-        <label for="name" class="block text-secondary text-sm font-bold mb-2">
-          Name:
-        </label>
-        <input
-          type="text"
-          id="name"
-          v-model="form.name"
-          required
-          placeholder="Enter your name"
-          class="shadow appearance-none border border-secondary rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-        <p v-if="errors.name" class="text-red-500 text-xs italic">
-          {{ errors.name }}
-        </p>
-      </div>
+      <TextInput
+        v-if="state.isRegister"
+        id="name"
+        label="Name"
+        v-model="form.name"
+        required
+        placeholder="Enter your name"
+        :error="errors.name"
+      />
 
-      <div class="mb-4 w-full">
-        <label
-          for="email"
-          class="block text-onBackground dark:text-dark-onBackground text-sm font-bold mb-2"
-        >
-          Email:
-        </label>
-        <input
-          type="email"
-          id="email"
-          v-model="form.email"
-          required
-          placeholder="Enter your email"
-          class="shadow appearance-none border border-secondary rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-        <p v-if="errors.email" class="text-red-500 text-xs italic">
-          {{ errors.email }}
-        </p>
-      </div>
+      <TextInput
+        id="email"
+        label="Email"
+        type="email"
+        v-model="form.email"
+        required
+        placeholder="Enter your email"
+        :error="errors.email"
+      />
 
-      <div class="mb-4 w-full">
-        <label
-          for="password"
-          class="block text-onBackground dark:text-dark-onBackground text-sm font-bold mb-2"
-        >
-          Password:
-        </label>
-        <input
-          type="password"
-          id="password"
-          v-model="form.password"
-          required
-          placeholder="Enter your password"
-          class="shadow appearance-none border border-secondary rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-        <p v-if="errors.password" class="text-red-500 text-xs italic">
-          {{ errors.password }}
-        </p>
-      </div>
+      <TextInput
+        id="password"
+        label="Password"
+        type="password"
+        v-model="form.password"
+        required
+        placeholder="Enter your password"
+        :error="errors.password"
+      />
 
-      <div v-if="isRegister" class="mb-4 w-full">
-        <label
-          for="confirmPassword"
-          class="block text-onBackground dark:text-dark-onBackground text-sm font-bold mb-2"
-        >
-          Confirm Password:
-        </label>
-        <input
-          type="password"
-          id="confirmPassword"
-          v-model="form.confirmPassword"
-          required
-          placeholder="Confirm your password"
-          class="shadow appearance-none border border-secondary rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-        <p v-if="errors.confirmPassword" class="text-red-500 text-xs italic">
-          {{ errors.confirmPassword }}
-        </p>
-      </div>
+      <TextInput
+        v-if="state.isRegister"
+        id="confirmPassword"
+        label="Confirm Password"
+        type="password"
+        v-model="form.confirmPassword"
+        required
+        placeholder="Confirm your password"
+        :error="errors.confirmPassword"
+      />
 
-      <div v-if="errors.form" class="text-error text-xs italic mb-4">
-        {{ errors.form }}
-      </div>
+      <ErrorMessage
+        :message="errors.form"
+        variant="error"
+        size="sm"
+        :show-icon="true"
+      />
 
       <div class="flex items-center justify-between">
-        <button
-          type="submit"
-          class="bg-secondary dark:bg-dark-secondary hover:bg-secondaryVariant dark:hover:bg-dark-secondaryVariant text-onSecondary dark:text-dark-onSecondary font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          {{ isRegister ? 'Register' : 'Login' }}
-        </button>
+        <FormButton type="submit" variant="primary">
+          {{ state.isRegister ? 'Register' : 'Login' }}
+        </FormButton>
       </div>
 
       <button
@@ -97,7 +61,7 @@
         class="inline-block align-baseline font-bold text-sm text-secondary dark:text-dark-secondary hover:text-secondaryVariant dark:hover:text-dark-secondaryVariant"
       >
         {{
-          isRegister
+          state.isRegister
             ? 'Already have an account? Login'
             : "Don't have an account? Register"
         }}
@@ -107,14 +71,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue';
+import { defineComponent, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { AuthService } from '@/services';
+import TextInput from './forms/TextInput.vue';
+import FormButton from './forms/FormButton.vue';
+import ErrorMessage from './forms/ErrorMessage.vue';
 
 export default defineComponent({
+  components: {
+    TextInput,
+    FormButton,
+    ErrorMessage,
+  },
   setup() {
     const router = useRouter();
-    const isRegister = ref(false);
+    const state = reactive({
+      isRegister: false,
+    });
     const form = reactive({
       email: '',
       password: '',
@@ -124,7 +98,6 @@ export default defineComponent({
 
     const authService = new AuthService();
 
-    // Track errors
     const errors = reactive({
       email: '',
       password: '',
@@ -133,92 +106,31 @@ export default defineComponent({
       name: '',
     });
 
-    // Clear error messages
     const clearErrors = () => {
       errors.email = '';
       errors.password = '';
       errors.confirmPassword = '';
       errors.form = '';
-      errors.name = ''; // Clear the name error as well
+      errors.name = '';
     };
 
-    // Login/Register handler
     const submitForm = async () => {
       clearErrors();
 
-      if (isRegister.value) {
-        // Registration validation
-        if (!form.name) {
-          errors.name = 'Name is required.';
-        }
-        if (!form.email) {
-          errors.email = 'Email is required.';
-        }
-        if (!form.password) {
-          errors.password = 'Password is required.';
-        }
-        if (form.password !== form.confirmPassword) {
-          errors.confirmPassword = 'Passwords do not match.';
-        }
-
-        // Check for any errors before registration
-        if (
-          errors.name ||
-          errors.email ||
-          errors.password ||
-          errors.confirmPassword
-        ) {
-          return;
-        }
-
-        // Register logic
-        try {
-          const registerResponse = await authService.register(
-            form.email,
-            form.password,
-            form.name
-          );
-
-          if (!registerResponse) {
-            errors.form = 'Registration failed.';
-            return;
-          }
-
-          alert('Registration successful');
-        } catch (error) {
-          console.error(error);
-          errors.form = 'An error occurred during registration.';
-        }
+      if (state.isRegister) {
+        // Registration logic
       } else {
         // Login logic
-        if (!form.email) {
-          errors.email = 'Email is required.';
-        }
-        if (!form.password) {
-          errors.password = 'Password is required.';
-        }
-
-        // Check for any errors before login
-        if (errors.email || errors.password) {
-          return;
-        }
-
-        const isLogged = await authService.login(form.email, form.password);
-
-        if (isLogged) {
-          await router.push({ name: 'main' });
-        } else {
-          errors.form = 'Invalid username or password';
-        }
       }
     };
 
     const toggleForm = () => {
-      isRegister.value = !isRegister.value;
+      state.isRegister = !state.isRegister;
+      console.log(state.isRegister);
     };
 
     return {
-      isRegister,
+      state,
       form,
       submitForm,
       toggleForm,
