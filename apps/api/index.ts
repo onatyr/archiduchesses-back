@@ -8,7 +8,7 @@ import { log } from '../shared/utils/logs.util';
 
 const app = express.Router();
 
-const baseUrl = 'https://trefle.io/';
+const baseUrl = 'https://open.plantbook.io/';
 export const axiosInstance = axios.create({
   baseURL: baseUrl,
 });
