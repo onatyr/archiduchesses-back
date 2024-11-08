@@ -4,14 +4,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "vite": "vite",
+    "vite-deprecated": "vite",
     "watch-tsc": "tsc --watch --noEmit",
-    "dev": "npm-run-all --parallel watch-tsc vite",
-    "build": "vite build",
+    "dev-deprecated": "npm-run-all --parallel watch-tsc vite",
+    "build-deprecated": "vite build",
     "preview": "vite preview",
     "type-check": "vue-tsc --build --force",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "format": "prettier --write src/"
+    "lint-deprecated": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "format-deprecated": "prettier --write src/"
   },
   "dependencies": {
     "vue": "^3.4.29"

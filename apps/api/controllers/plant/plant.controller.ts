@@ -4,11 +4,16 @@ import { plants } from '../../database/schema';
 import { Plant } from '@shared/models/plant.model';
 import { getAllPlantsByUserId } from './plant.query';
 import upload from '../../lib/cloudinary/upload';
+import { PlantBookService } from '../../lib/plantbook/plantbook.service';
 
 export const plantController: express.Router = express();
 
 plantController.get('/all', async (req, res) => {
   const allPlants = await getAllPlantsByUserId(req.userId).execute();
+
+  const searchPlant = await new PlantBookService().searchPlantByName('aloe');
+  console.log(searchPlant);
+
   res.status(200).json(allPlants);
 });
 

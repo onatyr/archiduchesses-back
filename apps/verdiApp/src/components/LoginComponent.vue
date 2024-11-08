@@ -50,9 +50,12 @@
       />
 
       <div class="flex items-center justify-between">
-        <FormButton type="submit" variant="primary">
+        <button
+          class="font-bold rounded focus:outline-none px-4 py-2 focus:shadow-outline bg-secondary dark:bg-dark-secondary hover:bg-secondaryVariant dark:hover:bg-dark-secondaryVariant text-onSecondary dark:text-dark-onSecondary shadow-sm"
+          type="submit"
+        >
           {{ state.isRegister ? 'Register' : 'Login' }}
-        </FormButton>
+        </button>
       </div>
 
       <button
@@ -118,9 +121,70 @@ export default defineComponent({
       clearErrors();
 
       if (state.isRegister) {
-        // Registration logic
+        // Registration validation
+        if (!form.name) {
+          errors.name = 'Name is required.';
+        }
+        if (!form.email) {
+          errors.email = 'Email is required.';
+        }
+        if (!form.password) {
+          errors.password = 'Password is required.';
+        }
+        if (form.password !== form.confirmPassword) {
+          errors.confirmPassword = 'Passwords do not match.';
+        }
+
+        // Check for any errors before registration
+        if (
+          errors.name ||
+          errors.email ||
+          errors.password ||
+          errors.confirmPassword
+        ) {
+          return;
+        }
+
+        // Register logic
+        try {
+          const registerResponse = await authService.register(
+            form.email,
+            form.password,
+            form.name
+          );
+
+          if (!registerResponse) {
+            errors.form = 'Registration failed.';
+            return;
+          }
+
+          alert('Registration successful');
+        } catch (error) {
+          console.error(error);
+          errors.form = 'An error occurred during registration.';
+        }
       } else {
         // Login logic
+        if (!form.email) {
+          errors.email = 'Email is required.';
+        }
+        if (!form.password) {
+          errors.password = 'Password is required.';
+        }
+
+        // Check for any errors before login
+        if (errors.email || errors.password) {
+          return;
+        }
+
+        const isLogged = await authService.login(form.email, form.password);
+        console.log(isLogged);
+
+        if (isLogged) {
+          await router.push({ name: 'main' });
+        } else {
+          errors.form = 'Invalid username or password';
+        }
       }
     };
 
