@@ -20,10 +20,14 @@ export default class AuthService extends ApiService {
           name: name,
         })
       );
-      console.log(response.data);
-      return true;
+
+      if (response.status === 200) {
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
-      console.log(e);
+      console.error(e);
       return false;
     }
   }

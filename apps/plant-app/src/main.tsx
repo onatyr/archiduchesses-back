@@ -1,4 +1,4 @@
-import ReactDOM from 'react-dom/client';
+import { createRoot } from 'react-dom/client'; // Named import
 
 import App from './App';
 import axios, { AxiosInstance } from 'axios';
@@ -22,7 +22,7 @@ if (token) {
 
 // Render the React application with Router support
 const rootElement = document.getElementById('root') as HTMLElement;
-const root = ReactDOM.createRoot(rootElement);
+const root = createRoot(rootElement);
 root.render(
   <BrowserRouter>
     <App />
