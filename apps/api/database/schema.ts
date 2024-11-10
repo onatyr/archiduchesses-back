@@ -1,20 +1,18 @@
 import { pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 
-export const sunlightEnum = pgEnum('sunlight', ['LOW', 'MEDIUM', 'HIGH']);
-export const wateringEnum = pgEnum('watering', ['LOW', 'MEDIUM', 'HIGH']);
-export const locationEnum = pgEnum('location', ['INTERIOR', 'EXTERIOR']);
-export const familyEnum = pgEnum('family', [
-  'Flowering Plants',
-  'Foliage Plants',
-  'Succulents & Cacti',
-  'Edible Plants',
-  'Trees & Shrubs',
-  'Climbers & Vines',
-  'Aquatic Plants',
-  'Carnivorous Plants',
-  'Palms',
-  'Bulbous Plants',
+export const sunlightEnum = pgEnum('sunlight', [
+  'Low Light',
+  'Partial Shade',
+  'Bright Indirect Light',
+  'Full Sun',
 ]);
+export const wateringEnum = pgEnum('watering', [
+  'Minimal',
+  'Sparing',
+  'Moderate',
+  'Frequent',
+]);
+export const locationEnum = pgEnum('location', ['INTERIOR', 'EXTERIOR']);
 
 export const users = pgTable('users', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -39,7 +37,6 @@ export const plants = pgTable('plants', {
     .references(() => users.id)
     .notNull(),
   name: varchar('name', { length: 256 }).notNull(),
-  family: familyEnum('family').notNull(),
   sunlight: sunlightEnum('sunlight'),
   watering: wateringEnum('watering'),
   adoptionDate: timestamp('adoption_date', { mode: 'string' }).defaultNow(),
