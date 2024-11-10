@@ -1,11 +1,11 @@
 import AuthForm from '../components/AuthForm';
-import PlantIcon from '../components/PlantIcon';
+import ReactIcon from '../components/ReactIcon';
 
 const WelcomeScreen = () => {
   return (
     <div className="flex min-h-screen">
       <div className="flex flex-col justify-center items-center w-1/2 bg-primary dark:bg-dark-primary text-onPrimary dark:text-dark-onPrimary p-8">
-        <PlantIcon size="3em" />
+        <ReactIcon type="plant" size="3em" />
         <h2 className="text-2xl font-bold mb-6 text-center">
           Welcome to Turbo Plant
         </h2>

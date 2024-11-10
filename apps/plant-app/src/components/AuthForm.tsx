@@ -87,7 +87,15 @@ const AuthForm: React.FC = () => {
           form.name || ''
         );
         if (isRegistered) {
-          alert('Registration successful');
+          const isLogged = await authService.login(form.email, form.password);
+          if (isLogged) {
+            navigate('/plants');
+          } else {
+            setErrors((prevErrors) => ({
+              ...prevErrors,
+              form: 'Login failed after registration.',
+            }));
+          }
         } else {
           setErrors((prevErrors) => ({
             ...prevErrors,
