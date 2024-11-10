@@ -1,5 +1,5 @@
+import { Plant } from '../../../shared/models';
 import { ApiService } from '../../../shared/services/api.service';
-import { Plant } from '../../../../dist/shared/models/plant.model';
 import { axiosInstance } from '../main';
 
 export class PlantsService extends ApiService {
@@ -18,9 +18,19 @@ export class PlantsService extends ApiService {
       });
   }
 
-  async insertPlant(plant: FormData): Promise<boolean> {
-    // todo maybe find a better way to type plant
-    return this._post('/new', plant)
+  async insertPlant(plant: Plant): Promise<boolean> {
+    return this._post('/add', plant)
+      .then(() => {
+        return true;
+      })
+      .catch((e) => {
+        console.error(e);
+        return false;
+      });
+  }
+
+  async deletePlant(plantId: string): Promise<boolean> {
+    return this._delete(`/delete/${plantId}`, null)
       .then(() => {
         return true;
       })

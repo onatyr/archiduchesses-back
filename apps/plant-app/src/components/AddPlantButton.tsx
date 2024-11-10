@@ -1,8 +1,16 @@
 import React from 'react';
 
-const AddPlantButton: React.FC = () => {
+interface AddPlantButtonProps {
+  onClick: () => void;
+}
+
+const AddPlantButton: React.FC<AddPlantButtonProps> = ({ onClick }) => {
   return (
-    <button className="group cursor-pointer outline-none" title="Add New">
+    <button
+      onClick={onClick}
+      className="group cursor-pointer outline-none"
+      title="Add New"
+    >
       <svg
         className="stroke-background dark:stroke-dark-background fill-secondary dark:fill-dark-secondary group-active:stroke-background dark:group-active:stroke-dark-background"
         viewBox="0 0 24 24"

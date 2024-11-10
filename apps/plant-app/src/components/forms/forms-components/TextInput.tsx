@@ -32,11 +32,11 @@ const TextInput: React.FC<TextInputProps> = ({
       onChange={onChange}
       required={required}
       placeholder={placeholder}
-      className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-        error ? 'border-red-500' : ''
+      className={`shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline bg-surface dark:bg-dark-surface text-onSurface dark:text-dark-onSurface ${
+        error ? 'border-error' : ''
       }`}
     />
-    {error && <p className="text-red-500 text-xs italic">{error}</p>}
+    {error && <p className="text-error text-xs italic">{error}</p>}
   </div>
 );
 

@@ -7,7 +7,7 @@ const Sidebar: React.FC = () => {
     'hover:bg-primaryVariant dark:hover:bg-dark-primaryVariant p-2 rounded';
 
   return (
-    <div className="w-64 h-full  bg-primary dark:bg-dark-primary text-onPrimary dark:text-dark-onPrimary flex flex-col">
+    <div className="min-h-screen w-64 bg-primary dark:bg-dark-primary text-onPrimary dark:text-dark-onPrimary flex flex-col">
       <div className="p-4 text-xl font-semibold">
         <PlantIcon size="2em" />
         <h1>Turbo Plant</h1>
