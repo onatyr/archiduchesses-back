@@ -21,7 +21,7 @@ export default class AuthService extends ApiService {
         })
       );
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         return true;
       } else {
         return false;
@@ -42,6 +42,9 @@ export default class AuthService extends ApiService {
         })
       );
       this.setToken(response.data.token);
+      localStorage.setItem('userId', response.data.userId);
+      localStorage.setItem('userName', response.data.userName);
+
       return true;
     } catch (e) {
       console.error(e);

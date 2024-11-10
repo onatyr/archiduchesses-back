@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PlantBookService } from '../../../../shared/services/plantbook.service';
-import { PlantsService } from '../../services/plants.service'; // Import the PlantsService
+import { PlantsService } from '../../services/plants.service';
 import { Plant, Sunlight, Watering } from '../../../../shared/models';
 import { v4 as uuidv4 } from 'uuid';
 import TextInput from './forms-components/TextInput';
@@ -16,12 +16,12 @@ const AddPlantForm: React.FC<AddPlantFormProps> = ({ onClose }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isDetailsLoading, setIsDetailsLoading] = useState(false); // New state for details loading
+  const [isDetailsLoading, setIsDetailsLoading] = useState(false);
   const [selectedPlantDetails, setSelectedPlantDetails] = useState<any>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false); // State to manage form submission state
-  const [error, setError] = useState<string | null>(null); // State to manage error messages
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const plantBookService = new PlantBookService();
-  const plantsService = new PlantsService(); // Initialize PlantsService
+  const plantsService = new PlantsService();
 
   useEffect(() => {
     if (searchQuery.length < 3) {
@@ -53,19 +53,19 @@ const AddPlantForm: React.FC<AddPlantFormProps> = ({ onClose }) => {
   };
 
   const handleSearchResultClick = (plantId: string) => {
-    setIsDetailsLoading(true); // Start loading details
+    setIsDetailsLoading(true);
     plantBookService
       .getPlantDetails(plantId)
       .then((plantDetails) => {
         setSelectedPlantDetails(plantDetails);
-        setError(null); // Reset any previous errors
+        setError(null);
       })
       .catch((error) => {
         console.error('Error fetching plant details:', error);
         setError('Error fetching plant details.');
       })
       .finally(() => {
-        setIsDetailsLoading(false); // Stop loading details
+        setIsDetailsLoading(false);
       });
   };
 
@@ -105,23 +105,23 @@ const AddPlantForm: React.FC<AddPlantFormProps> = ({ onClose }) => {
     if (!selectedPlantDetails) return;
 
     const plantData: Plant = {
-      id: uuidv4(), // Generate a unique id for each plant
-      userId: 'e7f7870a-65b7-48a9-bf49-d19e0fc8345e',
+      id: uuidv4(),
+      userId: localStorage.getItem('userId')!,
       name: selectedPlantDetails.display_pid,
-      sunlight: getSunlightExposure(selectedPlantDetails.max_light_lux), // This should return a value from the Sunlight enum
-      watering: getWateringSchedule(selectedPlantDetails.max_soil_moist), // This should return a value from the Watering enum
+      sunlight: getSunlightExposure(selectedPlantDetails.max_light_lux),
+      watering: getWateringSchedule(selectedPlantDetails.max_soil_moist),
       adoptionDate: new Date().toISOString(),
-      placeId: '', // You can update this as needed
+      placeId: '',
       imageUrl: selectedPlantDetails.image_url || '',
     };
 
-    setIsSubmitting(true); // Set submitting state to true
+    setIsSubmitting(true);
 
     try {
-      const result = await plantsService.insertPlant(plantData); // Pass the updated object to the insertPlant method
+      const result = await plantsService.insertPlant(plantData);
       if (result) {
-        window.location.reload(); // Reload the page on success
-        onClose(); // Close the form on success
+        window.location.reload();
+        onClose();
       } else {
         setError('Error adding plant');
       }
@@ -129,7 +129,7 @@ const AddPlantForm: React.FC<AddPlantFormProps> = ({ onClose }) => {
       console.error('Error during plant insertion:', error);
       setError('Error during plant insertion');
     } finally {
-      setIsSubmitting(false); // Reset submitting state
+      setIsSubmitting(false);
     }
   };
 
@@ -147,7 +147,7 @@ const AddPlantForm: React.FC<AddPlantFormProps> = ({ onClose }) => {
       />
 
       <div className="mt-4">
-        {isLoading && <Loading message="Searching..." />}{' '}
+        {isLoading && <Loading message="Searching..." />}
         {searchResults.length > 0 ? (
           <ul className="list-disc pl-5">
             {searchResults.map((plantId, index) => (
