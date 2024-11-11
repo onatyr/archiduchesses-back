@@ -42,7 +42,6 @@ const Sidebar: React.FC = () => {
 
   return (
     <div className="min-h-screen w-64 bg-primary dark:bg-dark-primary text-onPrimary dark:text-dark-onPrimary flex flex-col justify-between">
-      {/* Logo + Name Section */}
       <div className="p-4 text-xl font-semibold">
         <ReactIcon type="plant" size="2em" />
         <h1>Turbo Plant</h1>
@@ -52,7 +51,6 @@ const Sidebar: React.FC = () => {
           <p className="text-sm">Hello, {userName}!</p>
         )}
 
-        {/* Main Links Section */}
         <nav className="flex flex-col gap-4 p-4">
           <Link to="/tasks" className={linkClassName}>
             <ReactIcon type="tasks" />
@@ -69,14 +67,16 @@ const Sidebar: React.FC = () => {
         </nav>
       </div>
 
-      {/* Settings Section */}
-      <div className="p-4">
-        <Link
-          to="/settings"
-          className="overflow-hidden inline-block transition-transform transform hover:scale-105"
-        >
-          <ReactIcon type="settings" size="2em" />
-        </Link>
+      <div className="flex justify-between items-center">
+        <div className="p-4">
+          <Link
+            to="/settings"
+            className="overflow-hidden inline-block transition-transform transform hover:scale-105"
+          >
+            <ReactIcon type="settings" size="2em" />
+          </Link>
+        </div>
+        <div className="p-4">Logout</div>
       </div>
     </div>
   );

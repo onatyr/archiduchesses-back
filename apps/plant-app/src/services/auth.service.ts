@@ -1,5 +1,12 @@
+import { User } from '../../../shared/models';
 import { ApiService } from '../../../shared/services';
 import { axiosInstance } from '../main';
+
+interface LoginResponse {
+  success: boolean;
+  user: User | null;
+  token: string;
+}
 
 export default class AuthService extends ApiService {
   constructor() {
@@ -32,7 +39,7 @@ export default class AuthService extends ApiService {
     }
   }
 
-  async login(email: string, password: string): Promise<boolean> {
+  async login(email: string, password: string): Promise<LoginResponse> {
     try {
       const response = await this._post(
         '/login',
@@ -41,17 +48,31 @@ export default class AuthService extends ApiService {
           password: password,
         })
       );
+
+      // Assuming the response contains the token and user data
       this.setToken(response.data.token);
       localStorage.setItem('userId', response.data.userId);
       localStorage.setItem('userName', response.data.userName);
 
-      return true;
+      return {
+        success: true,
+        user: {
+          id: response.data.userId,
+          name: response.data.userName,
+          email: response.data.email,
+          password: response.data.password,
+        },
+        token: response.data.token,
+      };
     } catch (e) {
       console.error(e);
-      return false;
+      return {
+        success: false,
+        user: null,
+        token: '',
+      };
     }
   }
-
   private setToken(token: string) {
     localStorage.setItem('token', token);
     axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
