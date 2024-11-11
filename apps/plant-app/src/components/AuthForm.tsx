@@ -4,6 +4,7 @@ import AuthService from '../services/auth.service'; // Import the AuthService cl
 import TextInput from './forms/forms-components/TextInput';
 import ErrorMessage from './forms/forms-components/ErrorMessage';
 import FormButton from './forms/forms-components/FormButton';
+import { useUser } from '../context/UserContext'; // Import the useUser context
 
 interface FormState {
   email: string;
@@ -22,6 +23,7 @@ interface FormErrors {
 
 const AuthForm: React.FC = () => {
   const navigate = useNavigate();
+  const { setUser } = useUser(); // Get the setUser function to update the context
 
   // State for toggling between register and login
   const [isRegister, setIsRegister] = useState<boolean>(false);
@@ -87,8 +89,13 @@ const AuthForm: React.FC = () => {
           form.name || ''
         );
         if (isRegistered) {
-          const isLogged = await authService.login(form.email, form.password);
-          if (isLogged) {
+          // After successful registration, log in the user
+          const { success, user } = await authService.login(
+            form.email,
+            form.password
+          );
+          if (success && user) {
+            setUser(user); // Set user in context after successful login
             navigate('/plants');
           } else {
             setErrors((prevErrors) => ({
@@ -104,8 +111,12 @@ const AuthForm: React.FC = () => {
         }
       } else {
         // Login logic
-        const isLogged = await authService.login(form.email, form.password);
-        if (isLogged) {
+        const { success, user } = await authService.login(
+          form.email,
+          form.password
+        );
+        if (success && user) {
+          setUser(user); // Set user in context after successful login
           navigate('/plants');
         } else {
           setErrors((prevErrors) => ({
