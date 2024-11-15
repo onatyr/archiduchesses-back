@@ -1,4 +1,5 @@
-import { pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
+import {integer, pgEnum, pgTable, primaryKey, timestamp, uuid, varchar} from 'drizzle-orm/pg-core';
+import {relations} from "drizzle-orm";
 
 export const sunlightEnum = pgEnum('sunlight', [
   'Low Light',
@@ -22,24 +23,66 @@ export const users = pgTable('users', {
   creationDate: timestamp('creation_date').defaultNow().notNull(),
 });
 
+export const plants = pgTable('plants', {
+    id: uuid('id').primaryKey().defaultRandom(),
+    userId: uuid('user_id')
+        .references(() => users.id)
+        .notNull(),
+    name: varchar('name', { length: 256 }).notNull(),
+    sunlight: sunlightEnum('sunlight'),
+    watering: wateringEnum('watering'),
+    adoptionDate: timestamp('adoption_date', { mode: 'string' }).defaultNow(),
+    roomId: uuid('room_id').references(() => rooms.id),
+    imageUrl: varchar('image_url'),
+});
+
+export const usersRelations = relations(users, ({ many }) => ({
+    usersToPlaces: many(usersToPlaces),
+}));
+
 export const places = pgTable('places', {
   id: uuid('id').primaryKey().defaultRandom(),
   label: varchar('name', { length: 256 }).notNull(),
   userId: uuid('user_id')
     .references(() => users.id)
     .notNull(),
-  location: locationEnum('location'),
 });
 
-export const plants = pgTable('plants', {
+export const placesRelations = relations(places, ({ many }) => ({
+    usersToPlaces: many(usersToPlaces),
+}));
+
+export const rooms = pgTable('rooms', {
   id: uuid('id').primaryKey().defaultRandom(),
-  userId: uuid('user_id')
-    .references(() => users.id)
-    .notNull(),
-  name: varchar('name', { length: 256 }).notNull(),
-  sunlight: sunlightEnum('sunlight'),
-  watering: wateringEnum('watering'),
-  adoptionDate: timestamp('adoption_date', { mode: 'string' }).defaultNow(),
-  placeId: uuid('place_id').references(() => places.id),
-  imageUrl: varchar('image_url'),
+    label: varchar('name', { length: 256 }).notNull(),
+    placeId: uuid('place_id')
+        .references(() => places.id)
+        .notNull(),
+    location: locationEnum('location')
 });
+
+export const usersToPlaces = pgTable(
+    'users_to_places',
+    {
+        userId: uuid('user_id')
+            .notNull()
+            .references(() => users.id),
+        placeId: uuid('place_id')
+            .notNull()
+            .references(() => places.id),
+    },
+    (t) => ({
+        pk: primaryKey({ columns: [t.userId, t.placeId] }),
+    }),
+);
+
+export const usersToPlacesRelations = relations(usersToPlaces, ({ one }) => ({
+    places: one(places, {
+        fields: [usersToPlaces.placeId],
+        references: [places.id],
+    }),
+    user: one(users, {
+        fields: [usersToPlaces.userId],
+        references: [users.id],
+    }),
+}));
