@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client'; // Named import
 import App from './App';
 import axios, { AxiosInstance } from 'axios';
 import { BrowserRouter } from 'react-router-dom';
-
 import './index.css';
 
 // Define base URL for Axios
