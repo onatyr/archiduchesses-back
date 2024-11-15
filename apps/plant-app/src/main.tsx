@@ -5,20 +5,18 @@ import axios, { AxiosInstance } from 'axios';
 import { BrowserRouter } from 'react-router-dom';
 
 import './index.css';
-import dotenv from "dotenv";
-import path from "path";
-
-dotenv.config({
-    path: path.resolve(__dirname, '../../../.env'),
-});
 
 // Define base URL for Axios
-const baseUrl: string | undefined = process.env.API_BASE_URL;
+const baseUrl: string | undefined = import.meta.env.API_BASE_URL;
+
+console.log(baseUrl)
 
 // Create an Axios instance with TypeScript type
 export const axiosInstance: AxiosInstance = axios.create({
   baseURL: baseUrl ?? "http://127.0.0.1:3000/",
 });
+
+console.log(axiosInstance.defaults.baseURL)
 
 // Set up the token from localStorage if it exists
 const token: string | null = localStorage.getItem('token');
