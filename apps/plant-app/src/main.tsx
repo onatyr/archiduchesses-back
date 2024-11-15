@@ -6,7 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 
 // Define base URL for Axios
-const baseUrl: string | undefined = import.meta.env.API_BASE_URL;
+const baseUrl: string | undefined = import.meta.env.VITE_API_BASE_URL;
 
 console.log(baseUrl)
 
