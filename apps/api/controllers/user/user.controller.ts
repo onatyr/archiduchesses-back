@@ -14,11 +14,13 @@ userController.get('/rooms', async (req, res) => {
   res.status(200).json(userRooms);
 });
 
-userController.get('/name', async (req, res) => {
+userController.get('/:id/name', async (req, res) => {
+  const { id } = req.params;
+
   const user = await db
     .select()
     .from(users)
-    .where(eq(users.id, req.userId))
+    .where(eq(users.id, id))
     .limit(1)
     .execute();
   res.status(200).json(user[0].name);

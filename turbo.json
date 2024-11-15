@@ -17,6 +17,10 @@
       "inputs": ["apps/shared/**/*.ts", "apps/shared/**/*.tsx"],
       "persistent": true,
       "cache": true
+    },
+    "clean": {
+      "persistent": true,
+      "cache": false
     }
   }
 }

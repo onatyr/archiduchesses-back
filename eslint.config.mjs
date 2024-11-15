@@ -8,13 +8,13 @@ import typescriptParser from '@typescript-eslint/parser';
 
 export default [
   {
-    files: ['**/*.{js,mjs,cjs,ts,vue}'],
+    files: ['**/*.{js,mjs,cjs,ts}'],
     languageOptions: {
       globals: { ...globals.browser, ...globals.node },
-      parser: typescriptParser, // Specify the TypeScript parser
+      parser: typescriptParser,
       parserOptions: {
-        ecmaVersion: 2020, // Use ECMAScript 2020 features
-        sourceType: 'module', // Allow using ES module imports
+        ecmaVersion: 2020,
+        sourceType: 'module',
       },
     },
     rules: {
@@ -25,12 +25,12 @@ export default [
     },
   },
   {
-    ignores: ['dist/**'],
+    ignores: ['dist/**', 'apps/verdiApp/**'],
   },
   {
     plugins: {
-      '@typescript-eslint': typescriptPlugin, // Add TypeScript plugin as an object
-      prettier: pluginPrettier, // Add Prettier plugin as an object
+      '@typescript-eslint': typescriptPlugin,
+      prettier: pluginPrettier,
     },
   },
   pluginJs.configs.recommended,

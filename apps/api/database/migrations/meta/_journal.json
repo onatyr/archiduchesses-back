@@ -15,6 +15,13 @@
       "when": 1728121584654,
       "tag": "0001_eager_meltdown",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1731267714290,
+      "tag": "0002_left_slayback",
+      "breakpoints": true
     }
   ]
 }

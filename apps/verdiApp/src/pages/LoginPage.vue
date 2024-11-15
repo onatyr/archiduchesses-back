@@ -1,18 +1,23 @@
 <template>
-  <div
-    class="login-page bg-cover bg-center flex flex-col items-center justify-center min-h-screen"
-  >
-    <div class="absolute top-1/4 flex flex-col justify-center items-center">
-      <h1 class="text-2xl font-bold mb-6">Welcome to Turbo Plant</h1>
+  <div class="flex min-h-screen">
+    <!-- Left Section - Brand/Welcome Area -->
+    <div
+      class="flex flex-col justify-center items-center w-1/2 bg-primary dark:bg-dark-primary text-onPrimary dark:text-dark-onPrimary p-8"
+    >
+      <span class="material-symbols-outlined"> potted_plant </span>
+      <!-- Optional: Add a welcoming message -->
+      <h2 class="text-2xl font-bold mb-6 align-center">
+        Welcome to Turbo Plant
+      </h2>
+    </div>
 
-      <button
-        class="mb-6 px-4 py-2 bg-white rounded hover:bg-gray-200"
-        @click="toggleLogin"
-      >
-        {{ showLogin ? 'Hide' : 'Show' }} Login
-      </button>
-
-      <LoginComponent v-if="showLogin" />
+    <!-- Right Section - Login Form -->
+    <div
+      class="flex justify-center items-center w-1/2 bg-background dark:bg-dark-background p-8"
+    >
+      <div class="w-full max-w-md">
+        <LoginComponent />
+      </div>
     </div>
   </div>
 </template>
@@ -24,23 +29,5 @@ export default {
   components: {
     LoginComponent,
   },
-  data() {
-    return {
-      showLogin: false,
-    };
-  },
-  methods: {
-    toggleLogin() {
-      this.showLogin = !this.showLogin;
-    },
-  },
 };
 </script>
-
-<style scoped>
-.login-page {
-  background-image: url('../assets/login.png');
-  background-repeat: no-repeat;
-  background-position: bottom;
-}
-</style>
