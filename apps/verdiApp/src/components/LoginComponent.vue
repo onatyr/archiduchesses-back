@@ -1,117 +1,97 @@
 <template>
-  <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-md">
-    <h2 class="text-2xl font-bold mb-6 text-apple-500">
-      {{ isRegister ? 'Register' : 'Login' }}
-    </h2>
-
+  <div class="flex flex-col justify-center w-full gap-10">
     <form @submit.prevent="submitForm">
-      <div v-if="isRegister" class="mb-4">
-        <label for="name" class="block text-gray-700 text-sm font-bold mb-2"
-          >Name:</label
-        >
-        <input
-          type="text"
-          id="name"
-          v-model="form.name"
-          required
-          placeholder="Enter your name"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-        <p v-if="errors.email" class="text-red-500 text-xs italic">
-          {{ errors.email }}
-        </p>
-      </div>
+      <TextInput
+        v-if="state.isRegister"
+        id="name"
+        label="Name"
+        v-model="form.name"
+        required
+        placeholder="Enter your name"
+        :error="errors.name"
+      />
 
-      <div class="mb-4">
-        <label for="email" class="block text-gray-700 text-sm font-bold mb-2"
-          >Email:</label
-        >
-        <input
-          type="email"
-          id="email"
-          v-model="form.email"
-          required
-          placeholder="Enter your email"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-        <p v-if="errors.email" class="text-red-500 text-xs italic">
-          {{ errors.email }}
-        </p>
-      </div>
+      <TextInput
+        id="email"
+        label="Email"
+        type="email"
+        v-model="form.email"
+        required
+        placeholder="Enter your email"
+        :error="errors.email"
+      />
 
-      <div class="mb-4">
-        <label for="password" class="block text-gray-700 text-sm font-bold mb-2"
-          >Password:</label
-        >
-        <input
-          type="password"
-          id="password"
-          v-model="form.password"
-          required
-          placeholder="Enter your password"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-        <p v-if="errors.password" class="text-red-500 text-xs italic">
-          {{ errors.password }}
-        </p>
-      </div>
+      <TextInput
+        id="password"
+        label="Password"
+        type="password"
+        v-model="form.password"
+        required
+        placeholder="Enter your password"
+        :error="errors.password"
+      />
 
-      <div v-if="isRegister" class="mb-4">
-        <label
-          for="confirmPassword"
-          class="block text-gray-700 text-sm font-bold mb-2"
-          >Confirm Password:</label
-        >
-        <input
-          type="password"
-          id="confirmPassword"
-          v-model="form.confirmPassword"
-          required
-          placeholder="Confirm your password"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-        <p v-if="errors.confirmPassword" class="text-red-500 text-xs italic">
-          {{ errors.confirmPassword }}
-        </p>
-      </div>
+      <TextInput
+        v-if="state.isRegister"
+        id="confirmPassword"
+        label="Confirm Password"
+        type="password"
+        v-model="form.confirmPassword"
+        required
+        placeholder="Confirm your password"
+        :error="errors.confirmPassword"
+      />
 
-      <div v-if="errors.form" class="text-red-500 text-xs italic mb-4">
-        {{ errors.form }}
-      </div>
+      <ErrorMessage
+        :message="errors.form"
+        variant="error"
+        size="sm"
+        :show-icon="true"
+      />
 
       <div class="flex items-center justify-between">
         <button
+          class="font-bold rounded focus:outline-none px-4 py-2 focus:shadow-outline bg-secondary dark:bg-dark-secondary hover:bg-secondaryVariant dark:hover:bg-dark-secondaryVariant text-onSecondary dark:text-dark-onSecondary shadow-sm"
           type="submit"
-          class="bg-apple-500 hover:bg-apple-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
-          {{ isRegister ? 'Register' : 'Login' }}
-        </button>
-
-        <button
-          type="button"
-          @click="toggleForm"
-          class="inline-block align-baseline font-bold text-sm text-apple-500 hover:text-apple-600"
-        >
-          {{
-            isRegister
-              ? 'Already have an account? Login'
-              : "Don't have an account? Register"
-          }}
+          {{ state.isRegister ? 'Register' : 'Login' }}
         </button>
       </div>
+
+      <button
+        type="button"
+        @click="toggleForm"
+        class="inline-block align-baseline font-bold text-sm text-secondary dark:text-dark-secondary hover:text-secondaryVariant dark:hover:text-dark-secondaryVariant"
+      >
+        {{
+          state.isRegister
+            ? 'Already have an account? Login'
+            : "Don't have an account? Register"
+        }}
+      </button>
     </form>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue';
+import { defineComponent, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { AuthService } from '@/services';
+import TextInput from './forms/TextInput.vue';
+import FormButton from './forms/FormButton.vue';
+import ErrorMessage from './forms/ErrorMessage.vue';
 
 export default defineComponent({
+  components: {
+    TextInput,
+    FormButton,
+    ErrorMessage,
+  },
   setup() {
     const router = useRouter();
-    const isRegister = ref(false);
+    const state = reactive({
+      isRegister: false,
+    });
     const form = reactive({
       email: '',
       password: '',
@@ -119,9 +99,8 @@ export default defineComponent({
       name: '',
     });
 
-    const authService = new AuthService()
+    const authService = new AuthService();
 
-    // Track errors
     const errors = reactive({
       email: '',
       password: '',
@@ -130,19 +109,18 @@ export default defineComponent({
       name: '',
     });
 
-    // Clear error messages
     const clearErrors = () => {
       errors.email = '';
       errors.password = '';
       errors.confirmPassword = '';
       errors.form = '';
+      errors.name = '';
     };
 
-    // Login/Register handler
     const submitForm = async () => {
       clearErrors();
 
-      if (isRegister.value) {
+      if (state.isRegister) {
         // Registration validation
         if (!form.name) {
           errors.name = 'Name is required.';
@@ -156,20 +134,27 @@ export default defineComponent({
         if (form.password !== form.confirmPassword) {
           errors.confirmPassword = 'Passwords do not match.';
         }
-        if (errors.email || errors.password || errors.confirmPassword) {
+
+        // Check for any errors before registration
+        if (
+          errors.name ||
+          errors.email ||
+          errors.password ||
+          errors.confirmPassword
+        ) {
           return;
         }
 
         // Register logic
         try {
           const registerResponse = await authService.register(
-              form.email,
-              form.password,
-              form.name
-          )
+            form.email,
+            form.password,
+            form.name
+          );
 
           if (!registerResponse) {
-            errors.form = "Registration failed.";
+            errors.form = 'Registration failed.';
             return;
           }
 
@@ -186,14 +171,14 @@ export default defineComponent({
         if (!form.password) {
           errors.password = 'Password is required.';
         }
+
+        // Check for any errors before login
         if (errors.email || errors.password) {
           return;
         }
 
-        const isLogged = await authService.login(
-          form.email,
-          form.password
-        );
+        const isLogged = await authService.login(form.email, form.password);
+        console.log(isLogged);
 
         if (isLogged) {
           await router.push({ name: 'main' });
@@ -204,10 +189,17 @@ export default defineComponent({
     };
 
     const toggleForm = () => {
-      isRegister.value = !isRegister.value;
+      state.isRegister = !state.isRegister;
+      console.log(state.isRegister);
     };
 
-    return { isRegister, form, submitForm, toggleForm, errors };
+    return {
+      state,
+      form,
+      submitForm,
+      toggleForm,
+      errors,
+    };
   },
 });
 </script>

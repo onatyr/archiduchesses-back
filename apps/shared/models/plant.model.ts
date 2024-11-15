@@ -2,35 +2,25 @@ export type Plant = {
   id: string;
   userId: string;
   name: string;
-  family: PlantFamily;
-  sunlight: PlantSunlight;
-  watering: PlantWatering;
+  sunlight: Sunlight;
+  watering: Watering;
   adoptionDate: string;
   placeId: string | undefined;
   imageUrl: string;
 };
 
-export enum PlantSunlight {
-  LOW = 'LOW',
-  MEDIUM = 'MEDIUM',
-  HIGH = 'HIGH',
+/* eslint-disable no-unused-vars */
+export enum Sunlight {
+  FullSun = 'Full Sun',
+  BrightIndirectLight = 'Bright Indirect Light',
+  PartialShade = 'Partial Shade',
+  LowLight = 'Low Light',
 }
 
-export enum PlantWatering {
-  LOW = 'LOW',
-  MEDIUM = 'MEDIUM',
-  HIGH = 'HIGH',
-}
-
-export enum PlantFamily {
-  FloweringPlants = 'Flowering Plants',
-  FoliagePlants = 'Foliage Plants',
-  SucculentsAndCacti = 'Succulents & Cacti',
-  EdiblePlants = 'Edible Plants',
-  TreesAndShrubs = 'Trees & Shrubs',
-  ClimbersAndVines = 'Climbers & Vines',
-  AquaticPlants = 'Aquatic Plants',
-  CarnivorousPlants = 'Carnivorous Plants',
-  Palms = 'Palms',
-  BulbousPlants = 'Bulbous Plants',
+/* eslint-disable no-unused-vars */
+export enum Watering {
+  Frequent = 'Frequent',
+  Moderate = 'Moderate',
+  Sparing = 'Sparing',
+  Minimal = 'Minimal',
 }
