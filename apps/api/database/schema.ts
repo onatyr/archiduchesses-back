@@ -1,5 +1,5 @@
-import {integer, pgEnum, pgTable, primaryKey, timestamp, uuid, varchar} from 'drizzle-orm/pg-core';
-import {relations} from "drizzle-orm";
+import { pgEnum, pgTable, primaryKey, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
+import { relations } from "drizzle-orm";
 
 export const sunlightEnum = pgEnum('sunlight', [
   'Low Light',
