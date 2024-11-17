@@ -1,14 +1,18 @@
 import express from 'express';
 import { getAllPlantsByUserId } from './plant.query';
-import { db } from '../../database/database'; // Make sure this path is correct
-import { plants } from '../../database/schema'; // Adjust the import path as needed
+import { db } from '../../database/database';
+import { plants } from '../../database/schema';
 import { eq } from 'drizzle-orm';
 
 export const plantController: express.Router = express();
 
 plantController.get('/all', async (req, res) => {
-  const allPlants = await getAllPlantsByUserId(req.userId).execute();
-  res.status(200).json(allPlants);
+  try {
+    const allPlants = await getAllPlantsByUserId(req.userId).execute();
+    res.status(200).json(allPlants);
+  } catch (e) {
+    res.status(500).json({ message: e })
+  }
 });
 
 // Add a new plant
