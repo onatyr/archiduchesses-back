@@ -21,11 +21,11 @@ export default class AuthService extends ApiService {
     try {
       const response = await this._post(
         '/register',
-        JSON.stringify({
+        {
           email: email,
           password: password,
           name: name,
-        })
+        }
       );
 
       if (response.status === 201) {
@@ -43,10 +43,10 @@ export default class AuthService extends ApiService {
     try {
       const response = await this._post(
         '/login',
-        JSON.stringify({
+        {
           email: email,
           password: password,
-        })
+        }
       );
 
       // Assuming the response contains the token and user data
