@@ -20,19 +20,22 @@ export class ApiService {
   // POST method
   async _post(
       route: string,
-      queryParams: object | null = null,
-      routeParams: URLSearchParams | null = null,
-      data: any = null
+      bodyParams: Record<string, string> | null = null,
+      queryParams: URLSearchParams | null = null,
+      formData: FormData | null = null
   ) {
       const headers = {
-        'Content-Type': 'application/json'
+        'Content-Type': formData ? 'multipart/form-data' : 'application/json'
       };
-      const url = this.baseUrl + route + formatUrlSearchParams(routeParams)
+      const url = this.baseUrl + route
 
-      return this.axiosInstance.post(url.toString(), data, {
-        params: queryParams,
-        headers
-      });
+      return this.axiosInstance.post(
+          url.toString(),
+          formData ? formData : bodyParams,
+          {
+            params: queryParams,
+            headers
+          });
   }
 
   // DELETE method

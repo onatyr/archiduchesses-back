@@ -25,7 +25,7 @@ export class PlantNetService extends ApiService {
         console.log(this.identificationParams)
         return this._post(
             '/identify/all',
-            null,
+            this.identificationParams,
             new URLSearchParams(this.identificationParams),
             null
         )

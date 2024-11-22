@@ -9,11 +9,11 @@ export class AuthService extends ApiService {
   register(email: string, password: string, name: string): Promise<boolean> {
       return this._post(
           "/register",
-          JSON.stringify({
+          {
               email: email,
               password: password,
               name: name,
-          })
+          }
       ).then(response => {
           console.log(response.data)
           return true
@@ -27,10 +27,10 @@ export class AuthService extends ApiService {
   login(email: string, password: string): Promise<boolean> {
     return this._post(
       '/login',
-      JSON.stringify({
+      {
         email: email,
         password: password,
-      })
+      }
     )
       .then((response) => {
         this.setToken(response.data.token);
