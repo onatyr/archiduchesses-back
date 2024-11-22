@@ -1,5 +1,4 @@
 import { AxiosInstance } from 'axios';
-import { formatUrlSearchParams } from "../utils/api.util";
 
 export class ApiService {
   private readonly baseUrl = '';
