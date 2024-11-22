@@ -1,7 +1,7 @@
 import { ApiService } from '../../../shared/services/api.service';
 import dotenv from 'dotenv';
 import path from 'path';
-import { axiosInstance } from '../../index';
+import { plantBookAxiosInstance } from '../../index';
 
 dotenv.config({
   path: path.resolve(__dirname, '../../../../.env'),
@@ -11,8 +11,8 @@ export class PlantBookService extends ApiService {
   private apiToken = process.env.PLANTBOOK_API_KEY;
 
   constructor() {
-    super(axiosInstance, 'api/v1');
-    axiosInstance.defaults.headers.common['Authorization'] =
+    super(plantBookAxiosInstance, 'https://open.plantbook.io/api/v1');
+    plantBookAxiosInstance.defaults.headers.common['Authorization'] =
       `Token ${this.apiToken}`;
   }
 

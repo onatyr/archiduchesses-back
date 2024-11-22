@@ -1,4 +1,5 @@
 import { AxiosInstance } from 'axios';
+import { formatUrlSearchParams } from "../utils/api.util";
 
 export class ApiService {
   private readonly baseUrl = '';
@@ -17,12 +18,21 @@ export class ApiService {
   }
 
   // POST method
-  async _post(route: string, data: any) {
-    const headers: any = {};
-    if (!(data instanceof FormData)) {
-      headers['Content-Type'] = 'application/json';
-    }
-    return this.axiosInstance.post(this.baseUrl + route, data, { headers });
+  async _post(
+      route: string,
+      queryParams: object | null = null,
+      routeParams: URLSearchParams | null = null,
+      data: any = null
+  ) {
+      const headers = {
+        'Content-Type': 'application/json'
+      };
+      const url = this.baseUrl + route + formatUrlSearchParams(routeParams)
+
+      return this.axiosInstance.post(url.toString(), data, {
+        params: queryParams,
+        headers
+      });
   }
 
   // DELETE method

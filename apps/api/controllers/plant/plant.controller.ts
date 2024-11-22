@@ -3,11 +3,14 @@ import { getAllPlantsByUserId } from './plant.query';
 import { db } from '../../database/database'; // Make sure this path is correct
 import { plants } from '../../database/schema'; // Adjust the import path as needed
 import { eq } from 'drizzle-orm';
+import { PlantNetService } from "../../lib/plantnet/plantnet.service";
 
 export const plantController: express.Router = express();
 
 plantController.get('/all', async (req, res) => {
   const allPlants = await getAllPlantsByUserId(req.userId).execute();
+  const response = await new PlantNetService().identifyPlant()
+  // console.log(response)
   res.status(200).json(allPlants);
 });
 
