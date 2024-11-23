@@ -37,7 +37,7 @@ export function authenticate(
 
 export function isExempted(url: string): boolean {
   for (const exemptedEndpoint of EXEMPTED_ENDPOINTS)
-    if (url.endsWith(exemptedEndpoint)) return true;
+    if (url.includes(exemptedEndpoint)) return true;
   return false;
 }
 
@@ -45,5 +45,4 @@ const EXEMPTED_ENDPOINTS = [
     'auth/login',
     'auth/register',
     // endpoints below this message should only be there for testing purpose
-    'plant/identify'
 ];
