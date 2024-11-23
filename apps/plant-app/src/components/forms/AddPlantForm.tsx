@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PlantBookService } from '../../../../shared/services/plantbook.service';
 import { PlantsService } from '../../services/plants.service';
-import { Plant, Sunlight, Watering } from '../../../../shared/models';
+import { Plant, PlantBookDetails, PlantBookSearchResult, Sunlight, Watering } from '../../../../shared/models';
 import { v4 as uuidv4 } from 'uuid';
 import TextInput from './forms-components/TextInput';
 import ErrorMessage from './forms-components/ErrorMessage';
@@ -14,13 +14,13 @@ interface AddPlantFormProps {
 
 const AddPlantForm: React.FC<AddPlantFormProps> = ({ onClose }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<string[]>([]);
+  const [searchResults, setSearchResults] = useState<PlantBookSearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isDetailsLoading, setIsDetailsLoading] = useState(false);
-  const [selectedPlantDetails, setSelectedPlantDetails] = useState<any>(null);
+  const [selectedPlantDetails, setSelectedPlantDetails] = useState<PlantBookDetails | null >(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const plantBookService = new PlantBookService();
+  const plantBookService = new PlantBookService(import.meta.env.VITE_PLANTBOOK_API_KEY);
   const plantsService = new PlantsService();
 
   useEffect(() => {
@@ -107,12 +107,12 @@ const AddPlantForm: React.FC<AddPlantFormProps> = ({ onClose }) => {
     const plantData: Plant = {
       id: uuidv4(),
       userId: localStorage.getItem('userId')!,
-      name: selectedPlantDetails.display_pid,
-      sunlight: getSunlightExposure(selectedPlantDetails.max_light_lux),
-      watering: getWateringSchedule(selectedPlantDetails.max_soil_moist),
+      name: selectedPlantDetails.displayPid,
+      sunlight: getSunlightExposure(selectedPlantDetails.maxLightLux),
+      watering: getWateringSchedule(selectedPlantDetails.maxSoilMoist),
       adoptionDate: new Date().toISOString(),
       placeId: '',
-      imageUrl: selectedPlantDetails.image_url || '',
+      imageUrl: selectedPlantDetails.imageUrl || '',
     };
 
     setIsSubmitting(true);
@@ -150,13 +150,13 @@ const AddPlantForm: React.FC<AddPlantFormProps> = ({ onClose }) => {
         {isLoading && <Loading message="Searching..." />}
         {searchResults.length > 0 ? (
           <ul className="list-disc pl-5">
-            {searchResults.map((plantId, index) => (
+            {searchResults.map((searchResult, index) => (
               <li
                 key={index}
                 className="text-secondary dark:text-dark-secondary cursor-pointer"
-                onClick={() => handleSearchResultClick(plantId)}
+                onClick={() => handleSearchResultClick(searchResult.pid)}
               >
-                {plantId}
+                {searchResult.pid}
               </li>
             ))}
           </ul>
@@ -183,15 +183,15 @@ const AddPlantForm: React.FC<AddPlantFormProps> = ({ onClose }) => {
             <TextInput
               id="plant-name"
               label="Plant Name"
-              value={selectedPlantDetails.display_pid}
+              value={selectedPlantDetails.displayPid}
               onChange={handleInputChangeForm}
             />
 
             <div>
               <label className="block font-medium mb-1">Image</label>
               <img
-                src={selectedPlantDetails.image_url}
-                alt={selectedPlantDetails.display_pid}
+                src={selectedPlantDetails.imageUrl}
+                alt={selectedPlantDetails.displayPid}
                 className="w-48 h-48 object-cover mb-4"
               />
             </div>
@@ -201,7 +201,7 @@ const AddPlantForm: React.FC<AddPlantFormProps> = ({ onClose }) => {
                 Sunlight Exposure
               </label>
               <p className="p-2 border border-surface dark:border-dark-surface rounded w-full">
-                {getSunlightExposure(selectedPlantDetails.max_light_lux)}
+                {getSunlightExposure(selectedPlantDetails.maxLightLux)}
               </p>
             </div>
 
@@ -210,7 +210,7 @@ const AddPlantForm: React.FC<AddPlantFormProps> = ({ onClose }) => {
                 Watering Schedule
               </label>
               <p className="p-2 border border-surface dark:border-dark-surface rounded w-full">
-                {getWateringSchedule(selectedPlantDetails.max_soil_moist)}
+                {getWateringSchedule(selectedPlantDetails.maxSoilMoist)}
               </p>
             </div>
 
