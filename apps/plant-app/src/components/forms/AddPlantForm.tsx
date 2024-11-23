@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PlantBookService } from '../../../../shared/services/plantbook.service';
 import { PlantsService } from '../../services/plants.service';
-import { Plant, Sunlight, Watering } from '../../../../shared/models';
+import {Plant, PlantBookDetails, Sunlight, Watering} from '../../../../shared/models';
 import { v4 as uuidv4 } from 'uuid';
 import TextInput from './forms-components/TextInput';
 import ErrorMessage from './forms-components/ErrorMessage';
@@ -17,7 +17,7 @@ const AddPlantForm: React.FC<AddPlantFormProps> = ({ onClose }) => {
   const [searchResults, setSearchResults] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isDetailsLoading, setIsDetailsLoading] = useState(false);
-  const [selectedPlantDetails, setSelectedPlantDetails] = useState<any>(null);
+  const [selectedPlantDetails, setSelectedPlantDetails] = useState<PlantBookDetails | null >(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const plantBookService = new PlantBookService();
