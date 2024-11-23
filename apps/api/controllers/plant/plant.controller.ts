@@ -9,8 +9,8 @@ import * as fs from "node:fs";
 
 export const plantController: express.Router = express();
 
-const upload = multer({ dest: 'plantId/' });
-plantController.post('/id', upload.single('files'), async (req, res, next)  => {
+const upload = multer({ dest: 'plantIdentification/' });
+plantController.post('/identify', upload.single('files'), async (req, res, next)  => {
   try {
     if (!req.file) {
       return res.status(400).send('Please attache a file with the request')
@@ -29,6 +29,11 @@ plantController.post('/id', upload.single('files'), async (req, res, next)  => {
   }
   catch (e) {
     console.log(e)
+  }
+  finally {
+    if (req.file) {
+      fs.unlinkSync(req.file.path)
+    }
   }
 })
 

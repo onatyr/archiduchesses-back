@@ -41,4 +41,4 @@ export function isExempted(url: string): boolean {
   return false;
 }
 
-const EXEMPTED_ENDPOINTS = ['auth/login', 'auth/register', 'plant/id'];
+const EXEMPTED_ENDPOINTS = ['auth/login', 'auth/register', 'plant/identify'];
