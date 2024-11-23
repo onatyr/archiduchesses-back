@@ -21,15 +21,16 @@ export class PlantNetService extends ApiService {
         plantNetAxiosInstance.defaults.headers.common["Content-Type"] = "multipart/form-data";
     }
 
-    async identifyPlant(images: FormData | null = null) {
+    async identifyPlant(image: Express.Multer.File | null = null) {
+        console.log(this.identificationParams)
         return this._post(
             '/identify/all',
-            null,
+            this.identificationParams,
             new URLSearchParams(this.identificationParams),
-            images
+            null
         )
             .then((response) => {
-                console.log(response.data)
+                // console.log(response.data)
             })
             .catch((e) => {
                 console.log(e)
