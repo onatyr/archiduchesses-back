@@ -6,7 +6,14 @@ import { eq } from 'drizzle-orm';
 import { PlantNetService } from "../../lib/plantnet/plantnet.service";
 import multer from "multer";
 import * as fs from "node:fs";
-import {PlantBookService} from "../../lib/plantbook/plantbook.service";
+import { PlantBookService } from "../../../shared/services/plantbook.service";
+import dotenv from "dotenv";
+import path from "path";
+import process from "node:process";
+
+dotenv.config({
+  path: path.resolve(__dirname, '../../../../.env'),
+});
 
 export const plantController: express.Router = express();
 
@@ -89,10 +96,10 @@ plantController.post('/identify', upload.single('files'), async (req, res, next)
     formData.append('images', imageBlob)
     const identificationResponse = await new PlantNetService().identifyPlant(formData)
 
-    const plantBookService = new PlantBookService()
+    const plantBookService = new PlantBookService(process.env.VITE_PLANTBOOK_API_KEY);
     const plantNetIdentifications = await Promise.all(
         identificationResponse.map(async (result) => {
-          const plantbookPid = (await plantBookService.searchPlantByName(result.plantnetName)).at(0)
+          const plantbookPid = ((await plantBookService.searchPlantByName(result.plantnetName)).at(0))?.pid
           return [{
             ...result,
             plantbookDetails: plantbookPid ? await plantBookService.getPlantDetails(plantbookPid) : null

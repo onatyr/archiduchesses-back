@@ -25,14 +25,17 @@ export enum Watering {
   Minimal = 'Minimal',
 }
 
-export type PlantBookDetails = {
-  'pid': string
-  'display_pid': string
-  'max_light_lux': number
-  'min_light_lux': number
-  'max_soil_moist': number
-  'min_soil_moist': number
-  'image_url': string
+export type PlantBookSearchResult = {
+  displayPid: string,
+  pid: string
+}
+
+export type PlantBookDetails = PlantBookSearchResult & {
+  maxLightLux: number
+  minLightLux: number
+  maxSoilMoist: number
+  minSoilMoist: number
+  imageUrl: string
 }
 
 export type PlantNetIdentification = {

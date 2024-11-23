@@ -6,7 +6,7 @@ export class AuthService extends ApiService {
     super(axiosInstance, 'auth');
   }
 
-  register(email: string, password: string, name: string): Promise<boolean> {
+  async register(email: string, password: string, name: string): Promise<boolean> {
       return this._post(
           "/register",
           {
@@ -24,7 +24,7 @@ export class AuthService extends ApiService {
       })
   }
 
-  login(email: string, password: string): Promise<boolean> {
+  async login(email: string, password: string): Promise<boolean> {
     return this._post(
       '/login',
       {
