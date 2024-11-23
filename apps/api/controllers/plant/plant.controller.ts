@@ -9,24 +9,31 @@ import * as fs from "node:fs";
 
 export const plantController: express.Router = express();
 
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ dest: 'plantId/' });
 plantController.post('/id', upload.single('files'), async (req, res, next)  => {
-  if (!req?.file) throw Error
+  try {
+    if (!req.file) {
+      return res.status(400).send('Please attache a file with the request')
+    }
 
-  if (!(req.file.mimetype === 'image/jpeg' || req.file.mimetype === 'image/png')) {
-    return res.status(400).send('Unsupported file type. Only JPEG and PNG are allowed');
+    if (!(req.file.mimetype === 'image/jpeg' || req.file.mimetype === 'image/png')) {
+      return res.status(400).send('Unsupported file type. Only JPEG and PNG are allowed');
+    }
+
+    const formData = new FormData()
+    const imageBlob = new Blob([fs.readFileSync(req.file.path)]);
+    formData.append('images', imageBlob)
+    const identificationResponse = await new PlantNetService().identifyPlant(formData)
+
+    res.status(200).json(identificationResponse)
   }
-
-  const formData = new FormData()
-  const imageBlob = new Blob([fs.readFileSync(req.file.path)]);
-  formData.append('images', imageBlob)
-
-  const response = await new PlantNetService().identifyPlant(formData)
+  catch (e) {
+    console.log(e)
+  }
 })
 
 plantController.get('/all', async (req, res) => {
   const allPlants = await getAllPlantsByUserId(req.userId).execute();
-  // console.log(response)
   res.status(200).json(allPlants);
 });
 

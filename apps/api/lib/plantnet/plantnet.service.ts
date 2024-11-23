@@ -29,10 +29,10 @@ export class PlantNetService extends ApiService {
             images
         )
             .then((response) => {
-                console.log(response.data)
+                return response.data
             })
-            .catch((e) => {
-                console.log(e)
+            .catch((error: Error) => {
+                throw error
             })
     }
 }
