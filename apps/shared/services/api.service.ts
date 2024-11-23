@@ -19,7 +19,7 @@ export class ApiService {
   // POST method
   async _post(
       route: string,
-      bodyParams: Record<string, string> | null = null,
+      bodyParams: any = null,
       queryParams: URLSearchParams | null = null,
       formData: FormData | null = null
   ) {
