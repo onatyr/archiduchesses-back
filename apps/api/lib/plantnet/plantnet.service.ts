@@ -1,4 +1,5 @@
 import { ApiService } from '../../../shared/services/api.service';
+import { PlantNetIdentification } from '../../../shared/models';
 import dotenv from 'dotenv';
 import path from 'path';
 import { plantNetAxiosInstance } from '../../index';
@@ -21,7 +22,7 @@ export class PlantNetService extends ApiService {
         plantNetAxiosInstance.defaults.headers.common["Content-Type"] = "multipart/form-data";
     }
 
-    async identifyPlant(images: FormData | null = null) {
+    async identifyPlant(images: FormData): Promise<PlantNetIdentification[]> {
         return this._post(
             '/identify/all',
             null,
@@ -29,7 +30,18 @@ export class PlantNetService extends ApiService {
             images
         )
             .then((response) => {
-                return response.data
+                return response.data.results.map((result: {
+                    species: {
+                        scientificNameWithoutAuthor: string
+                        genus: { scientificNameWithoutAuthor: string }
+                    }
+                    score: string
+                }) => ({
+                    plantnetName: result.species.scientificNameWithoutAuthor,
+                    plantnetGenus: result.species.genus.scientificNameWithoutAuthor,
+                    score: result.score
+                }))
+                    .sort((a: { score: string }, b: { score: string }) => Number(a.score) > Number(b.score))
             })
             .catch((error: Error) => {
                 throw error

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { ApiService } from './api.service';
+import { PlantBookDetails } from "../models";
 // import dotenv from 'dotenv';
 // import path from 'path';
 
@@ -39,14 +40,14 @@ export class PlantBookService extends ApiService {
       });
   }
 
-  async getPlantDetails(pid: string): Promise<string> {
+  async getPlantDetails(pid: string): Promise<PlantBookDetails | null> {
     return this._get(`/plant/detail/${pid}`)
-      .then((response) => {
+      .then((response: { data: PlantBookDetails }) => {
         return response.data;
       })
       .catch((e) => {
         console.error(e);
-        return '';
+        return null;
       });
   }
 }
