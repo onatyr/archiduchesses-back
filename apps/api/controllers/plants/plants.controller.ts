@@ -1,7 +1,6 @@
 import express from 'express';
-import { getAllPlantsByUserId } from './plant.query';
 import { db } from '../../database/database';
-import { plants } from '../../database/schema';
+import {  plants } from '../../database/schema';
 import { eq } from 'drizzle-orm';
 import { PlantNetService } from "../../lib/plantnet/plantnet.service";
 import multer from "multer";
@@ -10,27 +9,30 @@ import { PlantBookService } from "../../../shared/services/plantbook.service";
 import dotenv from "dotenv";
 import path from "path";
 import process from "node:process";
+import { formatPlantsWithTasks } from "./plants.util";
+import { getAllPlantsWithTask } from "../plants/plants.query";
+import { getTasks } from "../tasks/tasks.controller";
 
 dotenv.config({
   path: path.resolve(__dirname, '../../../../.env'),
 });
 
-export const plantController: express.Router = express();
+export const plantsController: express.Router = express();
 
-plantController.get('/all', async (req, res) => {
+plantsController.get('/all', async (req, res) => {
   try {
-    const allPlants = await getAllPlantsByUserId(req.userId).execute();
+    const allPlants = formatPlantsWithTasks(await getAllPlantsWithTask(req.userId))
+    console.log(await getTasks(req.userId))
     res.status(200).json(allPlants);
   }
   catch (e) {
-    if (e instanceof Error) console.error(e.message)
-    else console.error(e)
+    console.error(e instanceof Error ? e.message : e);
     res.status(500).json({ message: 'Internal Server Error' })
   }
 });
 
-// Add a new plant
-plantController.post('/add', async (req, res) => {
+// Add a new plants
+plantsController.post('/add', async (req, res) => {
   try {
     const { userId, name, sunlight, watering, adoptionDate, imageUrl } =
       req.body;
@@ -45,43 +47,40 @@ plantController.post('/add', async (req, res) => {
     });
 
     if (!newPlant) {
-      return res.status(500).json({ message: 'Failed to add the plant' });
+      return res.status(500).json({ message: 'Failed to add the plants' });
     }
 
     res
       .status(201)
       .json({ message: 'Plant added successfully', plant: newPlant });
   } catch (e) {
-    if (e instanceof Error) console.error('Error adding plant:', e.message);
-    else console.error('Error adding plant:', e);
+    console.error(e instanceof Error ? e.message : e);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 
-// Delete plant
-plantController.delete('/delete/:id', async (req, res) => {
+// Delete plants
+plantsController.delete('/delete/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
     const deletedPlant = await db.delete(plants).where(eq(plants.id, id));
 
     if (!deletedPlant) {
-      return res.status(500).json({ message: 'Failed to delete plant' });
+      return res.status(500).json({ message: 'Failed to delete plants' });
     }
 
     res.status(200).json({
       message: `Plant with ID ${id} deleted successfully`,
     });
   } catch (e) {
-
-    if (e instanceof Error) console.error('Error deleting plant:', e);
-    else console.error('Error deleting plant:', e)
+    console.error(e instanceof Error ? e.message : e);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 
 const upload = multer({ dest: 'plantIdentification/' });
-plantController.post('/identify', upload.single('files'), async (req, res, next)  => {
+plantsController.post('/identify', upload.single('files'), async (req, res, next)  => {
   try {
     if (!req.file) {
       return res.status(400).send('Please attach a file with the request')
@@ -110,8 +109,7 @@ plantController.post('/identify', upload.single('files'), async (req, res, next)
     res.status(200).json(plantNetIdentifications)
   }
   catch (e) {
-    if (e instanceof Error) console.error(e.message)
-    else console.error(e)
+    console.error(e instanceof Error ? e.message : e);
     res.status(500)
   }
   finally {
