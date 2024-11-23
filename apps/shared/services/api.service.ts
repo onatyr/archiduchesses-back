@@ -17,12 +17,24 @@ export class ApiService {
   }
 
   // POST method
-  async _post(route: string, data: any) {
-    const headers: any = {};
-    if (!(data instanceof FormData)) {
-      headers['Content-Type'] = 'application/json';
-    }
-    return this.axiosInstance.post(this.baseUrl + route, data, { headers });
+  async _post(
+      route: string,
+      bodyParams: any = null,
+      queryParams: URLSearchParams | null = null,
+      formData: FormData | null = null
+  ) {
+      const headers = {
+        'Content-Type': formData ? 'multipart/form-data' : 'application/json'
+      };
+      const url = this.baseUrl + route
+
+      return this.axiosInstance.post(
+          url.toString(),
+          formData ? formData : bodyParams,
+          {
+            params: queryParams,
+            headers
+          });
   }
 
   // DELETE method

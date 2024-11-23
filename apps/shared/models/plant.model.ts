@@ -24,3 +24,23 @@ export enum Watering {
   Sparing = 'Sparing',
   Minimal = 'Minimal',
 }
+
+export type PlantBookSearchResult = {
+  displayPid: string,
+  pid: string
+}
+
+export type PlantBookDetails = PlantBookSearchResult & {
+  maxLightLux: number
+  minLightLux: number
+  maxSoilMoist: number
+  minSoilMoist: number
+  imageUrl: string
+}
+
+export type PlantNetIdentification = {
+  plantnetName: string,
+  plantnetGenus: string,
+  score: number,
+  plantbookDetails?: PlantBookDetails | null | undefined,
+}

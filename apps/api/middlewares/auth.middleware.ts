@@ -15,10 +15,10 @@ export function authenticate(
   next: NextFunction
 ) {
   try {
-    if (isExempted(req.path)) return next();
-    const token = req.headers.authorization?.split(' ')[1];
-    if (!token || !process.env.ACCESS_TOKEN_SECRET)
-      return res.status(401).json();
+      if (isExempted(req.path)) return next();
+      const token = req.headers.authorization?.split(' ')[1];
+      if (!token || !process.env.ACCESS_TOKEN_SECRET)
+          return res.status(401).json();
 
     verify(
       token,
@@ -41,4 +41,9 @@ export function isExempted(url: string): boolean {
   return false;
 }
 
-const EXEMPTED_ENDPOINTS = ['auth/login', 'auth/register'];
+const EXEMPTED_ENDPOINTS = [
+    'auth/login',
+    'auth/register',
+    // endpoints below this message should only be there for testing purpose
+    'plant/identify'
+];

@@ -5,7 +5,6 @@ import AddPlantButton from '../components/AddPlantButton';
 import AddPlantForm from '../components/forms/AddPlantForm';
 import { formatDate } from '../utils/date';
 import ConfirmationDialog from '../components/ConfirmationDialog'; // Import the dialog
-import { RiDeleteBinLine } from 'react-icons/ri';
 import ReactIcon from '../components/ReactIcon';
 
 const Plants: React.FC = () => {

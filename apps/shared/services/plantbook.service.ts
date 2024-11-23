@@ -1,52 +1,53 @@
-import axios from 'axios';
 import { ApiService } from './api.service';
-// import dotenv from 'dotenv';
-// import path from 'path';
+import dotenv from 'dotenv';
+import path from 'path';
+import { PlantBookDetails, PlantBookSearchResult } from "../models";
+import axios from "axios";
 
-// dotenv.config({
-//   path: path.resolve(__dirname, '../../../../.env'),
-// });
-
-const baseUrl = 'https://open.plantbook.io/';
-export const axiosInstance = axios.create({
-  baseURL: baseUrl,
-});
+export const plantBookAxiosInstance = axios.create()
 
 export class PlantBookService extends ApiService {
-  private apiToken = '2072a020354d0f2635ae5c0f5686617da8a5eab9';
-
-  constructor() {
-    super(axiosInstance, 'api/v1');
-    axiosInstance.defaults.headers.common['Authorization'] =
-      `Token ${this.apiToken}`;
+  constructor(apiToken: string | undefined) {
+    super(plantBookAxiosInstance, 'https://open.plantbook.io/api/v1');
+    plantBookAxiosInstance.defaults.headers.common['Authorization'] =
+        `Token ${apiToken}`;
   }
 
-  async searchPlantByName(search: string): Promise<string[]> {
+  async searchPlantByName(search: string): Promise<PlantBookSearchResult[]> {
     return this._get(`/plant/search`, {
       alias: search,
       limit: 10,
       offset: 0,
     })
-      .then((response) => {
-        const plants: string[] = response.data.results.map(
-          (plant: { pid: string }) => plant.pid
-        );
-        return plants;
-      })
-      .catch((e) => {
-        console.error(e);
-        throw Error;
-      });
+        .then((response: { data: { results: { display_id: string, pid: string}[] }}) => {
+          return response.data.results.map((plantEntity) => ({
+              displayPid: plantEntity.display_id,
+              pid: plantEntity.pid
+            })
+          );
+        })
+        .catch((e) => {
+          console.error(e);
+          return [];
+        });
   }
 
-  async getPlantDetails(pid: string): Promise<string> {
+  async getPlantDetails(pid: string): Promise<PlantBookDetails | null> {
     return this._get(`/plant/detail/${pid}`)
-      .then((response) => {
-        return response.data;
-      })
-      .catch((e) => {
-        console.error(e);
-        return '';
-      });
+        .then((response) => {
+          return {
+              'pid': response.data.pid,
+              'displayPid': response.data.display_pid,
+              'maxLightLux': response.data.max_light_lux,
+              'minLightLux': response.data.min_light_lux,
+              'maxSoilMoist': response.data.max_soil_moist,
+              'minSoilMoist': response.data.min_soil_moist,
+              'imageUrl': response.data.image_url
+          };
+        })
+        .catch((e) => {
+          console.error(e);
+          return null;
+        });
   }
 }
