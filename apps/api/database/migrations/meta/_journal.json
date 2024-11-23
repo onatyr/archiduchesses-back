@@ -22,6 +22,13 @@
       "when": 1731267714290,
       "tag": "0002_left_slayback",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1731666671750,
+      "tag": "0003_panoramic_victor_mancha",
+      "breakpoints": true
     }
   ]
 }
