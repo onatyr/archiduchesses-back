@@ -13,13 +13,3 @@ tasksController.get('/all', async (req, res, next) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 })
-
-export async function getTasks(userId: string) {
-    try {
-        const allTasks = await getAllTasksWithPlant(userId)
-        return allTasks
-    }
-    catch (e) {
-        console.error(e instanceof Error ? e.message : e);
-    }
-}
