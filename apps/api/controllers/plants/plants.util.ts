@@ -35,23 +35,3 @@ export function formatPlantsWithTasks(plantsWithTask: PlantsWithTaskResult) {
         }>;
     }>);
 }
-
-export function computeDaysUntilNextWatering(minSoilMoist: number, maxSoilMoist: number, moistLossRateDay: number = 0.05) {
-    const currentSoilMost = 0.8 * maxSoilMoist // need testing IRL to adjust
-    return Math.log(minSoilMoist/currentSoilMost)/Math.log(1-moistLossRateDay)
-}
-
-const max = 70
-
-function testCompute() {
-    let current = max - (max * 0.05)
-    let count = 0
-    while (current>30) {
-        current = current - (current * 0.05)
-        count ++
-    }
-    return count
-}
-//
-// console.log(computeDaysUntilNextWatering(30, max))
-// console.log(testCompute())
