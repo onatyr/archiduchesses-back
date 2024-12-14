@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AuthService from '../services/auth.service'; // Import the AuthService class
+import AuthService from '../services/auth.service';
 import TextInput from './forms/forms-components/TextInput';
 import ErrorMessage from './forms/forms-components/ErrorMessage';
 import FormButton from './forms/forms-components/FormButton';
-import { useUser } from '../context/UserContext'; // Import the useUser context
+import { useUser } from '@/context/UserContext';
 
 interface FormState {
   email: string;
