@@ -6,7 +6,6 @@ import {
 } from '@shared/models';
 
 import { getSunlightExposure } from "@shared/utils/plant.util";
-import { getCurrentDateString } from "@shared/utils/date.util";
 import { PlantsService } from "@plantApp/src/services/plants.service";
 import TextInput from "@plantApp/src/components/forms/forms-components/TextInput";
 import Loading from "@plantApp/src/components/Loading";
@@ -68,7 +67,7 @@ const AddPlantForm: React.FC<AddPlantFormProps> = ({ onClose }) => {
           name: plantDetails?.displayPid || '',
           sunlight: getSunlightExposure(plantDetails?.maxLightLux || 0),
           wateringRecurrenceDays: undefined,
-          adoptionDate: getCurrentDateString(),
+          adoptionDate: new Date(),
           roomId: undefined,
           imageUrl: plantDetails?.imageUrl || undefined,
         })
@@ -84,10 +83,11 @@ const AddPlantForm: React.FC<AddPlantFormProps> = ({ onClose }) => {
   };
 
   const handleInputChangeForm = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { id, value } = e.target;
+    console.log(e.target)
     setNewPlant((prevState: any) => ({
       ...prevState,
-      [name]: value,
+      [id]: value,
     }));
   };
 
@@ -160,7 +160,7 @@ const AddPlantForm: React.FC<AddPlantFormProps> = ({ onClose }) => {
           <h3 className="text-xl font-semibold mb-4">Edit Plant Details</h3>
           <form className="space-y-4">
             <TextInput
-              id="plant-name"
+              id="name"
               label="Plant Name"
               value={newPlant.name}
               onChange={handleInputChangeForm}
@@ -185,8 +185,9 @@ const AddPlantForm: React.FC<AddPlantFormProps> = ({ onClose }) => {
             </div>
 
             <TextInput
-             id="watering-recurrence-days"
+             id="wateringRecurrenceDays"
              label="Watering recurrence in days"
+             type="number"
              value={newPlant.wateringRecurrenceDays}
              onChange={handleInputChangeForm}
             />

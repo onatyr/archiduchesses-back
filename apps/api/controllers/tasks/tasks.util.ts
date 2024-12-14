@@ -1,4 +1,3 @@
-function computeNextOccurrence(recurrenceInDays: number) {
-  const currentDate = new Date()
-  return currentDate.setDate(currentDate.getDate() + 3)
+export function computeNextOccurrence(recurrenceInDays: number) {
+  return new Date(new Date().getTime() + recurrenceInDays * 24 * 60 * 60 * 1000)
 }

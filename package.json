@@ -45,7 +45,8 @@
     "deploy": "turbo run api && turbo run dev",
     "seed": "node scripts/dbSeed.mjs",
     "lint": "npx eslint",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "clean": "rm -rf dist"
   },
   "author": "",
   "license": "ISC",

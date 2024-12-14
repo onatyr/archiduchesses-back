@@ -7,10 +7,12 @@ import path from "path";
 import process from "node:process";
 import { formatPlantsWithTasks } from "./plants.util";
 import { getAllPlantsWithTask } from "./plants.query";
-import { plants, tasks } from "@api/database/schema";
+import { plants } from "@api/database/schema";
 import { PlantBookService } from "@shared/services/plantbook.service";
 import { db } from "@api/database/database";
 import { PlantNetService } from "@api/lib/plantnet/plantnet.service";
+import { insertWateringTask } from "@api/controllers/tasks/tasks.query";
+import { computeNextOccurrence } from "@api/controllers/tasks/tasks.util";
 
 dotenv.config({
   path: path.resolve(__dirname, '../../../../.env'),
@@ -40,15 +42,17 @@ plantsController.post('/add', async (req, res) => {
       name,
       sunlight,
       wateringRecurrenceDays,
-      adoptionDate,
+      adoptionDate: new Date(adoptionDate),
       roomId,
       imageUrl,
     }).returning({id: plants.id});
 
-    const nextWateringTask = await db.insert(tasks).values({
-      plantId: newPlant.id,
-      dueDate: computeNextOccurrence(wateringRecurrenceDays).toString()
-    })
+    if (wateringRecurrenceDays) {
+      const [nextWateringTask] = await insertWateringTask(newPlant.id, computeNextOccurrence(wateringRecurrenceDays))
+      if (!nextWateringTask) {
+        return res.status(500).json({message: 'Failed to add the plants'});
+      }
+    }
 
     if (!newPlant) {
       return res.status(500).json({message: 'Failed to add the plants'});
@@ -58,6 +62,7 @@ plantsController.post('/add', async (req, res) => {
      .status(201)
      .json({message: 'Plant added successfully', plant: newPlant});
   } catch (e) {
+    console.log(e)
     console.error(e instanceof Error ? e.message : e);
     res.status(500).json({message: 'Internal Server Error'});
   }
