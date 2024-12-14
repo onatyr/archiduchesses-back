@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import AddPlantButton from '@/components/AddPlantButton';
-import AddPlantForm from '@/components/forms/AddPlantForm';
-import { formatDate } from '@/utils/date';
-import ReactIcon from '@/components/ReactIcon';
-import { PlantsService } from "@/services/plants.service";
+import AddPlantButton from '@plantApp/src/components/AddPlantButton';
+import { formatDate } from '@plantApp/src/utils/date';
+import ReactIcon from '@plantApp/src/components/ReactIcon';
+import { PlantsService } from "@plantApp/src/services/plants.service";
 import { Plant, Sunlight } from "@shared/models";
-import ConfirmationDialog from "@/components/ConfirmationDialog";
+import ConfirmationDialog from "@plantApp/src/components/ConfirmationDialog";
 import { getOrdinal } from "@shared/utils/enum.util";
+import AddPlantForm from "@plantApp/src/components/forms/AddPlantForm";
 
 const Plants: React.FC = () => {
   const [plants, setPlants] = useState<Plant[]>([]);
