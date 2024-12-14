@@ -1,6 +1,6 @@
-import { User } from '../../../shared/models';
-import { ApiService } from '../../../shared/services';
-import { axiosInstance } from '../main';
+import { User } from '@shared/models';
+import { ApiService } from '@shared/services';
+import { axiosInstance } from "@plantApp/src/main";
 
 interface LoginResponse {
   success: boolean;
@@ -14,18 +14,18 @@ export default class AuthService extends ApiService {
   }
 
   async register(
-    email: string,
-    password: string,
-    name: string
+   email: string,
+   password: string,
+   name: string
   ): Promise<boolean> {
     try {
       const response = await this._post(
-        '/register',
-        {
-          email: email,
-          password: password,
-          name: name,
-        }
+       '/register',
+       {
+         email: email,
+         password: password,
+         name: name,
+       }
       );
 
       if (response.status === 201) {
@@ -42,11 +42,11 @@ export default class AuthService extends ApiService {
   async login(email: string, password: string): Promise<LoginResponse> {
     try {
       const response = await this._post(
-        '/login',
-        {
-          email: email,
-          password: password,
-        }
+       '/login',
+       {
+         email: email,
+         password: password,
+       }
       );
 
       // Assuming the response contains the token and users data
@@ -73,6 +73,7 @@ export default class AuthService extends ApiService {
       };
     }
   }
+
   private setToken(token: string) {
     localStorage.setItem('token', token);
     axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;

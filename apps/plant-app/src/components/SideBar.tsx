@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { UsersService } from '../services/users.service';
-import ReactIcon from './ReactIcon';
+import { UsersService } from "@plantApp/src/services/users.service";
+import ReactIcon from "@plantApp/src/components/ReactIcon";
 
 const Sidebar: React.FC = () => {
   const [userName, setUserName] = useState('stranger');

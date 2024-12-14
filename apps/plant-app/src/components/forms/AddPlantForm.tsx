@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { PlantBookService } from '@shared/services/plantbook.service';
-import { PlantsService } from '@/services/plants.service';
 import {
   PlantBase,
   PlantBookSearchResult,
 } from '@shared/models';
 
-import TextInput from './forms-components/TextInput';
-import ErrorMessage from './forms-components/ErrorMessage';
-import FormButton from './forms-components/FormButton';
-import Loading from '../Loading';
 import { getSunlightExposure } from "@shared/utils/plant.util";
+import { getCurrentDateString } from "@shared/utils/date.util";
+import { PlantsService } from "@plantApp/src/services/plants.service";
+import TextInput from "@plantApp/src/components/forms/forms-components/TextInput";
+import Loading from "@plantApp/src/components/Loading";
+import ErrorMessage from "@plantApp/src/components/forms/forms-components/ErrorMessage";
+import FormButton from "@plantApp/src/components/forms/forms-components/FormButton";
 
 interface AddPlantFormProps {
   onClose: () => void;
@@ -67,7 +68,7 @@ const AddPlantForm: React.FC<AddPlantFormProps> = ({ onClose }) => {
           name: plantDetails?.displayPid || '',
           sunlight: getSunlightExposure(plantDetails?.maxLightLux || 0),
           wateringRecurrenceDays: undefined,
-          adoptionDate: new Date().toISOString(),
+          adoptionDate: getCurrentDateString(),
           roomId: undefined,
           imageUrl: plantDetails?.imageUrl || undefined,
         })
