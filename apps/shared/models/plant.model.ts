@@ -1,31 +1,25 @@
 import { Task } from "@shared/models/task.model";
 
-export type Plant = {
+export type Plant = PlantBase & {
   id: string
   userId: string
-  name: string
-  sunlight: Sunlight
-  watering: Watering
-  adoptionDate: string
-  placeId: string | undefined
-  imageUrl: string
   tasks?: Task[] | undefined
 };
 
-/* eslint-disable no-unused-vars */
-export enum Sunlight {
-  FullSun = 'Full Sun',
-  BrightIndirectLight = 'Bright Indirect Light',
-  PartialShade = 'Partial Shade',
-  LowLight = 'Low Light',
+export type PlantBase = {
+  name: string
+  adoptionDate: string
+  sunlight: Sunlight | undefined
+  wateringRecurrenceDays: number | undefined
+  roomId: string | undefined
+  imageUrl: string | undefined
 }
 
-/* eslint-disable no-unused-vars */
-export enum Watering {
-  Frequent = 'Frequent',
-  Moderate = 'Moderate',
-  Sparing = 'Sparing',
-  Minimal = 'Minimal',
+export enum Sunlight {
+  LowLight = 'Low Light',
+  PartialShade = 'Partial Shade',
+  BrightIndirectLight = 'Bright Indirect Light',
+  FullSun = 'Full Sun',
 }
 
 export type PlantBookSearchResult = {
@@ -36,8 +30,6 @@ export type PlantBookSearchResult = {
 export type PlantBookDetails = PlantBookSearchResult & {
   maxLightLux: number
   minLightLux: number
-  maxSoilMoist: number
-  minSoilMoist: number
   imageUrl: string
 }
 

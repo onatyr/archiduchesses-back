@@ -7,7 +7,7 @@ import path from "path";
 import process from "node:process";
 import { formatPlantsWithTasks } from "./plants.util";
 import { getAllPlantsWithTask } from "./plants.query";
-import { plants } from "@api/database/schema";
+import { plants, tasks } from "@api/database/schema";
 import { PlantBookService } from "@shared/services/plantbook.service";
 import { db } from "@api/database/database";
 import { PlantNetService } from "@api/lib/plantnet/plantnet.service";
@@ -31,10 +31,11 @@ plantsController.get('/all', async (req, res) => {
 // Add a new plants
 plantsController.post('/add', async (req, res) => {
   try {
-    const {userId, name, sunlight, wateringRecurrenceDays, adoptionDate, imageUrl, roomId} =
+    const userId = req.userId;
+    const {name, sunlight, wateringRecurrenceDays, adoptionDate, imageUrl, roomId} =
      req.body;
 
-    const newPlant = await db.insert(plants).values({
+    const [newPlant] = await db.insert(plants).values({
       userId,
       name,
       sunlight,
@@ -42,7 +43,12 @@ plantsController.post('/add', async (req, res) => {
       adoptionDate,
       roomId,
       imageUrl,
-    });
+    }).returning({id: plants.id});
+
+    const nextWateringTask = await db.insert(tasks).values({
+      plantId: newPlant.id,
+      dueDate: computeNextOccurrence(wateringRecurrenceDays).toString()
+    })
 
     if (!newPlant) {
       return res.status(500).json({message: 'Failed to add the plants'});
