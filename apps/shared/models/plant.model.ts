@@ -8,7 +8,7 @@ export type Plant = PlantBase & {
 
 export type PlantBase = {
   name: string
-  adoptionDate: string
+  adoptionDate: Date
   sunlight: Sunlight | undefined
   wateringRecurrenceDays: number | undefined
   roomId: string | undefined

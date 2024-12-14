@@ -12,8 +12,11 @@ CREATE TABLE IF NOT EXISTS "tasks" (
 	"done" boolean DEFAULT false NOT NULL
 );
 --> statement-breakpoint
+ALTER TABLE "plants" ADD COLUMN "wateringRecurrenceDays" integer;--> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "tasks" ADD CONSTRAINT "tasks_plant_id_plants_id_fk" FOREIGN KEY ("plant_id") REFERENCES "public"."plants"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
+--> statement-breakpoint
+ALTER TABLE "plants" DROP COLUMN IF EXISTS "watering";

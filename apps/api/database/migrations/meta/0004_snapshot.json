@@ -1,5 +1,5 @@
 {
-  "id": "df389bed-a4e3-4fec-b138-c63f3d429f83",
+  "id": "14c23963-ebd7-4857-adff-499a97f80de8",
   "prevId": "f593dcb9-3dc5-4040-a366-ca5639e8fe3c",
   "version": "7",
   "dialect": "postgresql",
@@ -77,10 +77,9 @@
           "primaryKey": false,
           "notNull": false
         },
-        "watering": {
-          "name": "watering",
-          "type": "watering",
-          "typeSchema": "public",
+        "wateringRecurrenceDays": {
+          "name": "wateringRecurrenceDays",
+          "type": "integer",
           "primaryKey": false,
           "notNull": false
         },
@@ -367,16 +366,6 @@
       "schema": "public",
       "values": [
         "watering"
-      ]
-    },
-    "public.watering": {
-      "name": "watering",
-      "schema": "public",
-      "values": [
-        "Minimal",
-        "Sparing",
-        "Moderate",
-        "Frequent"
       ]
     }
   },
