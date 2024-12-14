@@ -1,23 +1,18 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "target": "es2016",
     "module": "commonjs",
-    "rootDir": "./",
-    "outDir": "../../dist/api",
-    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "esModuleInterop": true,
   },
-
-  "references": [
-    {
-      "path": "../shared"
-    }
+  "include": [
+    "**/*.ts",
+    "../shared/**/*"
   ],
   "exclude": [
-    "./verdiApp",
     "apps/api/database/migrations",
     "apps/api/database/migrate.ts",
     "drizzle.config.ts"
