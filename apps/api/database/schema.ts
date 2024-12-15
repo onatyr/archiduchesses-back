@@ -9,7 +9,9 @@ export const sunlightEnum = pgEnum('sunlight', [
 ]);
 
 export const locationEnum = pgEnum('location', ['INTERIOR', 'EXTERIOR']);
+
 export const taskTypeEnum = pgEnum('task_type', ['watering']);
+export type taskType = (typeof taskTypeEnum.enumValues)[number];
 
 export const users = pgTable('users', {
   id: uuid('id').primaryKey().defaultRandom(),

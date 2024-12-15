@@ -25,7 +25,7 @@ export default [
     },
   },
   {
-    ignores: ['dist/**', 'apps/verdiApp/**'],
+    ignores: ['dist/**'],
   },
   {
     plugins: {

@@ -19,6 +19,7 @@
       "cache": true
     },
     "clean": {
+      "dependsOn": ["^clean"],
       "persistent": true,
       "cache": false
     }
