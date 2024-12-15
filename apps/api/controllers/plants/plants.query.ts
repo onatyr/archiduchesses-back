@@ -9,6 +9,14 @@ export function getAllPlantsByUserId(userId: string) {
    .$dynamic();
 }
 
+export function getPlantById(id: string) {
+  return db.select()
+   .from(plants)
+   .where(eq(plants.id, id))
+   .limit(1)
+   .$dynamic()
+}
+
 export type PlantsWithTaskResult = Awaited<ReturnType<typeof getAllPlantsWithTask>>
 
 export async function getAllPlantsWithTask(userId: string) {

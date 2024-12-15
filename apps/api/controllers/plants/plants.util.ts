@@ -1,5 +1,5 @@
 import { InferSelectModel } from "drizzle-orm";
-import { plants } from "../../database/schema";
+import { plants } from "@api/database/schema";
 import { PlantsWithTaskResult } from "../plants/plants.query";
 
 export function formatPlantsWithTasks(plantsWithTask: PlantsWithTaskResult) {

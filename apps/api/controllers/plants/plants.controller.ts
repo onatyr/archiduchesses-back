@@ -7,11 +7,11 @@ import path from "path";
 import process from "node:process";
 import { formatPlantsWithTasks } from "./plants.util";
 import { getAllPlantsWithTask } from "./plants.query";
-import { plants } from "@api/database/schema";
+import { plants, taskTypeEnum } from "@api/database/schema";
 import { PlantBookService } from "@shared/services/plantbook.service";
 import { db } from "@api/database/database";
 import { PlantNetService } from "@api/lib/plantnet/plantnet.service";
-import { insertWateringTask } from "@api/controllers/tasks/tasks.query";
+import { insertNewTaskTask } from "@api/controllers/tasks/tasks.query";
 import { computeNextOccurrence } from "@api/controllers/tasks/tasks.util";
 
 dotenv.config({
@@ -25,7 +25,7 @@ plantsController.get('/all', async (req, res) => {
     const allPlants = formatPlantsWithTasks(await getAllPlantsWithTask(req.userId))
     res.status(200).json(allPlants);
   } catch (e) {
-    console.error(e instanceof Error ? e.message : e);
+    console.error(e);
     res.status(500).json({message: 'Internal Server Error'})
   }
 });
@@ -48,7 +48,7 @@ plantsController.post('/add', async (req, res) => {
     }).returning({id: plants.id});
 
     if (wateringRecurrenceDays) {
-      const [nextWateringTask] = await insertWateringTask(newPlant.id, computeNextOccurrence(wateringRecurrenceDays))
+      const [nextWateringTask] = await insertNewTaskTask(newPlant.id, 'watering', computeNextOccurrence(wateringRecurrenceDays))
       if (!nextWateringTask) {
         return res.status(500).json({message: 'Failed to add the plants'});
       }
@@ -63,7 +63,7 @@ plantsController.post('/add', async (req, res) => {
      .json({message: 'Plant added successfully', plant: newPlant});
   } catch (e) {
     console.log(e)
-    console.error(e instanceof Error ? e.message : e);
+    console.error(e);
     res.status(500).json({message: 'Internal Server Error'});
   }
 });
@@ -83,7 +83,7 @@ plantsController.delete('/delete/:id', async (req, res) => {
       message: `Plant with ID ${id} deleted successfully`,
     });
   } catch (e) {
-    console.error(e instanceof Error ? e.message : e);
+    console.error(e);
     res.status(500).json({message: 'Internal Server Error'});
   }
 });
@@ -123,7 +123,7 @@ plantsController.post('/identify', upload.single('files'), async (req, res, next
 
     res.status(200).json(plantNetIdentifications)
   } catch (e) {
-    console.error(e instanceof Error ? e.message : e);
+    console.error(e);
     res.status(500)
   } finally {
     if (req.file) {

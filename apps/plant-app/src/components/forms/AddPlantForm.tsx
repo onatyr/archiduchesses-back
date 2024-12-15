@@ -84,7 +84,6 @@ const AddPlantForm: React.FC<AddPlantFormProps> = ({ onClose }) => {
 
   const handleInputChangeForm = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    console.log(e.target)
     setNewPlant((prevState: any) => ({
       ...prevState,
       [id]: value,

@@ -46,7 +46,7 @@
     "seed": "node scripts/dbSeed.mjs",
     "lint": "npx eslint",
     "format": "prettier --write .",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf .turbo && rm -rf dist"
   },
   "author": "",
   "license": "ISC",
