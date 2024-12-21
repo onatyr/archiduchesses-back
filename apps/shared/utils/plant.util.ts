@@ -1,4 +1,4 @@
-import { Sunlight } from "../models";
+import { Sunlight } from "@shared/models";
 
 export function getSunlightExposure(lux: number): Sunlight {
   if (lux >= 50000) {

@@ -4,6 +4,7 @@
   "description": "Project RNCP Claire & Onat",
   "type": "module",
   "main": "../../dist/api/index.js",
+  "type": "module",
   "scripts": {
     "api": "tsc-watch --onSuccess 'npm run server'",
     "server": "npm run build && node ../../dist/api/index.js",
