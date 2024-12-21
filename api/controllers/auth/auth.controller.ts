@@ -68,7 +68,6 @@ authController.post(
  '/register',
  async (req: express.Request<unknown, unknown, User>, res) => {
    try {
-     // Check if the user already exists
      const existingUser = await db
       .select()
       .from(users)
