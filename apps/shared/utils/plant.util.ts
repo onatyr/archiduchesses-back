@@ -1,4 +1,4 @@
-import { Sunlight } from "@shared/models";
+import { Sunlight } from "../models";
 
 export function getSunlightExposure(lux: number): Sunlight {
   if (lux >= 50000) {
@@ -11,15 +11,3 @@ export function getSunlightExposure(lux: number): Sunlight {
     return Sunlight.LowLight;
   }
 }
-
-// const getWateringSchedule = (soilMoisture: number): Watering => {
-//  if (soilMoisture >= 60) {
-//   return Watering.Frequent;
-//  } else if (soilMoisture >= 40) {
-//   return Watering.Moderate;
-//  } else if (soilMoisture >= 20) {
-//   return Watering.Sparing;
-//  } else {
-//   return Watering.Minimal;
-//  }
-// };
