@@ -1,45 +1,49 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>API Call Example</title>
-</head>
-<body>
-<h1>Complete a Task</h1>
-<form id="completeTaskForm">
-  <label for="taskId">Task ID:</label>
-  <input type="text" id="taskId" name="taskId" required>
-  <button type="submit">Mark as Complete</button>
-</form>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Call Example</title>
+  </head>
+  <body>
+    <h1>Complete a Task</h1>
+    <form id="completeTaskForm">
+      <label for="taskId">Task ID:</label>
+      <input type="text" id="taskId" name="taskId" required />
+      <button type="submit">Mark as Complete</button>
+    </form>
 
-<div id="response"></div>
+    <div id="response"></div>
 
-<script>
-  document.getElementById('completeTaskForm').addEventListener('submit', async (event) => {
-    event.preventDefault(); // Prevent the form from refreshing the page
+    <script>
+      document
+        .getElementById('completeTaskForm')
+        .addEventListener('submit', async (event) => {
+          event.preventDefault(); // Prevent the form from refreshing the page
 
-    const taskId = document.getElementById('taskId').value;
-    const url = `http://127.0.0.1:3000/tasks/complete/${taskId}`;
+          const taskId = document.getElementById('taskId').value;
+          const url = `http://127.0.0.1:3000/tasks/complete/${taskId}`;
 
-    try {
-      const response = await fetch(url, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+          try {
+            const response = await fetch(url, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
 
-      const responseData = await response.json();
-      document.getElementById('response').textContent = `Task ${taskId} completed successfully! Response: ${JSON.stringify(responseData)}`;
-    } catch (error) {
-      document.getElementById('response').textContent = `Failed to complete task: ${error.message}`;
-    }
-  });
-</script>
-</body>
+            const responseData = await response.json();
+            document.getElementById('response').textContent =
+              `Task ${taskId} completed successfully! Response: ${JSON.stringify(responseData)}`;
+          } catch (error) {
+            document.getElementById('response').textContent =
+              `Failed to complete task: ${error.message}`;
+          }
+        });
+    </script>
+  </body>
 </html>

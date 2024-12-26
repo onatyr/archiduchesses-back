@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "strict": true,
+    "rootDir": "./",
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@api/*": ["api/*"],
+      "@lib/*": ["lib/*"]
+    }
+  },
+  "include": ["**/*.ts", "./lib/**/*"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "./api/database/migrations",
+    "./api/database/migrate.ts",
+    "drizzle.config.ts"
+  ]
+}
