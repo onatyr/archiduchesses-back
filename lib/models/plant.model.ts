@@ -22,12 +22,12 @@ export enum Sunlight {
   FullSun = 'Full Sun',
 }
 
-export type PlantBookSearchResult = {
+export type PlantbookEntity = {
   displayPid: string;
   pid: string;
 };
 
-export type PlantBookDetails = PlantBookSearchResult & {
+export type PlantBookDetails = PlantbookEntity & {
   maxLightLux: number;
   minLightLux: number;
   imageUrl: string;

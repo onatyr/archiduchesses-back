@@ -24,32 +24,32 @@ export type taskType = (typeof taskTypeEnum.enumValues)[number];
 
 export const users = pgTable('users', {
   id: uuid('id').primaryKey().defaultRandom(),
-  name: varchar('name', { length: 256 }).notNull(),
-  email: varchar('email', { length: 256 }).notNull(),
-  password: varchar('password', { length: 256 }).notNull(),
+  name: varchar('name', {length: 256}).notNull(),
+  email: varchar('email', {length: 256}).notNull(),
+  password: varchar('password', {length: 256}).notNull(),
   creationDate: timestamp('creation_date').defaultNow().notNull(),
 });
 
-export const usersRelations = relations(users, ({ many }) => ({
+export const usersRelations = relations(users, ({many}) => ({
   usersToPlaces: many(usersToPlaces),
 }));
 
 export const usersToPlaces = pgTable(
-  'users_to_places',
-  {
-    userId: uuid('user_id')
-      .notNull()
-      .references(() => users.id),
-    placeId: uuid('place_id')
-      .notNull()
-      .references(() => places.id),
-  },
-  (t) => ({
-    pk: primaryKey({ columns: [t.userId, t.placeId] }),
-  })
+ 'users_to_places',
+ {
+   userId: uuid('user_id')
+    .notNull()
+    .references(() => users.id),
+   placeId: uuid('place_id')
+    .notNull()
+    .references(() => places.id),
+ },
+ (t) => ({
+   pk: primaryKey({columns: [t.userId, t.placeId]}),
+ })
 );
 
-export const usersToPlacesRelations = relations(usersToPlaces, ({ one }) => ({
+export const usersToPlacesRelations = relations(usersToPlaces, ({one}) => ({
   places: one(places, {
     fields: [usersToPlaces.placeId],
     references: [places.id],
@@ -63,9 +63,9 @@ export const usersToPlacesRelations = relations(usersToPlaces, ({ one }) => ({
 export const plants = pgTable('plants', {
   id: uuid('id').primaryKey().defaultRandom(),
   userId: uuid('user_id')
-    .references(() => users.id)
-    .notNull(),
-  name: varchar('name', { length: 256 }).notNull(),
+   .references(() => users.id)
+   .notNull(),
+  name: varchar('name', {length: 256}).notNull(),
   sunlight: sunlightEnum('sunlight'),
   wateringRecurrenceDays: integer('wateringRecurrenceDays'),
   adoptionDate: timestamp('adoption_date').defaultNow(),
@@ -75,9 +75,9 @@ export const plants = pgTable('plants', {
 
 export const tasks = pgTable('tasks', {
   id: uuid('id').primaryKey().defaultRandom(),
-  plantId: uuid('plant_id')
-    .references(() => plants.id)
-    .notNull(),
+  plantId: uuid('plant_id') // todo delete tasks on cascade when plant is deleted
+   .references(() => plants.id)
+   .notNull(),
   type: taskTypeEnum('task_type').notNull(),
   dueDate: timestamp('due_date'),
   done: boolean('done').default(false).notNull(),
@@ -85,21 +85,21 @@ export const tasks = pgTable('tasks', {
 
 export const places = pgTable('places', {
   id: uuid('id').primaryKey().defaultRandom(),
-  label: varchar('name', { length: 256 }).notNull(),
+  label: varchar('name', {length: 256}).notNull(),
   userId: uuid('user_id')
-    .references(() => users.id)
-    .notNull(),
+   .references(() => users.id)
+   .notNull(),
 });
 
-export const placesRelations = relations(places, ({ many }) => ({
+export const placesRelations = relations(places, ({many}) => ({
   usersToPlaces: many(usersToPlaces),
 }));
 
 export const rooms = pgTable('rooms', {
   id: uuid('id').primaryKey().defaultRandom(),
-  label: varchar('name', { length: 256 }).notNull(),
+  label: varchar('name', {length: 256}).notNull(),
   placeId: uuid('place_id')
-    .references(() => places.id)
-    .notNull(),
+   .references(() => places.id)
+   .notNull(),
   location: locationEnum('location'),
 });

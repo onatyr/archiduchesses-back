@@ -51,7 +51,7 @@ plantsController.post('/add', async (req, res) => {
        name,
        sunlight,
        wateringRecurrenceDays,
-       adoptionDate: new Date(adoptionDate),
+       adoptionDate: adoptionDate,
        roomId,
        imageUrl,
      })
@@ -108,10 +108,10 @@ plantsController.get(
      return res
       .status(500)
       .json({message: 'Query should contains 3 characters minimum'});
-   const plantBookResult = await new PlantBookService(
+   const plantbookEntities = await new PlantBookService(
     process.env.VITE_PLANTBOOK_API_KEY
    ).searchPlantByName(req.params.name);
-   res.status(200).json(plantBookResult);
+   res.status(200).json(plantbookEntities);
  }
 );
 
@@ -151,14 +151,12 @@ plantsController.post(
         const plantbookPid = (
          await plantBookService.searchPlantByName(result.plantnetName)
         ).at(0)?.pid;
-        return [
-          {
-            ...result,
-            plantbookDetails: plantbookPid
-             ? await plantBookService.getPlantDetails(plantbookPid)
-             : null,
-          },
-        ];
+        return {
+          ...result,
+          plantbookDetailsDto: plantbookPid
+           ? await plantBookService.getPlantDetails(plantbookPid)
+           : null,
+        };
       })
      );
 
