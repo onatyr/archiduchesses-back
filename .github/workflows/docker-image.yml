@@ -29,7 +29,6 @@ jobs:
         source: ./archi-back.tar
         target: /tmp/archi-back.tar
         port: 1500
-        debug: 'true'
 
     - name: Load and Run the Docker Image on Server
       uses: appleboy/ssh-action@v0.1.7
@@ -38,6 +37,7 @@ jobs:
         username: ${{ secrets.REMOTE_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        port: 1500
         script: |
           docker load < /tmp/archi-back.tar
           docker stop archi-back || true
