@@ -1,0 +1,41 @@
+name: Archi-back pipeline
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Build the Docker Image
+      run: |
+        docker build . --file Dockerfile --tag my-app:latest
+        docker save my-app:latest > my-app.tar
+
+    - name: Copy Image to Remote Server
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        key: ${{ secrets.REMOTE_SSH_PRIVATE_KEY }}
+        source: ./my-app.tar
+        target: /tmp/my-app.tar
+
+    - name: Load and Run the Docker Image on Server
+      uses: appleboy/ssh-action@v0.1.7
+      with:
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          docker load < /tmp/my-app.tar
+          docker stop my-app || true
+          docker rm my-app || true
+          docker run -d --name my-app -p 3000:3000 my-app:latest
