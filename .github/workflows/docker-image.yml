@@ -28,6 +28,7 @@ jobs:
         source: ./archi-back.tar
         target: /tmp/archi-back.tar
         port: 1500
+        debug: 'true'
 
     - name: Load and Run the Docker Image on Server
       uses: appleboy/ssh-action@v0.1.7
