@@ -1,6 +1,6 @@
 import { InferSelectModel } from 'drizzle-orm';
 import { PlantsWithTaskResult } from "@api/controllers/plants/plants.query";
-import { plants } from "@api/database/schema";
+import { plants, taskType } from "@api/database/schema";
 
 export function formatPlantsWithTasks(plantsWithTask: PlantsWithTaskResult) {
   return plantsWithTask.reduce(
@@ -10,8 +10,11 @@ export function formatPlantsWithTasks(plantsWithTask: PlantsWithTaskResult) {
      if (plant) {
        if (row.tasks) {
          plant.tasks.push({
-           taskId: row.tasks.id,
+           id: row.tasks.id,
+           plantId: row.tasks.plantId,
+           type: row.tasks.type,
            dueDate: row.tasks.dueDate,
+           done: row.tasks.done
          });
        }
      } else {
@@ -20,8 +23,11 @@ export function formatPlantsWithTasks(plantsWithTask: PlantsWithTaskResult) {
          tasks: row.tasks
           ? [
             {
-              taskId: row.tasks.id,
+              id: row.tasks.id,
+              plantId: row.tasks.plantId,
+              type: row.tasks.type,
               dueDate: row.tasks.dueDate,
+              done: row.tasks.done
             },
           ]
           : [],
@@ -33,8 +39,11 @@ export function formatPlantsWithTasks(plantsWithTask: PlantsWithTaskResult) {
    [] as Array<
     InferSelectModel<typeof plants> & {
      tasks: Array<{
-       taskId: string;
+       id: string;
+       plantId: string;
+       type: taskType;
        dueDate: Date | null;
+       done: boolean
      }>;
    }
    >
