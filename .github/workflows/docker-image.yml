@@ -37,8 +37,9 @@ jobs:
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE }}
         script: |
           docker load < /tmp/archi-back.tar
           docker stop archi-back || true
           docker rm archi-back || true
-          docker run -d --name archi-back -p 3000:3000 archi-back:latest
+          docker run -d --name archi-back --env-file /home/onat-rspb.env my-image-name -p 3000:3000 archi-back:latest
