@@ -27,6 +27,7 @@ jobs:
         key: ${{ secrets.REMOTE_SSH_PRIVATE_KEY }}
         source: ./archi-back.tar
         target: /tmp/archi-back.tar
+        port: 1500
 
     - name: Load and Run the Docker Image on Server
       uses: appleboy/ssh-action@v0.1.7
