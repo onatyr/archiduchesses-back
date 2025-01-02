@@ -24,7 +24,7 @@ jobs:
       with:
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
-        key: ${{ secrets.REMOTE_SSH_PRIVATE_KEY }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
         source: ./archi-back.tar
         target: /tmp/archi-back.tar
         port: 1500
