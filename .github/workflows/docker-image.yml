@@ -42,4 +42,4 @@ jobs:
           docker load < /tmp/archi-back.tar
           docker stop archi-back || true
           docker rm archi-back || true
-          docker run -d --name archi-back --env-file /home/onat-rspb.env -p 3000:3000 archi-back:latest
+          docker run -d --name archi-back --env-file /home/onat-rspb/.env -p 3000:3000 archi-back:latest
