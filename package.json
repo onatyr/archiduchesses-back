@@ -52,7 +52,7 @@
     "server": "npm run build && node ./dist/api/index.js",
     "build": "tsc --build && tsc-alias",
     "generate": "npx drizzle-kit generate",
-    "migrate": "drizzle-kit migrate",
+    "migrate": "(cd ./api && npx drizzle-kit migrate)",
     "seed": "node scripts/dbSeed.mjs",
     "lint": "npx eslint",
     "format": "prettier --write .",

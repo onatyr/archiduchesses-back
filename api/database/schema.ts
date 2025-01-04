@@ -34,6 +34,18 @@ export const usersRelations = relations(users, ({many}) => ({
   usersToPlaces: many(usersToPlaces),
 }));
 
+export const places = pgTable('places', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  label: varchar('label', {length: 256}).notNull(),
+  userId: uuid('user_id')
+   .references(() => users.id)
+   .notNull(),
+});
+
+export const placesRelations = relations(places, ({many}) => ({
+  usersToPlaces: many(usersToPlaces),
+}));
+
 export const usersToPlaces = pgTable(
  'users_to_places',
  {
@@ -83,21 +95,9 @@ export const tasks = pgTable('tasks', {
   done: boolean('done').default(false).notNull(),
 });
 
-export const places = pgTable('places', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  label: varchar('name', {length: 256}).notNull(),
-  userId: uuid('user_id')
-   .references(() => users.id)
-   .notNull(),
-});
-
-export const placesRelations = relations(places, ({many}) => ({
-  usersToPlaces: many(usersToPlaces),
-}));
-
 export const rooms = pgTable('rooms', {
   id: uuid('id').primaryKey().defaultRandom(),
-  label: varchar('name', {length: 256}).notNull(),
+  label: varchar('label', {length: 256}).notNull(),
   placeId: uuid('place_id')
    .references(() => places.id)
    .notNull(),
