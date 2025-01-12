@@ -51,7 +51,7 @@
     "api": "tsc-watch --onSuccess 'npm run server'",
     "server": "npm run build && node ./dist/api/index.js",
     "build": "tsc --build && tsc-alias",
-    "generate": "npx drizzle-kit generate",
+    "generate": "(cd ./api && npx drizzle-kit generate)",
     "migrate": "(cd ./api && npx drizzle-kit migrate)",
     "seed": "node scripts/dbSeed.mjs",
     "lint": "npx eslint",

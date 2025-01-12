@@ -1,6 +1,6 @@
 import express from 'express';
 import { sign } from 'jsonwebtoken';
-import { eq } from 'drizzle-orm';
+import { eq, or } from 'drizzle-orm';
 import dotenv from 'dotenv';
 import path from 'path';
 import * as process from 'node:process';
@@ -72,12 +72,12 @@ authController.post(
      const existingUser = await db
       .select()
       .from(users)
-      .where(eq(users.email, req.body.email))
+      .where(or(eq(users.email, req.body.email), eq(users.name, req.body.name)))
       .limit(1)
       .execute();
 
      if (existingUser.length > 0) {
-       return res.status(400).json({message: 'Email already in use'});
+       return res.status(400).json({message: 'Name or email already in use'});
      }
 
      const hashedPassword = await bcrypt.hash(req.body.password, 10);
