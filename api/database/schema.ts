@@ -77,6 +77,7 @@ export const plants = pgTable('plants', {
   userId: uuid('user_id')
    .references(() => users.id)
    .notNull(),
+  species: varchar('species', {length: 256}),
   name: varchar('name', {length: 256}).notNull(),
   sunlight: sunlightEnum('sunlight'),
   wateringRecurrenceDays: integer('wateringRecurrenceDays'),

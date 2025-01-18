@@ -11,7 +11,7 @@ import { plants } from '@api/database/schema';
 import { insertNewTaskTask } from '@api/controllers/tasks/tasks.query';
 import { computeNextOccurrence } from '@api/controllers/tasks/tasks.util';
 import { PlantBookService } from '@lib/services/plantbook.service';
-import { PlantNetService } from '@lib/plantnet/plantnet.service';
+import { PlantNetService } from '@lib/services/plantnet.service';
 import express from 'express';
 
 dotenv.config({
