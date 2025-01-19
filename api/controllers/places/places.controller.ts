@@ -2,7 +2,7 @@ import express from 'express';
 import { eq } from 'drizzle-orm';
 import { getAllPlacesByUserId } from '@api/controllers/places/places.query';
 import { db } from '@api/database/database';
-import { places, rooms, usersToPlaces } from '@api/database/schema';
+import { rooms } from '@api/database/schema';
 
 export const placesController: express.Router = express();
 
