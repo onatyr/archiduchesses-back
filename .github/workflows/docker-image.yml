@@ -14,8 +14,13 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v3
 
-    - name: Build the Docker Image
+    - name: Setup runner
       uses: pguyot/arm-runner-action@v2
+      with:
+      platform: linux/arm64
+
+
+    - name: Build the Docker Image
       run: |
         uname -m
         docker build . --platform linux/arm64 --tag archi-back:latest
