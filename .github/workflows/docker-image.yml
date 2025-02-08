@@ -27,7 +27,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         source: ./archi-back.tar
-        target: /tmp/archi-back.tar
+        target: /tmp
         port: 1500
 
     - name: Load and Run the Docker Image on Server
