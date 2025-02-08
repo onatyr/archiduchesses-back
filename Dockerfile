@@ -1,5 +1,5 @@
 # FROM node:18
-FROM kindest/node-arm64
+FROM arm64v8/node:18
 
 WORKDIR /app
 
