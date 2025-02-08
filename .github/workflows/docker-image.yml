@@ -16,9 +16,6 @@ jobs:
 
     - name: Setup runner
       uses: pguyot/arm-runner-action@v2
-      with:
-      platform: linux/arm64
-
 
     - name: Build the Docker Image
       run: |
