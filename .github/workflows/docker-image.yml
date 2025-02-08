@@ -16,7 +16,7 @@ jobs:
 
     - name: Build the Docker Image
       run: |
-        docker build . --tag archi-back:latest
+        docker build . --platform linux/arm64 --tag archi-back:latest
         docker save archi-back:latest > archi-back.tar
 
     - name: Copy Image to Remote Server
