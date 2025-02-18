@@ -55,10 +55,6 @@ npm run test
 ```
 npm run lint
 ```
-To automatically fix  what can be:
-```
-npm run lint --fix
-```
 
 ## Docker
 
