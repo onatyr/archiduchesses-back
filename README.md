@@ -10,31 +10,31 @@ The **archiduchesses back-end** is an API serving the Turbo Plant app. The purpo
 3. Install dependencies
 
 ```
-$ npm install
+npm install
 ```
 
 4. Run server
 
 From the typescript files (with rebuild on changes, recommanded during development):
 ```
-$ npm run api
+npm run api
 ```
 
 From the JS transpiled files (no rebuild on changes, to test the final served files):
 ```
-$ npm run server
+npm run server
 ```
 
 ### Run tests
 
 ```
-npx run test
+npm run test
 ```
 
 ### Linter
 
 ```
-$ npm run lint
+npm run lint
 ```
 To automatically fix  what can be:
 ```
@@ -45,9 +45,9 @@ npm run lint -- --fix
 
 With Dockerfile written, build the image using the following command:
 ```
-$ docker build
+docker build
 ```
 
 ## Deployment
 
-**archiduchesses-back** is deployed automatically on any push on the 'develop' branch
+**archiduchesses-back** is deployed automatically on any push on the 'develop' branch.
