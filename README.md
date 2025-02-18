@@ -24,14 +24,33 @@ From the JS transpiled files (no rebuild on changes, to test the final served fi
 ```
 npm run server
 ```
+## Database
 
-### Run tests
+### Create a new database copied from the main one
+This command copy the existing development database into a new one. Always use during development phase to test your changes:
+```
+npm run seed YOUR-DATABASE-NAME
+```
+
+### Generate migration file
+This command compare the schema file and the database's schema and generate a new migration file:
+```
+npm run generate
+```
+
+### Apply migration file
+This command apply the generated migration files:
+```
+npm run migrate
+```
+
+## Run tests
 
 ```
 npm run test
 ```
 
-### Linter
+## Linter
 
 ```
 npm run lint
@@ -41,7 +60,7 @@ To automatically fix  what can be:
 npm run lint -- --fix
 ```
 
-### Docker
+## Docker
 
 With Dockerfile written, build the image using the following command:
 ```
