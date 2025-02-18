@@ -27,7 +27,7 @@ npm run server
 ## Database
 
 ### Create a new database copied from the main one
-This command copy the existing development database into a new one. Always use during development phase to test your changes:
+This command copy the existing development database into a new one. Always use this to test your changes during development phase:
 ```
 npm run seed YOUR-DATABASE-NAME
 ```
@@ -57,7 +57,7 @@ npm run lint
 ```
 To automatically fix  what can be:
 ```
-npm run lint -- --fix
+npm run lint --fix
 ```
 
 ## Docker
