@@ -1,4 +1,4 @@
-import { computeNextOccurrence } from './tasks.util';
+import { computeNextOccurrence } from '@api/controllers/tasks/tasks.util';
 
 describe('computeNextOccurrence', () => {
   beforeAll(() => {
