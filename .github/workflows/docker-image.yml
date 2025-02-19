@@ -32,7 +32,7 @@ jobs:
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         source: ./archi-back.tar
         target: /tmp
-        port: 1500
+        port: 22
 
     - name: Load and Run the Docker Image on Server
       uses: appleboy/ssh-action@v0.1.7
