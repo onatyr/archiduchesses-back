@@ -11,34 +11,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
-
-    - name: Setup runner
-      uses: pguyot/arm-runner-action@v2
-
-    - name: Build the Docker Image
-      run: |
-        uname -m
-        docker build . --platform linux/arm64 --tag archi-back:latest
-        docker save archi-back:latest > archi-back.tar
-
-    - name: Copy Image to Remote Server
-      uses: appleboy/scp-action@v0.1.7
-      with:
-        host: ${{ secrets.RSPB_HOST }}
-        username: ${{ secrets.RSPB_USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        passphrase: ${{ secrets.SSH_PASSPHRASE }}
-        source: ./archi-back.tar
-        target: /tmp
-        port: ${{ secrets.RSPB_PORT }}
+#    - name: Checkout Code
+#      uses: actions/checkout@v3
+#
+#    - name: Setup runner
+#      uses: pguyot/arm-runner-action@v2
+#
+#    - name: Build the Docker Image
+#      run: |
+#        uname -m
+#        docker build . --platform linux/arm64 --tag archi-back:latest
+#        docker save archi-back:latest > archi-back.tar
+#
+#    - name: Copy Image to Remote Server
+#      uses: appleboy/scp-action@v0.1.7
+#      with:
+#        host: ${{ secrets.RSPB_HOST }}
+#        username: ${{ secrets.RSPB_USER }}
+#        key: ${{ secrets.SSH_PRIVATE_KEY }}
+#        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+#        source: ./archi-back.tar
+#        target: /tmp
+#        port: ${{ secrets.RSPB_PORT }}
 
     - name: Load and Run the Docker Image on Server
       uses: appleboy/ssh-action@v0.1.7
       with:
-        host: ${{ secrets.REMOTE_HOST }}
-        username: ${{ secrets.REMOTE_USER }}
+        host: ${{ secrets.RSPB_HOST }}
+        username: ${{ secrets.RSPB_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         port: ${{ secrets.RSPB_PORT }}
