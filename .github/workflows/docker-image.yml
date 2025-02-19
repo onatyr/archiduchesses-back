@@ -26,13 +26,13 @@ jobs:
     - name: Copy Image to Remote Server
       uses: appleboy/scp-action@v0.1.7
       with:
-        host: ${{ secrets.REMOTE_HOST }}
-        username: ${{ secrets.REMOTE_USER }}
+        host: ${{ secrets.RSPB_HOST }}
+        username: ${{ secrets.RSPB_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         source: ./archi-back.tar
         target: /tmp
-        port: 22
+        port: ${{ secrets.RSPB_PORT }}
 
     - name: Load and Run the Docker Image on Server
       uses: appleboy/ssh-action@v0.1.7
@@ -41,9 +41,10 @@ jobs:
         username: ${{ secrets.REMOTE_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
-        port: 1500
+        port: ${{ secrets.RSPB_PORT }}
         script: |
+          export RSPB_USER=${{ secrets.RSPB_USER }}
           docker load < /tmp/archi-back.tar
           docker stop archi-back || true
           docker rm archi-back || true
-          docker run -d --name archi-back --env-file /home/onat-rspb/.env -p 3000:3000 archi-back:latest
+          docker run -d --name archi-back --env-file /home/$RSPB_USER/.env -p 3000:3000 archi-back:latest
