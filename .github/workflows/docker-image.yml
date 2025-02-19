@@ -13,26 +13,26 @@ jobs:
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
-#
-#    - name: Setup runner
-#      uses: pguyot/arm-runner-action@v2
-#
-#    - name: Build the Docker Image
-#      run: |
-#        uname -m
-#        docker build . --platform linux/arm64 --tag archi-back:latest
-#        docker save archi-back:latest > archi-back.tar
-#
-#    - name: Copy Image to Remote Server
-#      uses: appleboy/scp-action@v0.1.7
-#      with:
-#        host: ${{ secrets.RSPB_HOST }}
-#        username: ${{ secrets.RSPB_USER }}
-#        key: ${{ secrets.SSH_PRIVATE_KEY }}
-#        passphrase: ${{ secrets.SSH_PASSPHRASE }}
-#        source: ./archi-back.tar
-#        target: /tmp
-#        port: ${{ secrets.RSPB_PORT }}
+
+    - name: Setup runner
+      uses: pguyot/arm-runner-action@v2
+
+    - name: Build the Docker Image
+      run: |
+        uname -m
+        docker build . --platform linux/arm64 --tag archi-back:latest
+        docker save archi-back:latest > archi-back.tar
+
+    - name: Copy Image to Remote Server
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.RSPB_HOST }}
+        username: ${{ secrets.RSPB_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        source: ./archi-back.tar
+        target: /tmp
+        port: ${{ secrets.RSPB_PORT }}
 
     - name: Load and Run the Docker Image on Server
       uses: appleboy/ssh-action@v0.1.7
@@ -45,6 +45,6 @@ jobs:
         script: |
           export RSPB_USER=${{ secrets.RSPB_USER }}
           docker load < /tmp/archi-back.tar
-          docker stop archi-back || true
-          docker rm archi-back || true
+          docker rm -f archi-back || true
+          sleep 3
           docker run -d --name archi-back --env-file /home/$RSPB_USER/.env -p 3000:3000 archi-back:latest
