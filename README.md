@@ -1,6 +1,6 @@
-# archiduchesses back-end
+# turboplant back-end
 
-The **archiduchesses back-end** is an API serving the Turbo Plant app. The purpose of the app is to make plant care easier within communities.
+The **turboplant back-end** is an API serving the Turbo Plant app. The purpose of the app is to make plant care easier within communities.
 
 ## Installation
 
