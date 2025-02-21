@@ -1,6 +1,6 @@
-# turboplant back-end
+# turboplant back
 
-The **turboplant back-end** is an API serving the Turbo Plant app. The purpose of the app is to make plant care easier within communities.
+The **turboplant back** is an API serving the Turbo Plant app. The purpose of the app is to make plant care easier within communities.
 
 ## Installation
 
@@ -65,4 +65,4 @@ docker build
 
 ## Deployment
 
-**archiduchesses-back** is deployed automatically on any push on the 'develop' branch.
+**turboplant-back** is deployed automatically on any push on the 'develop' branch.
