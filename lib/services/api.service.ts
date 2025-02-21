@@ -9,19 +9,17 @@ export class ApiService {
     this.baseUrl += baseRoute || '';
   }
 
-  // GET method
   async _get(route: string, queryParams: object | null = null) {
     return this.axiosInstance.get(this.baseUrl + route, {
       params: queryParams,
     });
   }
 
-  // POST method
   async _post(
-    route: string,
-    bodyParams: any = null,
-    queryParams: URLSearchParams | null = null,
-    formData: FormData | null = null
+   route: string,
+   bodyParams: any = null,
+   queryParams: URLSearchParams | null = null,
+   formData: FormData | null = null
   ) {
     const headers = {
       'Content-Type': formData ? 'multipart/form-data' : 'application/json',
@@ -29,16 +27,15 @@ export class ApiService {
     const url = this.baseUrl + route;
 
     return this.axiosInstance.post(
-      url.toString(),
-      formData ? formData : bodyParams,
-      {
-        params: queryParams,
-        headers,
-      }
+     url.toString(),
+     formData ? formData : bodyParams,
+     {
+       params: queryParams,
+       headers,
+     }
     );
   }
 
-  // DELETE method
   async _delete(route: string, data: any = null) {
     const headers: any = {};
 

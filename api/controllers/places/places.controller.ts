@@ -22,7 +22,7 @@ placesController.get('/allRoomsByPlaceId/:placeId', async (req, res, next) => {
     );
 
     if (!hasAccess) {
-      res.status(500).json({message: 'No room found'});
+      res.status(204).json({message: 'No room found'});
       return;
     }
     const allRooms = await db

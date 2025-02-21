@@ -10,9 +10,9 @@ dotenv.config({
 });
 
 export function authenticate(
-  req: express.Request,
-  res: express.Response,
-  next: NextFunction
+ req: express.Request,
+ res: express.Response,
+ next: NextFunction
 ) {
   try {
     if (isExempted(req.path)) return next();
@@ -21,15 +21,15 @@ export function authenticate(
       return res.status(401).json();
 
     verify(
-      token,
-      process.env.ACCESS_TOKEN_SECRET,
-      (err, userPayload: JwtPayload | string | undefined) => {
-        const user = userPayload as JwtUserModel;
-        console.log(user);
-        req.userId = user.id_user;
-        req.username = user.username;
-        next();
-      }
+     token,
+     process.env.ACCESS_TOKEN_SECRET,
+     (err, userPayload: JwtPayload | string | undefined) => {
+       const user = userPayload as JwtUserModel;
+       console.log(user);
+       req.userId = user.id_user;
+       req.username = user.username;
+       next();
+     }
     );
   } catch (e) {
     console.error(e);
@@ -47,5 +47,4 @@ const EXEMPTED_ENDPOINTS = [
   'auth/register',
   'plants/identify',
   // endpoints below this message should only be there for testing purpose
-  'tasks/complete',
 ];
