@@ -25,7 +25,7 @@ export type taskType = (typeof taskTypeEnum.enumValues)[number];
 export const users = pgTable('users', {
   id: uuid('id').primaryKey().defaultRandom(),
   name: varchar('name', {length: 256}).notNull(),
-  email: varchar('email', {length: 256}).notNull(),
+  email: varchar('email', {length: 256}).notNull().unique(),
   password: varchar('password', {length: 256}).notNull(),
   creationDate: timestamp('creation_date').defaultNow().notNull(),
 });
