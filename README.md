@@ -1,13 +1,16 @@
 # turboplant back
 
-The **turboplant back** is an API serving the Turbo Plant app. The purpose of the app is to make plant care easier within communities.
+The **turboplant back** is an API serving the [Turbo Plant mobile app](https://github.com/onatyr/turboplant-mobile). The purpose of the app is to make plant care easier within communities.
 
 ## Installation
 
 1. Clone the repository
-2. Add a new `.env` file with the right credentials
+```
+git clone git@github.com:onatyr/turboplant-back.git
+```
+3. Add a new `.env` file with the right credentials at the root of the project
 
-3. Install dependencies
+4. Install dependencies
 
 ```
 npm install
