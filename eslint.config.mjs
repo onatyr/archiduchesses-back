@@ -1,6 +1,5 @@
 import globals from 'globals';
 import pluginJs from '@eslint/js';
-import pluginVue from 'eslint-plugin-vue';
 import pluginPrettier from 'eslint-plugin-prettier';
 import prettierConfig from 'eslint-config-prettier';
 import typescriptPlugin from '@typescript-eslint/eslint-plugin';
@@ -18,7 +17,6 @@ export default [
       },
     },
     rules: {
-      'no-undef': 'error',
       'no-duplicate-imports': 'error',
       'no-unused-vars': 'warn',
       'no-console': ['warn', { allow: ['error'] }],

@@ -1,51 +1,55 @@
 import { InferSelectModel } from 'drizzle-orm';
-import { PlantsWithTaskResult } from "@api/controllers/plants/plants.query";
-import { plants, taskType } from "@api/database/schema";
+import { PlantsWithTaskResult } from '@api/controllers/plants/plants.query';
+import { plants, taskType } from '@api/database/schema';
+
+export type PlantsWithTasksFormatted = Array<
+  InferSelectModel<typeof plants> & {
+    tasks: Array<{
+      id: string;
+      plantId: string;
+      type: taskType;
+      dueDate: Date | null;
+      done: boolean;
+    }>;
+  }
+>;
 
 export function formatPlantsWithTasks(plantsWithTask: PlantsWithTaskResult) {
-  return plantsWithTask.reduce(
-   (acc, row) => {
-     const plant = acc.find((p) => p.id === row.plants.id);
+  return plantsWithTask.reduce((formattedResult, resultEntry) => {
+    const formattedPlant = formattedResult.find(
+      (plant) => plant.id === resultEntry.plants.id
+    );
 
-     if (plant) {
-       if (row.tasks) {
-         plant.tasks.push({
-           id: row.tasks.id,
-           plantId: row.tasks.plantId,
-           type: row.tasks.type,
-           dueDate: row.tasks.dueDate,
-           done: row.tasks.done
-         });
-       }
-     } else {
-       acc.push({
-         ...row.plants,
-         tasks: row.tasks
+    if (formattedPlant) {
+      if (
+        resultEntry.tasks &&
+        !formattedPlant.tasks.find((task) => task.id === resultEntry.tasks?.id)
+      ) {
+        formattedPlant.tasks.push({
+          id: resultEntry.tasks.id,
+          plantId: resultEntry.tasks.plantId,
+          type: resultEntry.tasks.type,
+          dueDate: resultEntry.tasks.dueDate,
+          done: resultEntry.tasks.done,
+        });
+      }
+    } else {
+      formattedResult.push({
+        ...resultEntry.plants,
+        tasks: resultEntry.tasks
           ? [
-            {
-              id: row.tasks.id,
-              plantId: row.tasks.plantId,
-              type: row.tasks.type,
-              dueDate: row.tasks.dueDate,
-              done: row.tasks.done
-            },
-          ]
+              {
+                id: resultEntry.tasks.id,
+                plantId: resultEntry.tasks.plantId,
+                type: resultEntry.tasks.type,
+                dueDate: resultEntry.tasks.dueDate,
+                done: resultEntry.tasks.done,
+              },
+            ]
           : [],
-       });
-     }
+      });
+    }
 
-     return acc;
-   },
-   [] as Array<
-    InferSelectModel<typeof plants> & {
-     tasks: Array<{
-       id: string;
-       plantId: string;
-       type: taskType;
-       dueDate: Date | null;
-       done: boolean
-     }>;
-   }
-   >
-  );
+    return formattedResult;
+  }, [] as PlantsWithTasksFormatted);
 }
