@@ -53,6 +53,7 @@ jobs:
   trigger-deploy:
     if: github.ref == 'refs/heads/prod'
     runs-on: ubuntu-latest
+    needs: docker-build
     steps:
       - name: Trigger Deploy Workflow
         run: |
