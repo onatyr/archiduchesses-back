@@ -4,16 +4,21 @@ on:
     branches: [ '**' ]
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup runner
+        uses: pguyot/arm-runner-action@v2
+
   tsc-build:
     runs-on: ubuntu-latest
+    needs: setup
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup runner
-        uses: pguyot/arm-runner-action@v2
-        
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -28,7 +33,7 @@ jobs:
 
   docker-build:
     runs-on: ubuntu-latest
-    needs: tsc-build
+    needs: [setup, tsc-build]
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -48,7 +53,7 @@ jobs:
 
       - name: Upload Docker image artifact
         if: github.ref == 'refs/heads/prod'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: archi-back-image
           path: archi-back.tar
