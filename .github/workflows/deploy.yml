@@ -2,13 +2,13 @@ name: Archi-back pipeline
 
 on:
   push:
-    branches: [ "prod" ]
+    branches: [ "ci/cd" ]
   pull_request:
-    branches: [ "prod" ]
+    branches: [ "ci/cd" ]
   workflow_run:
-      workflows: [ "build" ]
-      types:
-        - completed
+    workflows: [ "build" ]
+    types:
+      - completed
 
 jobs:
   deploy:
@@ -19,7 +19,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Download Docker Image Artifact
-      uses: actions/download-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: archi-back-image
         path: ./

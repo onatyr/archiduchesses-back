@@ -38,21 +38,18 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup runner
-        uses: pguyot/arm-runner-action@v2
-
       - name: Build the Docker Image
         run: |
           uname -m
           docker build . --platform linux/arm64 --tag archi-back:latest
 
       - name: Save archive
-        if: github.ref == 'refs/heads/prod'
+        if: github.ref == 'refs/heads/ci/cd'
         run: |
           docker save archi-back:latest > archi-back.tar
 
       - name: Upload Docker image artifact
-        if: github.ref == 'refs/heads/prod'
+        if: github.ref == 'refs/heads/ci/cd'
         uses: actions/upload-artifact@v4
         with:
           name: archi-back-image
