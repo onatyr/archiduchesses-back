@@ -49,3 +49,11 @@ jobs:
         with:
           name: archi-back-image
           path: archi-back.tar
+
+  trigger-deploy:
+    if: github.ref == 'refs/heads/prod'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Deploy Workflow
+        run: |
+          gh workflow run
