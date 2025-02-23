@@ -14,6 +14,13 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v3
 
+    - name: Check if it's on prod branch
+      run: |
+          if [[ "${GITHUB_REF}" != "refs/heads/prod" ]]; then
+            echo "Not on prod branch, skipping workflow."
+            exit 1
+          fi
+
     - name: Download Docker Image Artifact
       uses: actions/upload-artifact@v4
       with:
