@@ -1,27 +1,31 @@
 name: Archi-back pipeline
 
 on:
-  push:
-    branches: [ "develop" ]
-  pull_request:
-    branches: [ "develop" ]
+  workflow_run:
+    workflows: [ "build" ]
+    types:
+      - completed
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
 
-    - name: Setup runner
-      uses: pguyot/arm-runner-action@v2
-
-    - name: Build the Docker Image
+    - name: Check if it's on prod branch
       run: |
-        uname -m
-        docker build . --platform linux/arm64 --tag archi-back:latest
-        docker save archi-back:latest > archi-back.tar
+          if [[ "${GITHUB_REF}" != "refs/heads/prod" ]]; then
+            echo "Not on prod branch, skipping workflow."
+            exit 1
+          fi
+
+    - name: Download Docker Image Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: archi-back-image
+        path: ./
 
     - name: Copy Image to Remote Server
       uses: appleboy/scp-action@v0.1.7
