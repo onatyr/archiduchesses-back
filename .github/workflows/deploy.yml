@@ -5,6 +5,10 @@ on:
     branches: [ "prod" ]
   pull_request:
     branches: [ "prod" ]
+  workflow_run:
+      workflows: [ "build" ]
+      types:
+        - completed
 
 jobs:
   deploy:
