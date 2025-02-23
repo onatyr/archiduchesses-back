@@ -4,9 +4,6 @@ on:
     branches: [ '**' ]
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-
   tsc-build:
     runs-on: ubuntu-latest
 
