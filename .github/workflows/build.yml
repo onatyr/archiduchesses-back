@@ -42,12 +42,12 @@ jobs:
           docker build . --platform linux/arm64 --tag archi-back:latest
 
       - name: Save archive
-        if: github.ref == 'refs/heads/ci/cd'
+        if: github.ref == 'refs/heads/prod'
         run: |
           docker save archi-back:latest > archi-back.tar
 
       - name: Upload Docker image artifact
-        if: github.ref == 'refs/heads/ci/cd'
+        if: github.ref == 'refs/heads/prod'
         uses: actions/upload-artifact@v4
         with:
           name: archi-back-image
