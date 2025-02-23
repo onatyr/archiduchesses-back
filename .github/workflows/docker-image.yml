@@ -2,13 +2,26 @@ name: Archi-back pipeline
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ "prod" ]
   pull_request:
-    branches: [ "develop" ]
+    branches: [ "prod" ]
 
 jobs:
   build-and-deploy:
-    //
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Setup runner
+      uses: pguyot/arm-runner-action@v2
+
+    - name: Build the Docker Image
+      run: |
+        uname -m
+        docker build . --platform linux/arm64 --tag archi-back:latest
+        docker save archi-back:latest > archi-back.tar
 
     - name: Copy Image to Remote Server
       uses: appleboy/scp-action@v0.1.7
