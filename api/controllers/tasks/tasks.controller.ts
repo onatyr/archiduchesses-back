@@ -30,11 +30,11 @@ tasksController.put('/complete/:id', async (req, res, next) => {
       .where(eq(tasks.id, taskId))
       .returning({ plantId: tasks.plantId, type: tasks.type });
 
-    if (!completedTask) {
-      return res.status(500).json({ message: 'Failed to complete the task' });
-    }
+    if (!completedTask)
+      return res.status(404).json({ message: 'Task not found' });
 
     const [plant] = await getPlantById(completedTask.plantId).execute();
+
     if (plant.wateringRecurrenceDays) {
       await insertNewTaskTask(
         plant.id,

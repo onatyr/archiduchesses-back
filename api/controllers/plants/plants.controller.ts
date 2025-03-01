@@ -23,12 +23,12 @@ export const plantsController: express.Router = express();
 plantsController.get('/all', async (req, res) => {
   try {
     const allPlants = formatPlantsWithTasks(
-     await getAllPlantsWithTask(req.userId)
+      await getAllPlantsWithTask(req.userId)
     );
     res.status(200).json(allPlants);
   } catch (e) {
     console.error(e);
-    res.status(500).json({message: 'Internal Server Error'});
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 
@@ -45,51 +45,50 @@ plantsController.post('/add', async (req, res) => {
     } = req.body;
 
     const [newPlant] = await db
-     .insert(plants)
-     .values({
-       userId,
-       name,
-       sunlight,
-       wateringRecurrenceDays,
-       adoptionDate: adoptionDate,
-       roomId,
-       imageUrl,
-     })
-     .returning({id: plants.id});
+      .insert(plants)
+      .values({
+        userId,
+        name,
+        sunlight,
+        wateringRecurrenceDays,
+        adoptionDate: adoptionDate,
+        roomId,
+        imageUrl,
+      })
+      .returning({ id: plants.id });
 
     if (wateringRecurrenceDays) {
       const [nextWateringTask] = await insertNewTaskTask(
-       newPlant.id,
-       'watering',
-       computeNextOccurrence(wateringRecurrenceDays)
+        newPlant.id,
+        'watering',
+        computeNextOccurrence(wateringRecurrenceDays)
       );
       if (!nextWateringTask) {
-        return res.status(500).json({message: 'Failed to add the plants'});
+        return res.status(400).json({ message: 'Failed to add the plants' });
       }
     }
 
     if (!newPlant) {
-      return res.status(500).json({message: 'Failed to add the plants'});
+      return res.status(400).json({ message: 'Failed to add the plants' });
     }
 
     res
-     .status(201)
-     .json({message: 'Plant added successfully', plant: newPlant});
+      .status(201)
+      .json({ message: 'Plant added successfully', plant: newPlant });
   } catch (e) {
     console.log(e);
     console.error(e);
-    res.status(500).json({message: 'Internal Server Error'});
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 
 plantsController.delete('/delete/:id', async (req, res) => {
-  const {id} = req.params;
-
   try {
+    const { id } = req.params;
     const deletedPlant = await db.delete(plants).where(eq(plants.id, id));
 
     if (!deletedPlant) {
-      return res.status(500).json({message: 'Failed to delete plants'});
+      return res.status(404).json({ message: 'Plant not found' });
     }
 
     res.status(200).json({
@@ -97,77 +96,77 @@ plantsController.delete('/delete/:id', async (req, res) => {
     });
   } catch (e) {
     console.error(e);
-    res.status(500).json({message: 'Internal Server Error'});
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 
 plantsController.get(
- '/searchExternalPlantByName/:name',
- async (req, res, next) => {
-   if (req.params.name.length < 3)
-     return res
-      .status(500)
-      .json({message: 'Query should contains 3 characters minimum'});
-   const plantbookEntities = await new PlantBookService(
-    process.env.VITE_PLANTBOOK_API_KEY
-   ).searchPlantByName(req.params.name);
-   res.status(200).json(plantbookEntities);
- }
+  '/searchExternalPlantByName/:name',
+  async (req, res, next) => {
+    if (req.params.name.length < 3)
+      return res
+        .status(500)
+        .json({ message: 'Query should contains 3 characters minimum' });
+    const plantbookEntities = await new PlantBookService(
+      process.env.VITE_PLANTBOOK_API_KEY
+    ).searchPlantByName(req.params.name);
+    res.status(200).json(plantbookEntities);
+  }
 );
 
-const upload = multer({dest: 'plantIdentification/'});
+const upload = multer({ dest: 'plantIdentification/' });
 plantsController.post(
- '/identify',
- upload.single('files'),
- async (req, res, next) => {
-   try {
-     if (!req.file) {
-       return res.status(400).send('Please attach a file with the request');
-     }
+  '/identify',
+  upload.single('files'),
+  async (req, res, next) => {
+    try {
+      if (!req.file) {
+        return res.status(400).send('Please attach a file with the request');
+      }
 
-     if (
-      !(
-       req.file.mimetype === 'image/jpeg' ||
-       req.file.mimetype === 'image/png'
-      )
-     ) {
-       return res
-        .status(400)
-        .send('Unsupported file type. Only JPEG and PNG are allowed');
-     }
+      if (
+        !(
+          req.file.mimetype === 'image/jpeg' ||
+          req.file.mimetype === 'image/png'
+        )
+      ) {
+        return res
+          .status(400)
+          .send('Unsupported file type. Only JPEG and PNG are allowed');
+      }
 
-     const formData = new FormData();
-     const imageBlob = new Blob([fs.readFileSync(req.file.path)]);
-     formData.append('images', imageBlob);
-     const identificationResponse = await new PlantNetService().identifyPlant(
-      formData
-     );
+      const formData = new FormData();
+      const imageBlob = new Blob([fs.readFileSync(req.file.path)]);
+      formData.append('images', imageBlob);
+      const identificationResponse = await new PlantNetService().identifyPlant(
+        formData
+      );
 
-     const plantBookService = new PlantBookService(
-      process.env.VITE_PLANTBOOK_API_KEY
-     );
-     const plantNetIdentifications = await Promise.all(
-      identificationResponse.map(async (result) => {
-        const plantbookPid = (
-         await plantBookService.searchPlantByName(result.plantnetName)
-        ).at(0)?.pid;
-        return {
-          ...result,
-          plantbookDetailsDto: plantbookPid
-           ? await plantBookService.getPlantDetails(plantbookPid)
-           : null,
-        };
-      })
-     );
+      const plantBookService = new PlantBookService(
+        process.env.VITE_PLANTBOOK_API_KEY
+      );
+      const plantNetIdentifications = await Promise.all(
+        identificationResponse.map(async (result) => {
+          const plantbookPid = (
+            await plantBookService.searchPlantByName(result.plantnetName)
+          ).at(0)?.pid;
+          return {
+            ...result,
+            plantbookDetailsDto: plantbookPid
+              ? await plantBookService.getPlantDetails(plantbookPid)
+              : null,
+          };
+        })
+      );
 
-     res.status(200).json(plantNetIdentifications);
-   } catch (e) {
-     console.error(e);
-     res.status(500);
-   } finally {
-     if (req.file) {
-       fs.unlinkSync(req.file.path);
-     }
-   }
- }
+      res.status(200).json(plantNetIdentifications);
+    } catch (e) {
+      console.error(e);
+      res.status(500);
+    } finally {
+      if (req.file) {
+        fs.unlinkSync(req.file.path);
+      }
+    }
+  }
 );
