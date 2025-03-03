@@ -13,6 +13,7 @@ import { computeNextOccurrence } from '@api/controllers/tasks/tasks.util';
 import { PlantBookService } from '@lib/services/plantbook.service';
 import { PlantNetService } from '@lib/services/plantnet.service';
 import express from 'express';
+import cloudinaryUpload from '@lib/cloudinary/upload';
 
 dotenv.config({
   path: path.resolve(__dirname, '../../../../.env'),
@@ -32,55 +33,59 @@ plantsController.get('/all', async (req, res) => {
   }
 });
 
-plantsController.post('/add', async (req, res) => {
-  try {
-    const userId = req.userId;
-    const {
-      name,
-      sunlight,
-      wateringRecurrenceDays,
-      adoptionDate,
-      imageUrl,
-      roomId,
-    } = req.body;
-
-    const [newPlant] = await db
-      .insert(plants)
-      .values({
-        userId,
+plantsController.post(
+  '/add',
+  cloudinaryUpload.single('file'),
+  async (req, res) => {
+    try {
+      const userId = req.userId;
+      const {
         name,
         sunlight,
         wateringRecurrenceDays,
-        adoptionDate: new Date(adoptionDate),
-        roomId,
+        adoptionDate,
         imageUrl,
-      })
-      .returning({ id: plants.id });
+        roomId,
+      } = req.body;
 
-    if (wateringRecurrenceDays) {
-      const [nextWateringTask] = await insertNewTaskTask(
-        newPlant.id,
-        'watering',
-        computeNextOccurrence(wateringRecurrenceDays)
-      );
-      if (!nextWateringTask) {
+      const [newPlant] = await db
+        .insert(plants)
+        .values({
+          userId,
+          name,
+          sunlight,
+          wateringRecurrenceDays,
+          adoptionDate: new Date(adoptionDate),
+          roomId,
+          imageUrl: imageUrl || req.file?.path,
+        })
+        .returning({ id: plants.id });
+
+      if (wateringRecurrenceDays) {
+        const [nextWateringTask] = await insertNewTaskTask(
+          newPlant.id,
+          'watering',
+          computeNextOccurrence(wateringRecurrenceDays)
+        );
+        if (!nextWateringTask) {
+          return res.status(400).json({ message: 'Failed to add the plants' });
+        }
+      }
+
+      if (!newPlant) {
         return res.status(400).json({ message: 'Failed to add the plants' });
       }
-    }
 
-    if (!newPlant) {
-      return res.status(400).json({ message: 'Failed to add the plants' });
+      res
+        .status(201)
+        .json({ message: 'Plant added successfully', plant: newPlant });
+    } catch (e) {
+      console.log(e);
+      console.error(e);
+      res.status(500).json({ message: 'Internal Server Error' });
     }
-
-    res
-      .status(201)
-      .json({ message: 'Plant added successfully', plant: newPlant });
-  } catch (e) {
-    console.log(e);
-    console.error(e);
-    res.status(500).json({ message: 'Internal Server Error' });
   }
-});
+);
 
 plantsController.delete('/delete/:id', async (req, res) => {
   try {
