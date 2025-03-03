@@ -51,7 +51,7 @@ plantsController.post('/add', async (req, res) => {
         name,
         sunlight,
         wateringRecurrenceDays,
-        adoptionDate: adoptionDate,
+        adoptionDate: new Date(adoptionDate),
         roomId,
         imageUrl,
       })
@@ -103,16 +103,40 @@ plantsController.delete('/delete/:id', async (req, res) => {
 plantsController.get(
   '/searchExternalPlantByName/:name',
   async (req, res, next) => {
-    if (req.params.name.length < 3)
-      return res
-        .status(500)
-        .json({ message: 'Query should contains 3 characters minimum' });
-    const plantbookEntities = await new PlantBookService(
-      process.env.VITE_PLANTBOOK_API_KEY
-    ).searchPlantByName(req.params.name);
-    res.status(200).json(plantbookEntities);
+    try {
+      const plantBookService = new PlantBookService(
+        process.env.VITE_PLANTBOOK_API_KEY
+      );
+      if (req.params.name.length < 3)
+        return res
+          .status(400)
+          .json({ message: 'Query should contains 3 characters minimum' });
+
+      const plantbookEntities = await new PlantBookService(
+        process.env.VITE_PLANTBOOK_API_KEY
+      ).searchPlantByName(req.params.name);
+
+      res.status(200).json(plantbookEntities);
+    } catch (e) {
+      console.error(e);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
   }
 );
+
+plantsController.get('/details/:id', async (req, res, next) => {
+  try {
+    const plantBookService = new PlantBookService(
+      process.env.VITE_PLANTBOOK_API_KEY
+    );
+    const plantDetailed = await plantBookService.getPlantDetails(req.params.id);
+
+    res.status(200).json(plantDetailed);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
 
 const upload = multer({ dest: 'plantIdentification/' });
 plantsController.post(
@@ -162,7 +186,7 @@ plantsController.post(
       res.status(200).json(plantNetIdentifications);
     } catch (e) {
       console.error(e);
-      res.status(500);
+      res.status(500).json({ message: 'Internal Server Error' });
     } finally {
       if (req.file) {
         fs.unlinkSync(req.file.path);
