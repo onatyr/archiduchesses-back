@@ -20,38 +20,38 @@ export class PlantNetService extends ApiService {
   constructor() {
     super(plantNetAxiosInstance, 'https://my-api.plantnet.org/v2');
     plantNetAxiosInstance.defaults.headers.common['Content-Type'] =
-     'multipart/form-data';
+      'multipart/form-data';
   }
 
   async identifyPlant(images: FormData): Promise<PlantNetIdentification[]> {
     return this._post(
-     '/identify/all',
-     null,
-     new URLSearchParams(this.identificationParams),
-     images
+      '/identify/all',
+      null,
+      new URLSearchParams(this.identificationParams),
+      images
     )
-     .then((response) => {
-       return response.data.results
-        .map(
-         (result: {
-           species: {
-             scientificNameWithoutAuthor: string;
-             genus: { scientificNameWithoutAuthor: string };
-           };
-           score: string;
-         }) => ({
-           plantnetName: result.species.scientificNameWithoutAuthor,
-           plantnetGenus: result.species.genus.scientificNameWithoutAuthor,
-           score: result.score,
-         })
-        )
-        .sort(
-         (a: { score: string }, b: { score: string }) =>
-          Number(a.score) > Number(b.score)
-        );
-     })
-     .catch((error: Error) => {
-       throw error;
-     });
+      .then((response) => {
+        return response.data.results
+          .map(
+            (result: {
+              species: {
+                scientificNameWithoutAuthor: string;
+                genus: { scientificNameWithoutAuthor: string };
+              };
+              score: string;
+            }) => ({
+              plantnetName: result.species.scientificNameWithoutAuthor,
+              plantnetGenus: result.species.genus.scientificNameWithoutAuthor,
+              score: result.score,
+            })
+          )
+          .sort(
+            (a: { score: string }, b: { score: string }) =>
+              Number(a.score) > Number(b.score)
+          );
+      })
+      .catch((error: Error) => {
+        return [];
+      });
   }
 }
