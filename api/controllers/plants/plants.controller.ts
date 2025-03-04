@@ -38,6 +38,7 @@ plantsController.post(
   cloudinaryUpload.single('file'),
   async (req, res) => {
     try {
+      console.log(req.file?.path);
       res.status(200).json({ imageUrl: req.file?.path });
     } catch (e) {
       console.error(e);
@@ -51,6 +52,7 @@ plantsController.post('/add', async (req, res) => {
     const userId = req.userId;
     const {
       name,
+      species,
       sunlight,
       wateringRecurrenceDays,
       adoptionDate,
@@ -61,13 +63,14 @@ plantsController.post('/add', async (req, res) => {
     const [newPlant] = await db
       .insert(plants)
       .values({
-        userId,
-        name,
-        sunlight,
-        wateringRecurrenceDays,
+        userId: userId,
+        species: species,
+        name: name,
+        sunlight: sunlight,
+        wateringRecurrenceDays: wateringRecurrenceDays,
         adoptionDate: new Date(adoptionDate),
-        roomId,
-        imageUrl,
+        roomId: roomId,
+        imageUrl: imageUrl,
       })
       .returning({ id: plants.id });
 
