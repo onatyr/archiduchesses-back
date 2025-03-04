@@ -51,6 +51,7 @@ plantsController.post('/add', async (req, res) => {
     const userId = req.userId;
     const {
       name,
+      species,
       sunlight,
       wateringRecurrenceDays,
       adoptionDate,
@@ -61,13 +62,14 @@ plantsController.post('/add', async (req, res) => {
     const [newPlant] = await db
       .insert(plants)
       .values({
-        userId,
-        name,
-        sunlight,
-        wateringRecurrenceDays,
+        userId: userId,
+        species: species,
+        name: name,
+        sunlight: sunlight,
+        wateringRecurrenceDays: wateringRecurrenceDays,
         adoptionDate: new Date(adoptionDate),
-        roomId,
-        imageUrl,
+        roomId: roomId,
+        imageUrl: imageUrl,
       })
       .returning({ id: plants.id });
 
