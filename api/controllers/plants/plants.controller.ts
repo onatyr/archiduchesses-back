@@ -34,58 +34,67 @@ plantsController.get('/all', async (req, res) => {
 });
 
 plantsController.post(
-  '/add',
+  '/uploadImage',
   cloudinaryUpload.single('file'),
   async (req, res) => {
     try {
-      const userId = req.userId;
-      const {
-        name,
-        sunlight,
-        wateringRecurrenceDays,
-        adoptionDate,
-        imageUrl,
-        roomId,
-      } = req.body;
-
-      const [newPlant] = await db
-        .insert(plants)
-        .values({
-          userId,
-          name,
-          sunlight,
-          wateringRecurrenceDays,
-          adoptionDate: new Date(adoptionDate),
-          roomId,
-          imageUrl: imageUrl || req.file?.path,
-        })
-        .returning({ id: plants.id });
-
-      if (wateringRecurrenceDays) {
-        const [nextWateringTask] = await insertNewTaskTask(
-          newPlant.id,
-          'watering',
-          computeNextOccurrence(wateringRecurrenceDays)
-        );
-        if (!nextWateringTask) {
-          return res.status(400).json({ message: 'Failed to add the plants' });
-        }
-      }
-
-      if (!newPlant) {
-        return res.status(400).json({ message: 'Failed to add the plants' });
-      }
-
-      res
-        .status(201)
-        .json({ message: 'Plant added successfully', plant: newPlant });
+      res.status(200).json({ imageUrl: req.file?.path });
     } catch (e) {
-      console.log(e);
       console.error(e);
       res.status(500).json({ message: 'Internal Server Error' });
     }
   }
 );
+
+plantsController.post('/add', async (req, res) => {
+  try {
+    const userId = req.userId;
+    const {
+      name,
+      sunlight,
+      wateringRecurrenceDays,
+      adoptionDate,
+      imageUrl,
+      roomId,
+    } = req.body;
+
+    const [newPlant] = await db
+      .insert(plants)
+      .values({
+        userId,
+        name,
+        sunlight,
+        wateringRecurrenceDays,
+        adoptionDate: new Date(adoptionDate),
+        roomId,
+        imageUrl,
+      })
+      .returning({ id: plants.id });
+
+    if (wateringRecurrenceDays) {
+      const [nextWateringTask] = await insertNewTaskTask(
+        newPlant.id,
+        'watering',
+        computeNextOccurrence(wateringRecurrenceDays)
+      );
+      if (!nextWateringTask) {
+        return res.status(400).json({ message: 'Failed to add the plants' });
+      }
+    }
+
+    if (!newPlant) {
+      return res.status(400).json({ message: 'Failed to add the plants' });
+    }
+
+    res
+      .status(201)
+      .json({ message: 'Plant added successfully', plant: newPlant });
+  } catch (e) {
+    console.log(e);
+    console.error(e);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
 
 plantsController.delete('/delete/:id', async (req, res) => {
   try {
