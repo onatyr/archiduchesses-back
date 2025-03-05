@@ -38,6 +38,7 @@ plantsController.post(
   cloudinaryUpload.single('file'),
   async (req, res) => {
     try {
+      console.log(req.file?.path);
       res.status(200).json({ imageUrl: req.file?.path });
     } catch (e) {
       console.error(e);
