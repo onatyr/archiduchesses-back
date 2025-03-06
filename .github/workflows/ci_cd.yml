@@ -96,3 +96,4 @@ jobs:
             sleep 15
             docker run -d --name archi-back --env-file /home/$RSPB_USER/.env -p 3000:3000 archi-back:latest
             while ! docker inspect -f '{{.State.Running}}' archi-back; do echo "Waiting for container to be ready..."; sleep 5; done
+# 
