@@ -61,37 +61,37 @@ jobs:
     needs: docker-build
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-    - name: Download Docker Image Artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: archi-back-image-${{ github.run_id }}
-        path: ./
+      - name: Download Docker Image Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: archi-back-image-${{ github.run_id }}
+          path: ./
 
-    - name: Copy Image to Remote Server
-      uses: appleboy/scp-action@v0.1.7
-      with:
-        host: ${{ secrets.RSPB_HOST }}
-        username: ${{ secrets.RSPB_USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        passphrase: ${{ secrets.SSH_PASSPHRASE }}
-        source: ./archi-back.tar
-        target: /tmp
-        port: ${{ secrets.RSPB_PORT }}
+      - name: Copy Image to Remote Server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.RSPB_HOST }}
+          username: ${{ secrets.RSPB_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          source: ./archi-back.tar
+          target: /tmp
+          port: ${{ secrets.RSPB_PORT }}
 
-    - name: Load and Run the Docker Image on Server
-      uses: appleboy/ssh-action@v0.1.7
-      with:
-        host: ${{ secrets.RSPB_HOST }}
-        username: ${{ secrets.RSPB_USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        passphrase: ${{ secrets.SSH_PASSPHRASE }}
-        port: ${{ secrets.RSPB_PORT }}
-        script: |
-          export RSPB_USER=${{ secrets.RSPB_USER }}
-          docker load < /tmp/archi-back.tar
-          docker rm -f archi-back || true
-          sleep 3
-          docker run -d --name archi-back --env-file /home/$RSPB_USER/.env -p 3000:3000 archi-back:latest
+      - name: Load and Run the Docker Image on Server
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.RSPB_HOST }}
+          username: ${{ secrets.RSPB_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          port: ${{ secrets.RSPB_PORT }}
+          script: |
+            export RSPB_USER=${{ secrets.RSPB_USER }}
+            docker load < /tmp/archi-back.tar
+            docker rm -f archi-back || true
+            sleep 15
+            docker run -d --name archi-back --env-file /home/$RSPB_USER/.env --add-host=host.docker.internal:host-gateway -p 3000:3000 archi-back:latest
