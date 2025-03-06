@@ -94,4 +94,4 @@ jobs:
             docker load < /tmp/archi-back.tar
             docker rm -f archi-back || true
             sleep 15
-            docker run -d --name archi-back --env-file /home/$RSPB_USER/.env --add-host=host.docker.internal:host-gateway -p 3000:3000 archi-back:latest
+            docker run -d --name archi-back --env-file /home/$RSPB_USER/.env archi-back:latest
