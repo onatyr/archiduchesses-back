@@ -91,7 +91,8 @@ jobs:
           port: ${{ secrets.RSPB_PORT }}
           script: |
             export RSPB_USER=${{ secrets.RSPB_USER }}
-            docker load < /tmp/archi-back.tar
             docker rm -f archi-back || true
+            docker rmi -f archi-back:latest || true
+            docker load < /tmp/archi-back.tar
             sleep 15
             docker run -d --name archi-back --env-file /home/$RSPB_USER/.env archi-back:latest
