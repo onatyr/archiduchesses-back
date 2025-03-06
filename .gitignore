@@ -2,7 +2,8 @@ node_modules
 .env
 .turbo
 .idea
-
+.git
+*.log
 /dist
 *.tsbuildinfo
 

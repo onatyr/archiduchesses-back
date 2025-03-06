@@ -40,7 +40,7 @@ jobs:
       - name: Build the Docker Image
         run: |
           uname -m
-          docker build . --platform linux/arm64 --tag archi-back:latest
+          docker build . --platform linux/arm64 --tag archi-back:latest --progress=plain 
 
       - name: Save archive
         if: github.ref == 'refs/heads/prod'
