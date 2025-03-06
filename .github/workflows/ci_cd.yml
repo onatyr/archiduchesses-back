@@ -51,7 +51,7 @@ jobs:
         if: github.ref == 'refs/heads/prod'
         uses: actions/upload-artifact@v4
         with:
-          name: archi-back-image
+          name: archi-back-image-${{ github.run_id }}
           path: archi-back.tar
 
   deploy:
@@ -66,7 +66,7 @@ jobs:
     - name: Download Docker Image Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: archi-back-image
+        name: archi-back-image-${{ github.run_id }}
         path: ./
 
     - name: Copy Image to Remote Server
