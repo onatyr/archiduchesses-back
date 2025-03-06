@@ -53,6 +53,7 @@ jobs:
         with:
           name: archi-back-image-${{ github.run_id }}
           path: archi-back.tar
+          overwrite: true
 
   deploy:
     if: github.ref == 'refs/heads/prod'
