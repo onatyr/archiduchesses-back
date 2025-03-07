@@ -82,7 +82,7 @@ jobs:
           port: ${{ secrets.RSPB_PORT }}
 
       - name: Load and Run the Docker Image on Server
-        uses: appleboy/ssh-action@v0.1.7
+        uses: appleboy/ssh-action@v1.2.1
         with:
           host: ${{ secrets.RSPB_HOST }}
           username: ${{ secrets.RSPB_USER }}
