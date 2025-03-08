@@ -91,9 +91,12 @@ jobs:
           port: ${{ secrets.RSPB_PORT }}
           script: |
             export RSPB_USER=${{ secrets.RSPB_USER }}
-            docker ps -a --filter "name=archi-back" -q | grep -q . && docker rm -f archi-back && docker rmi -f archi-back:latest || echo "Container archi-back doesn't exist"
+            docker ps -a --filter "name=archi-back" -q | grep -q . \
+            && docker rm -f archi-back \
+            && docker rmi -f archi-back:latest \
+            || echo "Container archi-back doesn't exist"
             docker load < /tmp/archi-back.tar
             sleep 15
             docker run -d --name archi-back --env-file /home/$RSPB_USER/.env -p 3000:3000 archi-back:latest
-            while ! docker inspect -f '{{.State.Running}}' archi-back; do echo "Waiting for container to be ready..."; sleep 5; done
+#            while ! docker inspect -f '{{.State.Running}}' archi-back; do echo "Waiting for container to be ready..."; sleep 5; done
 #
