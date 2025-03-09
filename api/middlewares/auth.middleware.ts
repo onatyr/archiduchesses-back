@@ -23,7 +23,7 @@ export function authenticate(
       token,
       process.env.ACCESS_TOKEN_SECRET,
       (err, userPayload: JwtPayload | string | undefined) => {
-        if (err) res.status(401);
+        if (err) return res.status(401);
         const user = userPayload as JwtUserModel;
         console.log(user);
         req.userId = user.id_user;
