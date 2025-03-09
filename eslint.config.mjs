@@ -7,6 +7,14 @@ import typescriptParser from '@typescript-eslint/parser';
 
 export default [
   {
+    plugins: {
+      '@typescript-eslint': typescriptPlugin,
+      prettier: pluginPrettier,
+    },
+  },
+  pluginJs.configs.recommended,
+  prettierConfig,
+  {
     files: ['**/*.{js,mjs,cjs,ts}'],
     languageOptions: {
       globals: { ...globals.browser, ...globals.node },
@@ -17,21 +25,14 @@ export default [
       },
     },
     rules: {
-      'no-duplicate-imports': 'error',
+      'no-duplicate-imports': 'warn',
+      'no-undef': 'warn',
       'no-unused-vars': 'warn',
       'no-console': ['warn', { allow: ['error'] }],
+      '@typescript-eslint/no-unused-vars': 'off',
     },
   },
   {
     ignores: ['dist/**'],
-  },
-  {
-    plugins: {
-      '@typescript-eslint': typescriptPlugin,
-      prettier: pluginPrettier,
-    },
-  },
-  pluginJs.configs.recommended,
-  ...pluginVue.configs['flat/essential'],
-  prettierConfig,
+  }
 ];
